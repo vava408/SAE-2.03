@@ -66,6 +66,7 @@ public class LectureFichier
 			parametre.add(ligneSplit[i+1]);
 		}
 
+<<<<<<< HEAD
 	}
 
 
@@ -73,6 +74,9 @@ public class LectureFichier
 	public String toString()
 	{
 		return "";
+=======
+		new Methode(nom, visibilite, typeRetour, null);
+>>>>>>> cdcd6b3 (création nouvelle méthode)
 	}
 
 	public static void main( String[] arg )

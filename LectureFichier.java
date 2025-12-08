@@ -21,7 +21,14 @@ public class LectureFichier
 			while ( sc.hasNextLine() )
 			{
 				String ligne = sc.nextLine();
-				if ( ! ligne.startsWith( "import" ) )
+
+				if(ligne.contains("{"))
+				ligne = ligne.replace("{", " ");
+				ligne = ligne.replace("}", " ");
+
+				System.out.println("---" + ligne);
+
+				if ( ! ligne.startsWith( "import" ) && !ligne.isBlank()&& ligne.startsWith("private") || ligne.startsWith("public"))
 				{
 					if ( ligne.endsWith( ";" ) )
 					{
@@ -69,7 +76,7 @@ public class LectureFichier
 			type = mots[2];
 			nom = mots[3];
 		}
-		
+
 		Attribut attribut = new Attribut(LectureFichier.nbAttributs, nom, type, visibilitee, portee);
 		this.listeAttributs.add( attribut );
 	}
@@ -84,24 +91,29 @@ public class LectureFichier
 
 		ArrayList<Parametre> tabParametre = new ArrayList<Parametre>();
 
-		ligne.replace("(", " ");
-		ligne.replace(")", " ");
+		ligne = ligne.replace("(", " ");
+		ligne = ligne.replace(")", " ");
 
 		String[] ligneSplit = ligne.split(" ");
 
 
 		//lignes pour afficher les lignes de classes
-		/*if(ligne.contains("class"))
+		if(ligne.contains("class"))
 		{
 			System.out.println("classe : " + ligneSplit[2] + " visibilité : " + ligneSplit[1]);
 			return;
-		}*/
+		}
 
+		//System.out.println(ligne);
 		visibilite = ligneSplit[0];
 		typeRetour = ligneSplit[1];
-		nom = ligneSplit[2];
 
-		for(int i = 2; i < ligneSplit.length; i++)
+		nom = ligneSplit[2];
+		/*System.out.println(visibilite + typeRetour + nom);
+		System.out.println(ligneSplit.length);*/
+
+		if(ligneSplit.length > 3)
+		for(int i = 2; i+1 < ligneSplit.length; i++)
 		{
 			typeParametre = ligneSplit[i+1];
 			nomParametre  = ligneSplit[i+1];

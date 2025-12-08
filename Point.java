@@ -16,7 +16,7 @@ public class Point
         return x;
     }
 
-    public int getY() 
+    public int getY()
     {
         return y;
     }

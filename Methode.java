@@ -1,12 +1,14 @@
+import java.util.*;
+
 public class Methode 
 {
     private String   nom;
     private String   visibilite;
     private String   retour;
-	private Parametre[] tabParametre;
+	private ArrayList<Parametre> tabParametre;
 
 
-	public Methode(String nom, String visibilite, String retour, Parametre[] tabParametre)
+	public Methode(String nom, String visibilite, String retour, ArrayList<Parametre> tabParametre)
 	{
 		this.nom = nom;
 		this.visibilite = visibilite;
@@ -31,7 +33,7 @@ public class Methode
 	}
 
 
-	public Parametre[] getParametre() 
+	public ArrayList<Parametre> getParametre() 
 	{
 		return this.tabParametre;
 	}
@@ -51,7 +53,7 @@ public class Methode
 		this.retour = retour;
 	}
 
-	public void setParametre(Parametre[] parametre) 
+	public void setParametre(ArrayList<Parametre> parametre) 
 	{
 		this.tabParametre = parametre;
 	}

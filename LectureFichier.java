@@ -78,19 +78,24 @@ public class LectureFichier
 	{
 		String visibilite;
 		String nom;
-		ArrayList<String> parametre = new ArrayList<String>();
+		String typeParametre;
+		String nomParametre;
 		String typeRetour;
+
+		ArrayList<Parametre> tabParametre = new ArrayList<Parametre>();
 
 		ligne.replace("(", " ");
 		ligne.replace(")", " ");
 
 		String[] ligneSplit = ligne.split(" ");
 
-		if(ligne.contains("class"))
+
+		//lignes pour afficher les lignes de classes
+		/*if(ligne.contains("class"))
 		{
 			System.out.println("classe : " + ligneSplit[2] + " visibilité : " + ligneSplit[1]);
 			return;
-		}
+		}*/
 
 		visibilite = ligneSplit[0];
 		typeRetour = ligneSplit[1];
@@ -98,10 +103,13 @@ public class LectureFichier
 
 		for(int i = 2; i < ligneSplit.length; i++)
 		{
-			parametre.add(ligneSplit[i+1]);
+			typeParametre = ligneSplit[i+1];
+			nomParametre  = ligneSplit[i+1];
+
+			tabParametre.add(new Parametre(nomParametre, typeParametre));
 		}
 
-		Methode methode = new Methode(nom, visibilite, typeRetour, null);
+		Methode methode = new Methode(nom, visibilite, typeRetour, tabParametre);
 		this.listeMethodes.add(methode);
 	}
 

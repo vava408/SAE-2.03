@@ -42,4 +42,12 @@ public class Parametre
         return this.id;
     }
 
+	public String toString() 
+	{
+        String sb = "";
+        sb += "p" + getId() + " :" + getNom();
+        sb += " type : " + getType();
+        return sb;
+    }
+
 }

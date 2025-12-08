@@ -116,7 +116,7 @@ public class LectureFichier
 			result += attribut.toString();
 		}
 
-		System.out.println();
+		result += "\n";
 
 		for (Methode methode : listeMethodes)
 		{

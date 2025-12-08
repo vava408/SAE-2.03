@@ -3,37 +3,37 @@ public class Methode
     private String   nom;
     private String   visibilite;
     private String   retour;
-	private Parametre[] parametre;
+	private Parametre[] tabParametre;
 
 
-	public Methode(String nom, String visibilite, String retour, Parametre[] parametre)
+	public Methode(String nom, String visibilite, String retour, Parametre[] tabParametre)
 	{
 		this.nom = nom;
 		this.visibilite = visibilite;
 		this.retour = retour;
-		this.parametre = parametre;
+		this.tabParametre = tabParametre;
 	}
 
 	public String getNom() 
 	{
-		return nom;
+		return this.nom;
 	}
 
 	public String getVisibilite() 
 	{
-		return visibilite;
+		return this.visibilite;
 	}
 
 
 	public String getRetour() 
 	{
-		return retour;
+		return this.retour;
 	}
 
 
 	public Parametre[] getParametre() 
 	{
-		return parametre;
+		return this.tabParametre;
 	}
 
 	public void setNom(String nom) 
@@ -53,16 +53,27 @@ public class Methode
 
 	public void setParametre(Parametre[] parametre) 
 	{
-		this.parametre = parametre;
+		this.tabParametre = parametre;
 	}
 
-    public String toString() {
-        String sb = "";
-        sb += "méthode : " + getNom();
-        sb += " visibilité : " + getVisibilite();
-		sb += " type de retour : " + getRetour();
-		sb += "\nparamètres : " + getParametre();
-        return sb;
+    public String toString() 
+	{
+        String sRet = "";
+
+        sRet += "méthode : " + this.nom;
+        sRet += " visibilité : " + this.visibilite;
+		sRet += " type de retour : " + this.retour;
+
+		sRet += "\nparamètres : ";
+
+		for ( Parametre p : this.tabParametre )
+		{
+			sRet += "\n" + String.format( "%14s", p.toString() );
+		}
+
+		sRet += "\n";
+
+        return sRet;
     }
 
 }

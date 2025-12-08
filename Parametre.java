@@ -1,23 +1,30 @@
 public class Parametre 
 {
-    private int    parametre;
-	private String nom;
-    private String type;
+    private static int nbParametre = 0;
+	private int        id;
+	private String     nom;
+    private String     type;
 
     public Parametre(String nom, String type) 
 	{
-        this.nom = nom;
+		this.id   = ++nbParametre;
+		this.nom  = nom;
         this.type = type;
     }
 
     public String getNom() 
 	{
-        return nom;
+        return this.nom;
     }
 
     public String getType() 
 	{
-        return type;
+        return this.type;
+    }
+
+	public int getId() 
+	{
+        return this.id;
     }
 
     public void setNom(String nom) 
@@ -30,5 +37,9 @@ public class Parametre
         this.type = type;
     }
 
+	public int setId() 
+	{
+        return this.id;
+    }
 
 }

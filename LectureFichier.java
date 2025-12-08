@@ -110,9 +110,17 @@ public class LectureFichier
 	public String toString()
 	{
 		String result = "";
+
+		for (Attribut attribut : listeAttributs)
+		{
+			result += attribut.toString();
+		}
+
+		System.out.println();
+
 		for (Methode methode : listeMethodes)
 		{
-			result = methode.toString();
+			result += methode.toString();
 		}
 		return result;
 	}

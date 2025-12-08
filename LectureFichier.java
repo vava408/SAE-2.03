@@ -3,8 +3,7 @@ import java.io.FileInputStream;
 
 public class LectureFichier
 {
-
-	private static void lectureFichier( String fileName )
+	private static void lireFichier( String fileName )
 	{
 		try
 		{
@@ -12,7 +11,18 @@ public class LectureFichier
 	
 			while ( sc.hasNextLine() )
 			{
-				System.out.println ( sc.nextLine() );
+				String ligne = sc.nextLine();
+				if ( ! ligne.startsWith( "import" ) )
+				{
+					if ( ligne.endsWith( ";" ) )
+					{
+						LectureFichier.lireAttribut( ligne );
+					}
+					else
+					{
+						LectureFichier.lireMethode( ligne );
+					}
+				}
 			}
 	
 			sc.close();
@@ -20,8 +30,18 @@ public class LectureFichier
 		catch (Exception e){ e.printStackTrace(); }
 	}
 
+	private static void lireAttribut( String ligne )
+	{
+		
+	}
+
+	private static void lireMethode( String ligne )
+	{
+		
+	}
+
 	public static void main( String[] arg )
 	{
-		LectureFichier.lectureFichier( arg[0] );
+		LectureFichier.lireFichier( arg[0] );
 	}
 }

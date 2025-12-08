@@ -4,8 +4,8 @@ import java.util.*;
 public class LectureFichier
 {
 
-	private ArrayList<Attribut>   attributs = new ArrayList<Attribut>();
-	private ArrayList<Methode>    methodes  = new ArrayList<Methode>();
+	private ArrayList<Attribut>   listeAttributs = new ArrayList<Attribut>();
+	private ArrayList<Methode>    listeMethodes  = new ArrayList<Methode>();
 
 	private static void lireFichier( String fileName )
 	{
@@ -66,15 +66,22 @@ public class LectureFichier
 			parametre.add(ligneSplit[i+1]);
 		}
 
-		new Methode(nom, visibilite, typeRetour, null);
+		Methode methode = new Methode(nom, visibilite, typeRetour, null);
+		listeMethodes.add(methode);
 	}
 
 
 
 	public String toString()
 	{
-		return "";
+		String result = "";
+		for (Methode methode : listeMethodes)
+		{
+			result = methode.toString();
+		}
+		return result;
 	}
+
 
 	public static void main( String[] arg )
 	{

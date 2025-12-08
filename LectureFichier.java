@@ -4,6 +4,11 @@ import java.util.*;
 public class LectureFichier
 {
 
+	private static final String[] TAB_VISIBILITE = { "public", "private", "protected" };
+	private static final String[] TAB_VISIBILITE_FR = { "public", "privée", "protégée" };
+
+	private static int nbAttributs = 0;
+
 	private ArrayList<Attribut>   listeAttributs = new ArrayList<Attribut>();
 	private ArrayList<Methode>    listeMethodes  = new ArrayList<Methode>();
 
@@ -34,9 +39,38 @@ public class LectureFichier
 		catch (Exception e){ e.printStackTrace(); }
 	}
 
-	private static void lireAttribut( String ligne )
+	private static void lireAttribut(String ligne)
 	{
-		
+		String nom;
+		String type;
+		String visibilitee;
+		String portee = "classe";
+
+		ligne = ligne.replace(";", "").trim();
+		String[] mots = ligne.split(" ");
+
+		for (int cpt = 0; cpt < LectureFichier.TAB_VISIBILITE.length; cpt++)
+		{
+			if (mots[0].equals(TAB_VISIBILITE[cpt]))
+			{
+				visibilitee = TAB_VISIBILITE_FR[cpt];
+			}
+		}
+
+		if (!mots[1].equals("static"))
+		{
+			portee = "instance";
+
+			type = mots[1];
+			nom = mots[2];
+		}
+		else
+		{
+			type = mots[2];
+			nom = mots[3];
+		}
+
+		new Attribut(++LectureFichier.nbAttributs, nom, type, visibilitee, portee);
 	}
 
 	private static void lireMethode( String ligne )

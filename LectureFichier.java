@@ -3,6 +3,10 @@ import java.util.*;
 
 public class LectureFichier
 {
+
+	private ArrayList<Attribut>   attributs = new ArrayList<Attribut>();
+	private ArrayList<Methode>    methodes  = new ArrayList<Methode>();
+
 	private static void lireFichier( String fileName )
 	{
 		try
@@ -61,6 +65,14 @@ public class LectureFichier
 		{
 			parametre.add(ligneSplit[i+1]);
 		}
+
+	}
+
+
+
+	public String toString()
+	{
+		return "";
 	}
 
 	public static void main( String[] arg )

@@ -12,7 +12,7 @@ public class LectureFichier
 	private ArrayList<Attribut>   listeAttributs = new ArrayList<Attribut>();
 	private ArrayList<Methode>    listeMethodes  = new ArrayList<Methode>();
 
-	private static void lireFichier( String fileName )
+	private void lireFichier( String fileName )
 	{
 		try
 		{
@@ -25,11 +25,11 @@ public class LectureFichier
 				{
 					if ( ligne.endsWith( ";" ) )
 					{
-						LectureFichier.lireAttribut( ligne );
+						this.lireAttribut( ligne );
 					}
 					else
 					{
-						LectureFichier.lireMethode( ligne );
+						this.lireMethode( ligne );
 					}
 				}
 			}
@@ -39,25 +39,25 @@ public class LectureFichier
 		catch (Exception e){ e.printStackTrace(); }
 	}
 
-	private static void lireAttribut(String ligne)
+	private void lireAttribut(String ligne)
 	{
 		String nom;
 		String type;
-		String visibilitee;
-		String portee = "classe";
+		String visibilitee = LectureFichier.TAB_VISIBILITE_FR[ 0 ];
+		String portee      = "classe";
 
 		ligne = ligne.replace(";", "").trim();
 		String[] mots = ligne.split(" ");
 
 		for (int cpt = 0; cpt < LectureFichier.TAB_VISIBILITE.length; cpt++)
 		{
-			if (mots[0].equals(TAB_VISIBILITE[cpt]))
+			if ( mots[0].equals(TAB_VISIBILITE[cpt] ) )
 			{
 				visibilitee = TAB_VISIBILITE_FR[cpt];
 			}
 		}
 
-		if (!mots[1].equals("static"))
+		if ( ! mots[1].equals( "static" ) )
 		{
 			portee = "instance";
 
@@ -69,11 +69,12 @@ public class LectureFichier
 			type = mots[2];
 			nom = mots[3];
 		}
-
-		new Attribut(++LectureFichier.nbAttributs, nom, type, visibilitee, portee);
+		
+		Attribut attribut = new Attribut(LectureFichier.nbAttributs, nom, type, visibilitee, portee);
+		this.listeAttributs.add( attribut );
 	}
 
-	private static void lireMethode( String ligne )
+	private void lireMethode( String ligne )
 	{
 		String visibilite;
 		String nom;
@@ -101,7 +102,7 @@ public class LectureFichier
 		}
 
 		Methode methode = new Methode(nom, visibilite, typeRetour, null);
-		listeMethodes.add(methode);
+		this.listeMethodes.add(methode);
 	}
 
 
@@ -119,6 +120,7 @@ public class LectureFichier
 
 	public static void main( String[] arg )
 	{
-		LectureFichier.lireFichier( arg[0] );
+		LectureFichier lectureFichier = new LectureFichier();
+		lectureFichier.lireFichier( arg[0] );
 	}
 }

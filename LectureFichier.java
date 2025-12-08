@@ -22,13 +22,14 @@ public class LectureFichier
 			{
 				String ligne = sc.nextLine();
 
-				if(ligne.contains("{"))
+				ligne = ligne.replace("(", " ");
+				ligne = ligne.replace(")", " ");
 				ligne = ligne.replace("{", " ");
 				ligne = ligne.replace("}", " ");
+				ligne = ligne.replaceAll("\\s+", " ").trim();
 
-				System.out.println("---" + ligne);
 
-				if ( ! ligne.startsWith( "import" ) && !ligne.isBlank()&& ligne.startsWith("private") || ligne.startsWith("public"))
+				if ( ! ligne.startsWith( "import" ) && !ligne.isBlank() && ligne.contains("private") || ligne.contains("public"))
 				{
 					if ( ligne.endsWith( ";" ) )
 					{
@@ -40,7 +41,7 @@ public class LectureFichier
 					}
 				}
 			}
-	
+
 			sc.close();
 		}
 		catch (Exception e){ e.printStackTrace(); }
@@ -97,34 +98,66 @@ public class LectureFichier
 		String[] ligneSplit = ligne.split(" ");
 
 
-		//lignes pour afficher les lignes de classes
-		if(ligne.contains("class"))
+
+		if(ligneSplit.length %2 == 0)
 		{
-			System.out.println("classe : " + ligneSplit[2] + " visibilité : " + ligneSplit[1]);
+			lireConstructeur(ligneSplit);
 			return;
 		}
 
-		//System.out.println(ligne);
+
 		visibilite = ligneSplit[0];
 		typeRetour = ligneSplit[1];
+		nom        = ligneSplit[2];
 
-		nom = ligneSplit[2];
-		/*System.out.println(visibilite + typeRetour + nom);
-		System.out.println(ligneSplit.length);*/
+
+		if(typeRetour.equals("class"))
+				return;
+
 
 		if(ligneSplit.length > 3)
-		for(int i = 2; i+1 < ligneSplit.length; i++)
+		for(int i = 3; i+1 < ligneSplit.length; i=i+2)
 		{
-			typeParametre = ligneSplit[i+1];
+			typeParametre = ligneSplit[i];
 			nomParametre  = ligneSplit[i+1];
 
 			tabParametre.add(new Parametre(nomParametre, typeParametre));
 		}
 
+
 		Methode methode = new Methode(nom, visibilite, typeRetour, tabParametre);
+
 		this.listeMethodes.add(methode);
 	}
 
+
+	private void lireConstructeur( String[] ligneSplit )
+	{
+		String visibilite;
+		String nom;
+		String typeParametre;
+		String nomParametre;
+
+		ArrayList<Parametre> tabParametre = new ArrayList<Parametre>();
+
+
+		visibilite = ligneSplit[0];
+		nom        = "Constructeur";
+
+
+		if(ligneSplit.length > 2)
+		for(int i = 2; i+1 < ligneSplit.length; i=i+2)
+		{
+			typeParametre = ligneSplit[i];
+			nomParametre  = ligneSplit[i+1];
+
+			tabParametre.add(new Parametre(nomParametre, typeParametre));
+		}
+
+		Methode methode = new Methode(nom, visibilite, null, tabParametre);
+
+		this.listeMethodes.add(methode);
+	}
 
 
 	public String toString()
@@ -133,14 +166,14 @@ public class LectureFichier
 
 		for (Attribut attribut : listeAttributs)
 		{
-			result += attribut.toString();
+			result += attribut.toString() + "\n";
 		}
 
 		result += "\n";
 
 		for (Methode methode : listeMethodes)
 		{
-			result += methode.toString();
+			result += methode.toString() + "\n";
 		}
 		return result;
 	}
@@ -150,5 +183,6 @@ public class LectureFichier
 	{
 		LectureFichier lectureFichier = new LectureFichier();
 		lectureFichier.lireFichier( arg[0] );
+		System.out.println(lectureFichier.toString());
 	}
 }

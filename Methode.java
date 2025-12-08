@@ -64,14 +64,19 @@ public class Methode
 
         sRet += "méthode : " + this.nom;
         sRet += " visibilité : " + this.visibilite;
-		sRet += " type de retour : " + this.retour;
+
+		if(this.retour != null)
+			sRet += " type de retour : " + this.retour;
 
 		sRet += "\nparamètres : ";
 
-		for ( Parametre p : this.tabParametre )
-		{
-			sRet += "\n" + String.format( "%14s", p.toString() );
-		}
+		if(this.tabParametre.isEmpty())
+			sRet += "aucun";
+		else
+			for ( Parametre p : this.tabParametre )
+			{
+				sRet += "\n" + String.format( "%14s", p.toString() );
+			}
 
 		sRet += "\n";
 

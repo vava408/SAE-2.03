@@ -42,7 +42,7 @@ public class Attribut
 
 	public String toString() 
 	{
-		return String.format("attribut : %d nom : %s type : %s visibilité : %s portée : %s",
+		return String.format("attribut : %d nom : %-8s type : %-8s visibilité : %s portée : %s",
 				attributId, nom, type, visibilite, instance); 
 	}
 }

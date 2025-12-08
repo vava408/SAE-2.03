@@ -12,6 +12,8 @@ public class LectureFichier
 	private ArrayList<Attribut>   listeAttributs = new ArrayList<Attribut>();
 	private ArrayList<Methode>    listeMethodes  = new ArrayList<Methode>();
 
+	private String                nomClasse;
+
 	private void lireFichier( String fileName )
 	{
 		try
@@ -141,8 +143,9 @@ public class LectureFichier
 		ArrayList<Parametre> tabParametre = new ArrayList<Parametre>();
 
 
-		visibilite = ligneSplit[0];
-		nom        = "Constructeur";
+		visibilite     = ligneSplit[0];
+		this.nomClasse = ligneSplit[1];
+		nom            = ligneSplit[1];
 
 
 		if(ligneSplit.length > 2)
@@ -162,20 +165,78 @@ public class LectureFichier
 
 	public String toString()
 	{
-		String result = "";
+		String sRet        = "";
+		String sVisibilite = "";
+		String ligne       = "------------------------------------------------";
 
-		for (Attribut attribut : listeAttributs)
+		sRet += ligne + "\n";
+
+		sRet += String.format( "%24s", this.nomClasse ) + "\n";
+
+		sRet += ligne + "\n";
+
+		for ( Attribut attribut : listeAttributs )
 		{
-			result += attribut.toString() + "\n";
+			if ( attribut.getVisibilite() == "privée" )
+			{
+				sVisibilite = "- ";
+			}
+			else
+			{
+				sVisibilite = "+ ";
+			}
+
+			sRet += sVisibilite + attribut.getNom() + "\t" + ": " + attribut.getType() + "\n";
 		}
 
-		result += "\n";
+		sRet += ligne + "\n";
 
-		for (Methode methode : listeMethodes)
+		for ( Methode methode : listeMethodes )
 		{
-			result += methode.toString() + "\n";
+			if ( methode.getVisibilite() == "privée" )
+			{
+				sVisibilite = "- ";
+			}
+			else
+			{
+				sVisibilite = "+ ";
+			}
+
+			sRet += sVisibilite + methode.getNom() + " (";
+
+			if ( methode.getParametre().size() == 0 )
+			{
+				sRet += ")";
+			}
+
+			for ( int cpt = 0; cpt < methode.getParametre().size(); cpt++ )
+			{
+				Parametre parametre = methode.getParametre().get( cpt );
+
+				sRet += " " + parametre.getNom() + " : " + parametre.getType();
+
+				if ( cpt < methode.getParametre().size() - 1 )
+				{
+					sRet += ",";
+				}
+				else
+				{
+					sRet += " )";
+				}
+
+			}
+
+			if ( methode.getRetour() != null && ! methode.getRetour().equals( "void" ) )
+			{
+				sRet += String.format( "%20s", ": " + methode.getRetour() );
+			}
+
+			sRet += "\n";
 		}
-		return result;
+
+		sRet += ligne + "\n";
+
+		return sRet;
 	}
 
 

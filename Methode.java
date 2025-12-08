@@ -1,12 +1,12 @@
 public class Methode 
 {
-    private String nom;
-    private String visibilite;
-    private String retour;
-	private String parametre;
+    private String   nom;
+    private String   visibilite;
+    private String   retour;
+	private Parametre[] parametre;
 
 
-	public Methode(String nom, String visibilite, String retour, String parametre)
+	public Methode(String nom, String visibilite, String retour, Parametre[] parametre)
 	{
 		this.nom = nom;
 		this.visibilite = visibilite;
@@ -31,7 +31,7 @@ public class Methode
 	}
 
 
-	public String getParametre() 
+	public Parametre[] getParametre() 
 	{
 		return parametre;
 	}
@@ -51,13 +51,18 @@ public class Methode
 		this.retour = retour;
 	}
 
-	public void setParametre(String parametre) 
+	public void setParametre(Parametre[] parametre) 
 	{
 		this.parametre = parametre;
 	}
 
-	
-
-
+    public String toString() {
+        String sb = "";
+        sb += "méthode : " + getNom();
+        sb += " visibilité : " + getVisibilite();
+		sb += " type de retour : " + getRetour();
+		sb += "\nparamètres : " + getParametre();
+        return sb;
+    }
 
 }

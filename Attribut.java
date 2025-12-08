@@ -40,9 +40,9 @@ public class Attribut
 		return instance;
 	}
 
-	public String toString()
+	public String toString() 
 	{
-		return "Attribut [attributId=" + attributId + ", nom=" + nom + ", type=" + type + ", visibilite=" + visibilite
-				+ ", instance=" + instance + "]";
+		return String.format("attribut : %d nom : %s type : %s visibilité : %s portée : %s",
+				attributId, nom, type, visibilite, instance); 
 	}
 }

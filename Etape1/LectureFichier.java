@@ -78,12 +78,13 @@ public class LectureFichier
 			nom = mots[3];
 		}
 
-		Attribut attribut = new Attribut(LectureFichier.nbAttributs, nom, type, visibilitee, portee);
+		Attribut attribut = new Attribut(++LectureFichier.nbAttributs, nom, type, visibilitee, portee);
 		this.listeAttributs.add( attribut );
 	}
 
 	private void lireMethode( String ligne )
 	{
+		int    nbParametre = 0;
 		String visibilite;
 		String nom;
 		String typeParametre;
@@ -120,8 +121,9 @@ public class LectureFichier
 		{
 			typeParametre = ligneSplit[i];
 			nomParametre  = ligneSplit[i+1];
+			nbParametre++;
 
-			tabParametre.add(new Parametre(nomParametre, typeParametre));
+			tabParametre.add(new Parametre( nbParametre, nomParametre, typeParametre));
 		}
 
 
@@ -133,6 +135,7 @@ public class LectureFichier
 
 	private void lireConstructeur( String[] ligneSplit )
 	{
+		int    nbParametre = 0;
 		String visibilite;
 		String nom;
 		String typeParametre;
@@ -150,8 +153,9 @@ public class LectureFichier
 		{
 			typeParametre = ligneSplit[i];
 			nomParametre  = ligneSplit[i+1];
+			nbParametre++;
 
-			tabParametre.add(new Parametre(nomParametre, typeParametre));
+			tabParametre.add(new Parametre( nbParametre, nomParametre, typeParametre));
 		}
 
 		Methode methode = new Methode(nom, visibilite, null, tabParametre);

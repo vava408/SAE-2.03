@@ -1,13 +1,12 @@
 public class Parametre 
 {
-    private static int nbParametre = 0;
 	private int        id;
 	private String     nom;
     private String     type;
 
-    public Parametre(String nom, String type) 
+    public Parametre( int numParametre, String nom, String type ) 
 	{
-		this.id   = ++nbParametre;
+		this.id   = numParametre;
 		this.nom  = nom;
         this.type = type;
     }

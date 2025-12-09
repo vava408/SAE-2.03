@@ -11,32 +11,31 @@ public class Attribut {
 	{
 
         this.attributId = attributId;
-        this.nom = nom;
-        this.type = type;
+        this.nom        = nom;
+        this.type       = type;
         this.visibilite = visibilite;
-        this.estStatic = estStatic;
-        this.estFinal = estFinal;
+        this.estStatic  = estStatic;
+        this.estFinal   = estFinal;
     }
 
     public int getAttributId()    { return attributId; }
-    public String getNom()        { return nom; }
-    public String getType()       { return type; }
+    public String getNom()        { return nom       ; }
+    public String getType()       { return type      ; }
     public String getVisibilite() { return visibilite; }
-    public boolean isStatic()     { return estStatic; }
-    public boolean isFinal()      { return estFinal; }
+    public boolean isStatic()     { return estStatic ; }
+    public boolean isFinal()      { return estFinal  ; }
 
-    @Override
     public String toString() 
 	{
-        StringBuilder sb = new StringBuilder();
+        String sRet = "";
 
-        sb.append("attribut : ").append(attributId)
-          .append(" nom : ").append(nom)
-          .append(" type : ").append(type)
-          .append(" visibilité : ").append(visibilite)
-          .append(" static : ").append(estStatic)
-          .append(" final : ").append(estFinal);
+		sRet += "Attribut ID   : " + this.attributId + "\n";
+		sRet += "Nom           : " + this.nom        + "\n";
+		sRet += "Type          : " + this.type       + "\n";
+		sRet += "Visibilité    : " + this.visibilite + "\n";
+		sRet += "Est static    : " + this.estStatic  + "\n";
+		sRet += "Est final     : " + this.estFinal   + "\n";
 
-        return sb.toString();
+        return sRet;
     }
 }

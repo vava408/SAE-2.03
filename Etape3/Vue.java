@@ -8,7 +8,7 @@ public class Vue
 		this.lireFichier = lireFichier;
 	}
 
-	public String affiher (String parametre)
+	public String afficher (String parametre)
 	{
 		String sRet = "";
 

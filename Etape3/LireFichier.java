@@ -102,7 +102,6 @@ public class LireFichier
 				return true;
 			}
 		}
-
 		return false;
 	}
 

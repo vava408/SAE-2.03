@@ -8,26 +8,21 @@ public class Vue
 		this.lireFichier = lireFichier;
 	}
 
-	public String afficher (String parametre)
+	public String afficher ()
 	{
 		String sRet = "";
 
-		switch (parametre)
+		switch ( this.lireFichier.getMotCle() )
 		{
-			case "class":
-				return this.afficherClass(parametre);
+			case "class"    -> { return this.afficherClass( this.lireFichier.getMotCle() ); }
 		
-			case "enum":
-				return this.afficherEnum();
+			case "enum"     -> { return this.afficherEnum (                              ); }
 			
-			case "record":
-				return this.afficherClass(parametre);
+			case "record"   -> { return this.afficherClass( "Record"          ); }
 
-			case "abstract":
-				return this.afficherClass(parametre);
+			case "abstract" -> { return this.afficherClass( "Abstract"        ); }
 
-			default:
-				break;
+			default         -> { break; }
 			
 		}
 		return sRet;

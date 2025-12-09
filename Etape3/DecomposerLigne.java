@@ -34,7 +34,7 @@ public class DecomposerLigne
 
 
         //création d'un scanner pour traiter la ligne
-        Scanner sc = new Scanner(ligne).useDelimiter("\\s*");
+        Scanner sc = new Scanner(ligne).useDelimiter("\\s");
         {
             //parcours chaque mots délimités par un espace
             while(sc.hasNext())

@@ -6,12 +6,17 @@ public class LireAttribut
 
     private static final String[] TAB_VISIBILITE = {"public", "private", "protected"};
 
-    private ArrayList<Attribut> listeAttribut;
+    private ArrayList<Attribut> listeAttributs;
     private int compteurId = 0;
-
+    
     public LireAttribut() 
     {
-        listeAttribut = new ArrayList<>();
+        this.listeAttributs = new ArrayList<>();
+    }
+    
+    public ArrayList<Attribut> getListeAttributs() 
+    {
+        return this.listeAttributs;
     }
 
     public void lireAttribut(String[] mots) 
@@ -23,11 +28,16 @@ public class LireAttribut
         boolean isStatic = false;
         boolean isFinal = false;
 
+        //Retrait du ;
+        for ( int cpt = 0; cpt < mots.length; cpt++ )
+            {
+                mots[ cpt ] = mots[ cpt ].replace( ";", "" );
+            }
+            
         // 1. Analyse des mots
         for (String m : mots) 
         {
 
-            m = m.replace(";", " ");
 
             // visibilité
             if (Arrays.asList(TAB_VISIBILITE).contains(m)) 
@@ -59,7 +69,7 @@ public class LireAttribut
         } 
         else 
         {
-            System.err.println("Impossible de lire type/nom dans : " + Arrays.toString(mots));
+            System.out.println("Impossible de lire type/nom dans : " + Arrays.toString(mots));
             return;
         }
 
@@ -67,11 +77,7 @@ public class LireAttribut
         Attribut a = new Attribut(compteurId++, nom, type, visibilite, isStatic, isFinal);
 
         // 4. Ajouter à la liste
-        listeAttribut.add(a);
+        this.listeAttributs.add(a);
     }
 
-    public ArrayList<Attribut> getListeAttribut() 
-    {
-        return listeAttribut;
-    }
 }

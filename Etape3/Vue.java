@@ -8,23 +8,24 @@ public class Vue
 		this.lireFichier = lireFichier;
 	}
 
-	public String afficher ()
+	public String afficher()
 	{
 		String sRet = "";
 
 		switch ( this.lireFichier.getMotCle() )
 		{
-			case "class"    -> { return this.afficherClass( this.lireFichier.getMotCle() ); }
+			case "class"    -> { sRet = this.afficherClass( this.lireFichier.getMotCle() ); }
 		
-			case "enum"     -> { return this.afficherEnum (                              ); }
+			case "enum"     -> { sRet = this.afficherEnum (                              ); }
 			
-			case "record"   -> { return this.afficherClass( "Record"          ); }
+			case "record"   -> { sRet = this.afficherClass( "Record"          ); }
 
-			case "abstract" -> { return this.afficherClass( "Abstract"        ); }
+			case "abstract" -> { sRet = this.afficherClass( "Abstract"        ); }
 
 			default         -> { break; }
 			
 		}
+
 		return sRet;
 	}
 
@@ -61,7 +62,7 @@ public class Vue
 
 		sRet += ligne + "\n";
 
-		for (Methode methode : this.lireFichier.getListeMethodes() )
+		/*for (Methode methode : this.lireFichier.getListeMethodes() )
 		{
 			if (methode.getVisibilite().equals("privée"))
 			{
@@ -102,13 +103,11 @@ public class Vue
 			}
 
 			sRet += "\n";
-		}
+		}*/
 
 		sRet += ligne + "\n";
 
 		return sRet;
-		
-
 	}
 
 	public String afficherEnum()
@@ -131,7 +130,6 @@ public class Vue
 
 		sRet += ligne + "\n";
 		return sRet;
-
 	}
 
 	private String afficherInterface()

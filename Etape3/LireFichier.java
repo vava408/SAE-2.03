@@ -3,11 +3,10 @@ import java.util.*;
 
 public class LireFichier
 {
-	private static final String[]     TAB_MOTCLE = { "class", "interface", "enum", "record", "abstract" };
-	
-	private static int                nbAttributs = 0;
+	public static final String[]      TAB_VISIBILITE = { "public", "private", "protected" };
+	public static final String[]      TAB_MOTCLE     = { "class", "interface", "enum", "record", "abstract" };
 
-	private LectureDossier            lectureDossier ;
+	private LireDossier               lectureDossier ;
 	
 	private DecomposerLigne           decomposerLigne;
 	private LireMethode 		      lireMethode    ;
@@ -18,13 +17,13 @@ public class LireFichier
 	private String                    motCle         ;
 	private String                    nomClasse      ;
 
-	public LireFichier( LectureDossier lectureDossier, String fileName) 
+	public LireFichier( LireDossier lectureDossier, String fileName) 
 	{
 		this.lectureDossier  = lectureDossier;
 
-		this.decomposerLigne = new DecomposerLigne( this );
-		this.lireMethode     = new LireMethode    ( this );
-		this.lireAttribut    = new LireAttribut   ( this );
+		this.decomposerLigne = new DecomposerLigne();
+		this.lireMethode     = new LireMethode    ();
+		this.lireAttribut    = new LireAttribut   ();
 		this.vue             = new Vue            ( this );
 
         lireFichier( fileName );
@@ -45,10 +44,10 @@ public class LireFichier
 		return this.lireAttribut.getListeAttributs();
 	}
 
-	public ArrayList<Methode> getListeMethodes()
+	/*public ArrayList<Methode> getListeMethodes()
 	{
 		return this.lireMethode.getListeMethodes();
-	}
+	}*/
 
 	private void lireFichier( String fileName )
 	{
@@ -63,15 +62,18 @@ public class LireFichier
 			while ( sc.hasNextLine() )
 			{
 				ligne = sc.nextLine();
+				ligne = ligne.trim();
 
 				tabMots = this.decomposerLigne.decomposerLigne( ligne );
 				
-				if ( ! ligne.startsWith( "import" ) && !ligne.isBlank() && ligne.startsWith("private") || ligne.startsWith("public"))
+				if ( ! ligne.startsWith( "import" ) && !ligne.isBlank() && ligne.startsWith( "private"    ) ||
+				                                                                   ligne.startsWith( "public"    )  ||
+																				   ligne.startsWith( "protected" ) )
 				{
-					if ( this.estLaPremiereLigne( ligne ) )
+					if ( this.estLaPremiereLigne( tabMots[1] ) )
 					{
-						this.nomClasse = tabMots[ 2 ];
 						this.motCle    = tabMots[ 1 ];
+						this.nomClasse = tabMots[ 2 ];
 					}
 					else
 					{
@@ -81,7 +83,7 @@ public class LireFichier
 						}
 						else
 						{
-							this.lireMethode.lireMethode( tabMots );
+							//this.lireMethode.lireMethode( tabMots );
 						}
 					}
 
@@ -107,6 +109,32 @@ public class LireFichier
 
 	public String toString()
 	{
-		this.vue.afficher();
+		String sRet = "";
+		String sVisibilite = "";
+		String ligne = "------------------------------------------------";
+
+		sRet += ligne + "\n";
+
+		sRet += String.format("%24s", this.getNomClasse()) + "\n";
+
+		sRet += ligne + "\n";
+
+		for (Attribut attribut : this.getListeAttributs() )
+		{
+
+			if (attribut.getVisibilite().equals("privée"))
+			{
+
+				sVisibilite = "- ";
+			}
+			else
+			{
+				sVisibilite = "+ ";
+			}
+
+			sRet += sVisibilite + attribut.getNom() + "\t" + ": " + attribut.getType() + "\n";
+		}
+		
+		return sRet;
 	}
 }

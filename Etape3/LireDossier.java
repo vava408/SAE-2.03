@@ -5,13 +5,13 @@ import java.util.HashSet;
 
 public class LireDossier
 {
-	private HashSet<LectureFichier>					         hSClasses;
-	private HashMap<LectureFichier, ArrayList<Association>>  hMAssociations;
+	private HashSet<LireFichier>					         hSClasses;
+	private HashMap<LireFichier, ArrayList<Association>>  hMAssociations;
 
 	public LireDossier( String cheminDossier )
 	{
-		hSClasses	   = new HashSet<LectureFichier>();
-		hMAssociations = new HashMap<LectureFichier, ArrayList<Association>>();
+		hSClasses	   = new HashSet<LireFichier>();
+		hMAssociations = new HashMap<LireFichier, ArrayList<Association>>();
 
 		this.lireDossier( cheminDossier );
 	}
@@ -25,28 +25,28 @@ public class LireDossier
 		{
 			if( fichier.isFile() && fichier.getName().endsWith( ".java" ) )
 			{
-				LectureFichier lectureFichier = new LectureFichier( this, fichier.getAbsolutePath() ); 
+				LireFichier lireFichier = new LireFichier( this, fichier.getAbsolutePath() ); 
 
-				this.hSClasses.add( lectureFichier );
+				this.hSClasses.add( lireFichier );
 
-				if( ! this.hMAssociations.containsKey( lectureFichier ) )
+				if( ! this.hMAssociations.containsKey( lireFichier ) )
 				{
-					this.hMAssociations.put( lectureFichier, new ArrayList<Association>() );
+					this.hMAssociations.put( lireFichier, new ArrayList<Association>() );
 				}
 			}
 		}
 	}
 
-	public void ajoutAssociation( LectureFichier lectureFichier, String nomAutreClasse, String multipliciteSource )
+	public void ajoutAssociation( LireFichier lireFichier, String nomAutreClasse, String multipliciteSource )
 	{
-		this.hMAssociations.get( lectureFichier ).add( new Association ( nomAutreClasse, multipliciteSource) );
+		this.hMAssociations.get( lireFichier ).add( new Association ( nomAutreClasse, multipliciteSource) );
 	}
 
 	public boolean nomEstDansRepertoire( String nomClasse )
 	{
-		for ( LectureFichier lF : this.hSClasses )
+		for ( LireFichier lF : this.hSClasses )
 		{
-			if ( lF.getClassName().equals( nomClasse ) )
+			if ( lF.getNomClasse().equals( nomClasse ) )
 			{
 				return true;
 			}
@@ -57,9 +57,9 @@ public class LireDossier
 
 	public void afficherClasses()
 	{
-		for( LectureFichier lF : this.hMAssociations.keySet() )
+		for( LireFichier lF : this.hMAssociations.keySet() )
 		{
-			System.out.println( this.hMAssociations.get( lF ).size() );
+			System.out.println( lF.toString() );
 		}
 	}
 

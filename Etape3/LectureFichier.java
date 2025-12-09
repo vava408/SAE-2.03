@@ -28,6 +28,7 @@ public class LectureFichier
 				ligne = ligne.replace(")", " ");
 				ligne = ligne.replace("{", " ");
 				ligne = ligne.replace("}", " ");
+				ligne = ligne.replace(",", " ");
 				ligne = ligne.replaceAll("\\s+", " ").trim();
 
 

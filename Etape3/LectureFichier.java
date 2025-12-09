@@ -14,6 +14,11 @@ public class LectureFichier
 
 	private String                nomClasse;
 
+	public LectureFichier(String fileName) 
+	{
+        lireFichier(fileName);
+    }
+
 	private void lireFichier( String fileName )
 	{
 		try
@@ -260,11 +265,4 @@ public class LectureFichier
 		return sRet;
 	}
 
-
-	public static void main( String[] arg )
-	{
-		LectureFichier lectureFichier = new LectureFichier();
-		lectureFichier.lireFichier( arg[0] );
-		System.out.println(lectureFichier.toString());
-	}
 }

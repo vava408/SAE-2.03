@@ -28,4 +28,9 @@ public class Disque
     {
         centre.setY( y );
     }
+	
+	private void setTest(int y)
+	{
+		centre.setY(y);
+	}
 }

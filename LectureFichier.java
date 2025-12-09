@@ -31,7 +31,7 @@ public class LectureFichier
 				ligne = ligne.replaceAll("\\s+", " ").trim();
 
 
-				if ( ! ligne.startsWith( "import" ) && !ligne.isBlank() && ligne.contains("private") || ligne.contains("public"))
+				if ( ! ligne.startsWith( "import" ) && !ligne.isBlank() && ligne.startsWith("private") || ligne.startsWith("public"))
 				{
 					if ( ligne.endsWith( ";" ) )
 					{
@@ -86,7 +86,7 @@ public class LectureFichier
 
 	private void lireMethode( String ligne )
 	{
-		String visibilite;
+		String visibilitee = LectureFichier.TAB_VISIBILITE_FR[0];
 		String nom;
 		String typeParametre;
 		String nomParametre;
@@ -108,7 +108,14 @@ public class LectureFichier
 		}
 
 
-		visibilite = ligneSplit[0];
+		for (int cpt = 0; cpt < LectureFichier.TAB_VISIBILITE.length; cpt++)
+		{
+			if (ligneSplit[0].equals(TAB_VISIBILITE[cpt]))
+			{
+				visibilitee = TAB_VISIBILITE_FR[cpt];
+			}
+		}
+
 		typeRetour = ligneSplit[1];
 		nom        = ligneSplit[2];
 
@@ -127,7 +134,7 @@ public class LectureFichier
 		}
 
 
-		Methode methode = new Methode(nom, visibilite, typeRetour, tabParametre);
+		Methode methode = new Methode(nom, visibilitee, typeRetour, tabParametre);
 
 		this.listeMethodes.add(methode);
 	}
@@ -135,7 +142,8 @@ public class LectureFichier
 
 	private void lireConstructeur( String[] ligneSplit )
 	{
-		String visibilite;
+		String visibilitee = LectureFichier.TAB_VISIBILITE_FR[0];
+
 		String nom;
 		String typeParametre;
 		String nomParametre;
@@ -143,7 +151,14 @@ public class LectureFichier
 		ArrayList<Parametre> tabParametre = new ArrayList<Parametre>();
 
 
-		visibilite     = ligneSplit[0];
+		for (int cpt = 0; cpt < LectureFichier.TAB_VISIBILITE.length; cpt++)
+		{
+			if (ligneSplit[0].equals(TAB_VISIBILITE[cpt]))
+			{
+				visibilitee = TAB_VISIBILITE_FR[cpt];
+			}
+		}
+
 		this.nomClasse = ligneSplit[1];
 		nom            = ligneSplit[1];
 
@@ -157,7 +172,7 @@ public class LectureFichier
 			tabParametre.add(new Parametre(nomParametre, typeParametre));
 		}
 
-		Methode methode = new Methode(nom, visibilite, null, tabParametre);
+		Methode methode = new Methode(nom, visibilitee, null, tabParametre);
 
 		this.listeMethodes.add(methode);
 	}
@@ -177,8 +192,10 @@ public class LectureFichier
 
 		for ( Attribut attribut : listeAttributs )
 		{
-			if ( attribut.getVisibilite() == "privée" )
+
+			if ( attribut.getVisibilite() .equals("privée") )
 			{
+
 				sVisibilite = "- ";
 			}
 			else
@@ -193,8 +210,9 @@ public class LectureFichier
 
 		for ( Methode methode : listeMethodes )
 		{
-			if ( methode.getVisibilite() == "privée" )
+			if ( methode.getVisibilite().equals("privée") )
 			{
+				System.out.println("test");
 				sVisibilite = "- ";
 			}
 			else

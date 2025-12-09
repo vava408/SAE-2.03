@@ -20,12 +20,6 @@ public class Vue
 			case "enum":
 				return this.afficherEnum();
 			
-			case "interface":
-				return this.afficherClass(parametre) + "\n" + this.afficherInterface();
-			
-			case "heritage":
-				return this.afficherClass(parametre) + "\n" + this.afficherHeritage();
-
 			case "record":
 				return this.afficherClass(parametre);
 

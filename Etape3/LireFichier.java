@@ -3,8 +3,8 @@ import java.util.*;
 
 public class LireFichier
 {
-	public static final String[]      TAB_VISIBILITE = { "public", "private", "protected" };
-	public static final String[]      TAB_MOTCLE     = { "class", "interface", "enum", "record", "abstract" };
+	public final String[]             TAB_VISIBILITE = { "public", "private", "protected" };
+	public final String[]             TAB_MOTCLE     = { "class", "interface", "enum", "record", "abstract" };
 
 	private LireDossier               lectureDossier ;
 	
@@ -22,8 +22,8 @@ public class LireFichier
 		this.lectureDossier  = lectureDossier;
 
 		this.decomposerLigne = new DecomposerLigne();
-		this.lireMethode     = new LireMethode    ();
-		this.lireAttribut    = new LireAttribut   ();
+		this.lireMethode     = new LireMethode    ( this );
+		this.lireAttribut    = new LireAttribut   ( this );
 		this.vue             = new Vue            ( this );
 
         lireFichier( fileName );

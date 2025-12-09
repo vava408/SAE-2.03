@@ -3,14 +3,14 @@ import java.util.Arrays;
 
 public class LireAttribut 
 {
-
-    private static final String[] TAB_VISIBILITE = {"public", "private", "protected"};
+    LireFichier lireFichier;
 
     private ArrayList<Attribut> listeAttributs;
     private int compteurId = 0;
     
-    public LireAttribut() 
+    public LireAttribut( LireFichier lireFichier ) 
     {
+        this.lireFichier = lireFichier;
         this.listeAttributs = new ArrayList<>();
     }
     
@@ -28,7 +28,7 @@ public class LireAttribut
         boolean isStatic = false;
         boolean isFinal = false;
 
-        //Retrait du ;
+        //Retrait du ;ljj
         for ( int cpt = 0; cpt < mots.length; cpt++ )
             {
                 mots[ cpt ] = mots[ cpt ].replace( ";", "" );
@@ -40,7 +40,7 @@ public class LireAttribut
 
 
             // visibilité
-            if (Arrays.asList(TAB_VISIBILITE).contains(m)) 
+            if (Arrays.asList(this.lireFichier.TAB_VISIBILITE).contains(m)) 
             {
                 visibilite = m;
                 continue;

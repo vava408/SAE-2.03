@@ -1,48 +1,42 @@
-public class Attribut
-{
-	private int attributId;
-	private String nom;
-	private String type;
-	private String visibilite;
-	private String instance;
+public class Attribut {
 
-	public Attribut(int attributId, String nom, String type, String visibilite, String instance)
-	{
-		this.attributId = attributId;
-		this.nom = nom;
-		this.type = type;
-		this.visibilite = visibilite;
-		this.instance = instance;
-	}
+    private int     attributId;
+    private String  nom;
+    private String  type;
+    private String  visibilite;
+    private boolean estStatic;
+    private boolean estFinal;
 
-	public int getAttributId()
+    public Attribut(int attributId, String nom, String type, String visibilite, boolean estStatic, boolean estFinal) 
 	{
-		return attributId;
-	}
 
-	public String getNom()
-	{
-		return nom;
-	}
+        this.attributId = attributId;
+        this.nom = nom;
+        this.type = type;
+        this.visibilite = visibilite;
+        this.estStatic = estStatic;
+        this.estFinal = estFinal;
+    }
 
-	public String getType()
-	{
-		return type;
-	}
+    public int getAttributId()    { return attributId; }
+    public String getNom()        { return nom; }
+    public String getType()       { return type; }
+    public String getVisibilite() { return visibilite; }
+    public boolean isStatic()     { return estStatic; }
+    public boolean isFinal()      { return estFinal; }
 
-	public String getVisibilite()
+    @Override
+    public String toString() 
 	{
-		return visibilite;
-	}
+        StringBuilder sb = new StringBuilder();
 
-	public String getInstance()
-	{
-		return instance;
-	}
+        sb.append("attribut : ").append(attributId)
+          .append(" nom : ").append(nom)
+          .append(" type : ").append(type)
+          .append(" visibilité : ").append(visibilite)
+          .append(" static : ").append(estStatic)
+          .append(" final : ").append(estFinal);
 
-	public String toString() 
-	{
-		return String.format("attribut : %d nom : %-8s type : %-8s visibilité : %s portée : %s",
-				attributId, nom, type, visibilite, instance); 
-	}
+        return sb.toString();
+    }
 }

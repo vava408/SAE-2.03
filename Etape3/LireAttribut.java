@@ -16,7 +16,7 @@ public class LireAttribut
 
     public void lireAttribut(String[] mots) 
     {
-        
+
         String visibilite = "default";
         String type = "";
         String nom = "";
@@ -26,6 +26,8 @@ public class LireAttribut
         // 1. Analyse des mots
         for (String m : mots) 
         {
+
+            m = m.replace(";", " ");
 
             // visibilité
             if (Arrays.asList(TAB_VISIBILITE).contains(m)) 

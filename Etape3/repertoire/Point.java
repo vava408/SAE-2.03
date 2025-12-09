@@ -11,6 +11,11 @@ public class Point
         this.y   = y;
     }
 
+    public String getNom() 
+    {
+        return nom;
+    }
+
     public int getX() 
     {
         return x;
@@ -19,6 +24,11 @@ public class Point
     public int getY()
     {
         return y;
+    }
+
+    public void setNom( String nom ) 
+    {
+        this.nom = nom;
     }
 
     public void setX( int x ) 

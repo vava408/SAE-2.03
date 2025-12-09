@@ -9,6 +9,16 @@ public class Disque
         this.rayon  = rayon;
     }
 
+    public Point getCentre()
+    {
+        return centre;
+    }
+
+    public double getRayon()
+    {
+        return rayon;
+    }
+
     public double calculerAire()
     {
         return Math.PI * rayon * rayon;
@@ -28,9 +38,4 @@ public class Disque
     {
         centre.setY( y );
     }
-	
-	private void setTest(int y)
-	{
-		centre.setY(y);
-	}
 }

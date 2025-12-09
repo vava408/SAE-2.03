@@ -1,59 +1,90 @@
 import java.io.FileInputStream;
 import java.util.*;
 
-public class LectureFichier
+public class LireFichier
 {
-	private static final String[] TAB_VISIBILITE = { "public", "private", "protected" };
-	private static final String[] TAB_VISIBILITE_FR = { "public", "privée", "protégée" };
+	private static final String[]     TAB_MOTCLE = { "class", "interface", "enum", "record", "abstract" };
 	
-	private LectureDossier        lectureDossier;
+	private static int                nbAttributs = 0;
+
+	private LectureDossier            lectureDossier ;
 	
-	private static int            nbAttributs = 0;
+	private DecomposerLigne           decomposerLigne;
+	private LireMethode 		      lireMethode    ;
+	private LireAttribut              lireAttribut   ;
+	private Vue                       vue            ;
+	
+	
+	private String                    motCle         ;
+	private String                    nomClasse      ;
 
-	private ArrayList<Attribut>   listeAttributs = new ArrayList<Attribut>();
-	private ArrayList<Methode>    listeMethodes  = new ArrayList<Methode>();
-
-	private String                nomClasse;
-
-	public LectureFichier( LectureDossier lectureDossier, String fileName) 
+	public LireFichier( LectureDossier lectureDossier, String fileName) 
 	{
-		this.lectureDossier = lectureDossier;
-        lireFichier(fileName);
+		this.lectureDossier  = lectureDossier;
+
+		this.decomposerLigne = new DecomposerLigne( this );
+		this.lireMethode     = new LireMethode    ( this );
+		this.lireAttribut    = new LireAttribut   ( this );
+		this.vue             = new Vue            ( this );
+
+        lireFichier( fileName );
     }
 
-	public String getClassName()
+	public String getNomClasse()
 	{
 		return this.nomClasse;
+	}
+	
+	public String getMotCle()
+	{
+		return this.motCle;
+	}
+
+	public ArrayList<Attribut> getListeAttributs()
+	{
+		return this.lireAttribut.getListeAttributs();
+	}
+
+	public ArrayList<Methode> getListeMethodes()
+	{
+		return this.lireMethode.getListeMethodes();
 	}
 
 	private void lireFichier( String fileName )
 	{
+		Scanner  sc     ;
+		String   ligne  ;
+		String[] tabMots;
+		
 		try
 		{
-			Scanner sc = new Scanner ( new FileInputStream ( fileName ), "UTF8" );
+			sc = new Scanner ( new FileInputStream ( fileName ), "UTF8" );
 	
 			while ( sc.hasNextLine() )
 			{
-				String ligne = sc.nextLine();
+				ligne = sc.nextLine();
 
-				ligne = ligne.replace("(", " ");
-				ligne = ligne.replace(")", " ");
-				ligne = ligne.replace("{", " ");
-				ligne = ligne.replace("}", " ");
-				ligne = ligne.replace(",", " ");
-				ligne = ligne.replaceAll("\\s+", " ").trim();
-
-
+				tabMots = this.decomposerLigne.decomposerLigne( ligne );
+				
 				if ( ! ligne.startsWith( "import" ) && !ligne.isBlank() && ligne.startsWith("private") || ligne.startsWith("public"))
 				{
-					if ( ligne.endsWith( ";" ) )
+					if ( this.estLaPremiereLigne( ligne ) )
 					{
-						this.lireAttribut( ligne );
+						this.nomClasse = tabMots[ 2 ];
+						this.motCle    = tabMots[ 1 ];
 					}
 					else
 					{
-						this.lireMethode( ligne );
+						if ( ligne.endsWith( ";" ) )
+						{
+							this.lireAttribut.lireAttribut( tabMots );
+						}
+						else
+						{
+							this.lireMethode.lireMethode( tabMots );
+						}
 					}
+
 				}
 			}
 
@@ -62,235 +93,21 @@ public class LectureFichier
 		catch (Exception e){ e.printStackTrace(); }
 	}
 
-	private void lireAttribut(String ligne)
+	private boolean estLaPremiereLigne( String mot )
 	{
-		String nom;
-		String type;
-		String visibilitee = LectureFichier.TAB_VISIBILITE_FR[ 0 ];
-		String portee      = "classe";
-
-		ligne = ligne.replace(";", "").trim();
-		String[] mots = ligne.split(" ");
-
-		for (int cpt = 0; cpt < LectureFichier.TAB_VISIBILITE.length; cpt++)
+		for ( String motCle : TAB_MOTCLE )
 		{
-			if ( mots[0].equals(TAB_VISIBILITE[cpt] ) )
+			if ( mot.equals( motCle ) )
 			{
-				visibilitee = TAB_VISIBILITE_FR[cpt];
+				return true;
 			}
 		}
 
-		if ( ! mots[1].equals( "static" ) )
-		{
-			portee = "instance";
-
-			type = mots[1];
-			nom = mots[2];
-		}
-		else
-		{
-			type = mots[2];
-			nom = mots[3];
-		}
-
-		if ( type.endsWith( "[]" ) )
-		{
-			type = type.substring( 0, type.length() - 2 ) ;
-		}
-		else if ( type.contains( "<" ) && type.contains( ">" ) )
-		{
-			int debut = type.indexOf( '<' ) + 1 ;
-			int fin = type.lastIndexOf( '>' ) ;
-			type = type.substring( debut, fin ).trim() ;
-		}
-
-		if ( this.lectureDossier.nomEstDansRepertoire( type ) )
-		{
-			String multiplicite = "1..1";
-
-
-			lectureDossier.ajoutAssociation( this, type, multiplicite );
-		}
-		else
-		{
-			Attribut attribut = new Attribut( ++LectureFichier.nbAttributs, nom, type, visibilitee, portee);
-			this.listeAttributs.add( attribut );
-		}
-
+		return false;
 	}
-
-	private void lireMethode( String ligne )
-	{
-		int    nbParametre = 0;
-		String visibilitee = LectureFichier.TAB_VISIBILITE_FR[0];
-		String nom;
-		String typeParametre;
-		String nomParametre;
-		String typeRetour;
-
-		ArrayList<Parametre> tabParametre = new ArrayList<Parametre>();
-
-		ligne = ligne.replace("(", " ");
-		ligne = ligne.replace(")", " ");
-
-		String[] ligneSplit = ligne.split(" ");
-
-
-
-		if( ligneSplit.length %2 == 0 )
-		{
-			lireConstructeur( ligneSplit );
-			return;
-		}
-
-
-		for (int cpt = 0; cpt < LectureFichier.TAB_VISIBILITE.length; cpt++)
-		{
-			if (ligneSplit[0].equals(TAB_VISIBILITE[cpt]))
-			{
-				visibilitee = TAB_VISIBILITE_FR[cpt];
-			}
-		}
-
-		typeRetour = ligneSplit[1];
-		nom        = ligneSplit[2];
-
-
-		if(typeRetour.equals("class"))
-				return;
-
-
-		if(ligneSplit.length > 3)
-		for(int i = 3; i+1 < ligneSplit.length; i=i+2)
-		{
-			typeParametre = ligneSplit[i];
-			nomParametre  = ligneSplit[i+1];
-			nbParametre++;
-
-			tabParametre.add(new Parametre( nbParametre, nomParametre, typeParametre));
-		}
-
-
-		Methode methode = new Methode(nom, visibilitee, typeRetour, tabParametre);
-
-		this.listeMethodes.add(methode);
-	}
-
-
-	private void lireConstructeur( String[] ligneSplit )
-	{
-		String visibilitee = LectureFichier.TAB_VISIBILITE_FR[0];
-
-		String nom;
-		String typeParametre;
-		String nomParametre;
-
-		ArrayList<Parametre> tabParametre = new ArrayList<Parametre>();
-
-
-		for (int cpt = 0; cpt < LectureFichier.TAB_VISIBILITE.length; cpt++)
-		{
-			if (ligneSplit[0].equals(TAB_VISIBILITE[cpt]))
-			{
-				visibilitee = TAB_VISIBILITE_FR[cpt];
-			}
-		}
-
-		this.nomClasse = ligneSplit[1];
-		nom            = ligneSplit[1];
-
-
-		if(ligneSplit.length > 2)
-		for(int i = 2; i+1 < ligneSplit.length; i=i+2)
-		{
-			typeParametre = ligneSplit[i];
-			nomParametre  = ligneSplit[i+1];
-
-			tabParametre.add(new Parametre(0, nomParametre, typeParametre));
-		}
-
-		Methode methode = new Methode(nom, visibilitee, null, tabParametre);
-
-		this.listeMethodes.add(methode);
-	}
-
 
 	public String toString()
 	{
-		String sRet        = "";
-		String sVisibilite = "";
-		String ligne       = "------------------------------------------------";
-
-		sRet += ligne + "\n";
-
-		sRet += String.format( "%24s", this.nomClasse ) + "\n";
-
-		sRet += ligne + "\n";
-
-		for ( Attribut attribut : listeAttributs )
-		{
-
-			if ( attribut.getVisibilite() .equals("privée") )
-			{
-
-				sVisibilite = "- ";
-			}
-			else
-			{
-				sVisibilite = "+ ";
-			}
-
-			sRet += sVisibilite + attribut.getNom() + "\t" + ": " + attribut.getType() + "\n";
-		}
-
-		sRet += ligne + "\n";
-
-		for ( Methode methode : listeMethodes )
-		{
-			if ( methode.getVisibilite().equals("privée") )
-			{
-				sVisibilite = "- ";
-			}
-			else
-			{
-				sVisibilite = "+ ";
-			}
-
-			sRet += sVisibilite + methode.getNom() + " (";
-
-			if ( methode.getParametre().size() == 0 )
-			{
-				sRet += ")";
-			}
-
-			for ( int cpt = 0; cpt < methode.getParametre().size(); cpt++ )
-			{
-				Parametre parametre = methode.getParametre().get( cpt );
-
-				sRet += " " + parametre.getNom() + " : " + parametre.getType();
-
-				if ( cpt < methode.getParametre().size() - 1 )
-				{
-					sRet += ",";
-				}
-				else
-				{
-					sRet += " )";
-				}
-
-			}
-
-			if ( methode.getRetour() != null && ! methode.getRetour().equals( "void" ) )
-			{
-				sRet += String.format( "%20s", ": " + methode.getRetour() );
-			}
-
-			sRet += "\n";
-		}
-
-		sRet += ligne + "\n";
-
-		return sRet;
+		this.vue.afficher();
 	}
-
 }

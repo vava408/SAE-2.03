@@ -1,9 +1,9 @@
 public class Vue
 {
-	private lireFichier lireFichier;
+	private LireFichier lireFichier;
 
 
-	public Vue( lireFichier lireFichier )
+	public Vue( LireFichier lireFichier )
 	{
 		this.lireFichier = lireFichier;
 	}
@@ -39,16 +39,16 @@ public class Vue
 		String sVisibilite = "";
 		String ligne = "------------------------------------------------";
 		if(!typeClasse.equals("class"))
-			sRet += "<"+  typeClasse +">\n";
+			sRet += "<<"+  typeClasse +">>\n";
 	
 
 		sRet += ligne + "\n";
 
-		sRet += String.format("%24s", this.lireFichier.getNomClass()) + "\n";
+		sRet += String.format("%24s", this.lireFichier.getNomClasse()) + "\n";
 
 		sRet += ligne + "\n";
 
-		for (Attribut attribut : this.lireFichier.getListeAttributs)
+		for (Attribut attribut : this.lireFichier.getListeAttributs() )
 		{
 
 			if (attribut.getVisibilite().equals("privée"))
@@ -66,7 +66,7 @@ public class Vue
 
 		sRet += ligne + "\n";
 
-		for (Methode methode : this.lireFichier.getListeMethodes)
+		for (Methode methode : this.lireFichier.getListeMethodes() )
 		{
 			if (methode.getVisibilite().equals("privée"))
 			{
@@ -121,15 +121,15 @@ public class Vue
 		String sRet = "";
 		String sVisibilite = "";
 		String ligne = "------------------------------------------------";
-		sRet += "<Enumération>\n";
+		sRet += "<<Enumération>>\n";
 
 		sRet += ligne + "\n";
 
-		sRet += String.format("%24s", this.lireFichier.getNomClasse) + "\n";
+		sRet += String.format ("%24s", this.lireFichier.getNomClasse() ) + "\n";
 
 		sRet += ligne + "\n";
 
-		for (Attribut attribut : this.lireFichier.getListeAttributs)
+		for ( Attribut attribut : this.lireFichier.getListeAttributs() )
 		{
 			sRet += attribut.getNom() + "\n";
 		}
@@ -141,12 +141,12 @@ public class Vue
 
 	private String afficherInterface()
 	{
-		return "<Interface>\n";
+		return "<<Interface>>\n";
 	}
 
 	public String afficherHeritage()
 	{
-		return "<Héritage>\n";
+		return "<<Héritage>>\n";
 	}
 
 }

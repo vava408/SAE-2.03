@@ -9,7 +9,7 @@ public class LectureFichier
 	private HashMap<String, String> mapImplements = new HashMap<String, String>();
 	private HashMap<String, String> mapExtends = new HashMap<String, String>();
 
-	private LectureDossier lectureDossier;
+	private LireDossier lectureDossier;
 
 	private static int nbAttributs = 0;
 
@@ -18,7 +18,7 @@ public class LectureFichier
 
 	private String nomClasse;
 
-	public LectureFichier(LectureDossier lectureDossier, String fileName)
+	public LectureFichier(LireDossier lectureDossier, String fileName)
 	{
 		this.lectureDossier = lectureDossier;
 		lireFichier(fileName);

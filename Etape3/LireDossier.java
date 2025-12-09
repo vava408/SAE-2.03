@@ -3,12 +3,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class LectureDossier
+public class LireDossier
 {
 	private HashSet<LectureFichier>					         hSClasses;
 	private HashMap<LectureFichier, ArrayList<Association>>  hMAssociations;
 
-	public LectureDossier( String cheminDossier )
+	public LireDossier( String cheminDossier )
 	{
 		hSClasses	   = new HashSet<LectureFichier>();
 		hMAssociations = new HashMap<LectureFichier, ArrayList<Association>>();
@@ -65,7 +65,7 @@ public class LectureDossier
 
 	public static void main(String[] args) 
 	{
-		LectureDossier lectureDossier = new LectureDossier( args[0] );
+		LireDossier lectureDossier = new LireDossier( args[0] );
 
 		lectureDossier.afficherClasses();
 	}

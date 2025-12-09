@@ -136,10 +136,10 @@ public class LectureFichier
 	private void lireConstructeur( String[] ligneSplit )
 	{
 		int    nbParametre = 0;
-		String visibilite;
-		String nom;
-		String typeParametre;
-		String nomParametre;
+		String visibilite     ;
+		String nom            ;
+		String typeParametre  ;
+		String nomParametre   ;
 
 		ArrayList<Parametre> tabParametre = new ArrayList<Parametre>();
 
@@ -151,8 +151,8 @@ public class LectureFichier
 		if(ligneSplit.length > 2)
 		for(int i = 2; i+1 < ligneSplit.length; i=i+2)
 		{
-			typeParametre = ligneSplit[i];
-			nomParametre  = ligneSplit[i+1];
+			typeParametre = ligneSplit[ i   ];
+			nomParametre  = ligneSplit[ i+1 ];
 			nbParametre++;
 
 			tabParametre.add(new Parametre( nbParametre, nomParametre, typeParametre));

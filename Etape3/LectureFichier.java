@@ -92,23 +92,27 @@ public class LectureFichier
 
 	private void lireMethode( String ligne )
 	{
-		int    nbParametre = 0;
-		String visibilitee = LectureFichier.TAB_VISIBILITE_FR[0];
-		String nom;
-		String typeParametre;
-		String nomParametre;
-		String typeRetour;
+		boolean isStatic    = false;
+		int     nbParametre = 0;
+		String  visibilitee = LectureFichier.TAB_VISIBILITE_FR[0];
+		String  nom;
+		String  typeParametre;
+		String  nomParametre;
+		String  typeRetour;
 
 		ArrayList<Parametre> tabParametre = new ArrayList<Parametre>();
 
-		ligne = ligne.replace("(", " ");
-		ligne = ligne.replace(")", " ");
 
 		String[] ligneSplit = ligne.split(" ");
 
+		if(ligneSplit[1].equals("class"))
+				return;
+
+		if(ligneSplit[1].equals("static"))
+			isStatic = true;
 
 
-		if( ligneSplit.length %2 == 0 )
+		if( ligneSplit.length %2 == 0 && !isStatic )
 		{
 			lireConstructeur( ligneSplit );
 			return;
@@ -123,22 +127,39 @@ public class LectureFichier
 			}
 		}
 
-		typeRetour = ligneSplit[1];
-		nom        = ligneSplit[2];
-
-
-		if(typeRetour.equals("class"))
-				return;
-
-
-		if(ligneSplit.length > 3)
-		for(int i = 3; i+1 < ligneSplit.length; i=i+2)
+		if(isStatic)
 		{
-			typeParametre = ligneSplit[i];
-			nomParametre  = ligneSplit[i+1];
+			typeRetour = ligneSplit[2];
+			nom        = ligneSplit[3];
+		}
+		else
+		{
+			typeRetour = ligneSplit[1];
+			nom        = ligneSplit[2];
+		}
+
+		if(nom.equals("main"))
+			return;
+
+
+		int compteur = ligneSplit.length;
+
+		if(ligneSplit.length > 3 && !isStatic)
+			compteur = 3;
+		else
+			if(ligneSplit.length > 4 && isStatic)
+				compteur = 4;
+
+
+		while(compteur+1 < ligneSplit.length)
+		{
+			typeParametre = ligneSplit[compteur];
+			nomParametre  = ligneSplit[compteur+1];
 			nbParametre++;
 
 			tabParametre.add(new Parametre( nbParametre, nomParametre, typeParametre));
+
+			compteur++;
 		}
 
 

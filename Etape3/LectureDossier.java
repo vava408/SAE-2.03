@@ -1,8 +1,22 @@
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 
 public class LectureDossier
 {
-	private static void lireDossier( String cheminDossier )
+	private HashSet<LectureFichier>					         hSClasses;
+	private HashMap<LectureFichier, ArrayList<Association>>  hMAssociations;
+
+	public LectureDossier( String cheminDossier )
+	{
+		hSClasses	   = new HashSet<LectureFichier>();
+		hMAssociations = new HashMap<LectureFichier, ArrayList<Association>>();
+
+		this.lireDossier( cheminDossier );
+	}
+
+	private void lireDossier( String cheminDossier )
 	{
 		File   dossier       = new File( cheminDossier );
 		File[] listeFichiers = dossier.listFiles();
@@ -11,13 +25,48 @@ public class LectureDossier
 		{
 			if( fichier.isFile() && fichier.getName().endsWith( ".java" ) )
 			{
-				new LectureFichier( fichier.getAbsolutePath() );
+				LectureFichier lectureFichier = new LectureFichier( this, fichier.getAbsolutePath() ); 
+
+				this.hSClasses.add( lectureFichier );
+
+				if( ! this.hMAssociations.containsKey( lectureFichier ) )
+				{
+					this.hMAssociations.put( lectureFichier, new ArrayList<Association>() );
+				}
 			}
+		}
+	}
+
+	public void ajoutAssociation( LectureFichier lectureFichier, String nomAutreClasse, String multipliciteSource )
+	{
+		this.hMAssociations.get( lectureFichier ).add( new Association ( nomAutreClasse, multipliciteSource) );
+	}
+
+	public boolean nomEstDansRepertoire( String nomClasse )
+	{
+		for ( LectureFichier lF : this.hSClasses )
+		{
+			if ( lF.getClassName().equals( nomClasse ) )
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public void afficherClasses()
+	{
+		for( LectureFichier lF : this.hMAssociations.keySet() )
+		{
+			System.out.println( this.hMAssociations.get( lF ).size() );
 		}
 	}
 
 	public static void main(String[] args) 
 	{
-		LectureDossier.lireDossier( args[0] );	
+		LectureDossier lectureDossier = new LectureDossier( args[0] );
+
+		lectureDossier.afficherClasses();
 	}
 }

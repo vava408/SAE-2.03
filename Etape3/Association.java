@@ -1,46 +1,20 @@
 public class Association 
 {
-	String         nomClasseA;
-	String         nomClasseB;
-    private String multiplicityA;
-    private String multiplicityB;
+	String         nomClasse;
+    private String multiplicity;
 
-	public Association(String nomClasseA, String nomClasseB, String multiplicityA, String multiplicityB)
+	public Association(String nomClasse, String multiplicity)
 	{
-		this.nomClasseA    = nomClasseA;
-		this.nomClasseB    = nomClasseB;
-		this.multiplicityA = multiplicityA;
-		this.multiplicityB = multiplicityB;
+		this.nomClasse    = nomClasse;
+		this.multiplicity = multiplicity;
 	}
 
-	public String getNomClasseA() { return nomClasseA; }
+	public String getNomClasse   () { return this.nomClasse; }
 
-	public String getNomClasseB() { return nomClasseB; }
-
-	public String getMultiplicityA() { return multiplicityA; }
-
-	public String getMultiplicityB() { return multiplicityB; }
+	public String getMultiplicity() { return this.multiplicity; }
 
 	public String toString() 
 	{
-        String sRet = "";
-
-		if ( this.multiplicityA.startsWith( "0" ) )
-		{
-			sRet += "Unidirectionnel de " + this.nomClasseA + " (" + this.multiplicityA + ") vers " + 
-			                                this.nomClasseB + " (" + this.multiplicityB + ")"; 
-		}
-		else if ( this.multiplicityB.startsWith( "0" ) )
-		{
-			sRet += "Unidirectionnel de " + this.nomClasseB + " (" + this.multiplicityB + ") vers " + 
-			                                this.nomClasseA + " (" + this.multiplicityA + ")"; 
-		}
-		else
-		{
-			sRet += "Bidirectionnel entre " + this.nomClasseA + " (" + this.multiplicityA + ") et " + 
-			                                  this.nomClasseB + " (" + this.multiplicityB + ")";
-		}
-
-		return sRet;
+		return this.nomClasse + "(" + this.multiplicity + ")";	
     }
 }

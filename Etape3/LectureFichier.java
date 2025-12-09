@@ -3,10 +3,11 @@ import java.util.*;
 
 public class LectureFichier
 {
-
 	private static final String[] TAB_VISIBILITE = { "public", "private", "protected" };
 	private static final String[] TAB_VISIBILITE_FR = { "public", "privée", "protégée" };
-
+	
+	private LectureDossier        lectureDossier;
+	
 	private static int            nbAttributs = 0;
 
 	private ArrayList<Attribut>   listeAttributs = new ArrayList<Attribut>();
@@ -14,10 +15,16 @@ public class LectureFichier
 
 	private String                nomClasse;
 
-	public LectureFichier(String fileName) 
+	public LectureFichier( LectureDossier lectureDossier, String fileName) 
 	{
+		this.lectureDossier = lectureDossier;
         lireFichier(fileName);
     }
+
+	public String getClassName()
+	{
+		return this.nomClasse;
+	}
 
 	private void lireFichier( String fileName )
 	{
@@ -86,33 +93,51 @@ public class LectureFichier
 			nom = mots[3];
 		}
 
-		Attribut attribut = new Attribut(LectureFichier.nbAttributs, nom, type, visibilitee, portee);
-		this.listeAttributs.add( attribut );
+		if ( type.endsWith( "[]" ) )
+		{
+			type = type.substring( 0, type.length() - 2 ) ;
+		}
+		else if ( type.contains( "<" ) && type.contains( ">" ) )
+		{
+			int debut = type.indexOf( '<' ) + 1 ;
+			int fin = type.lastIndexOf( '>' ) ;
+			type = type.substring( debut, fin ).trim() ;
+		}
+
+		if ( this.lectureDossier.nomEstDansRepertoire( type ) )
+		{
+			String multiplicite = "1..1";
+
+
+			lectureDossier.ajoutAssociation( this, type, multiplicite );
+		}
+		else
+		{
+			Attribut attribut = new Attribut( ++LectureFichier.nbAttributs, nom, type, visibilitee, portee);
+			this.listeAttributs.add( attribut );
+		}
+
 	}
 
 	private void lireMethode( String ligne )
 	{
-		boolean isStatic    = false;
-		int     nbParametre = 0;
-		String  visibilitee = LectureFichier.TAB_VISIBILITE_FR[0];
-		String  nom;
-		String  typeParametre;
-		String  nomParametre;
-		String  typeRetour;
+		int    nbParametre = 0;
+		String visibilitee = LectureFichier.TAB_VISIBILITE_FR[0];
+		String nom;
+		String typeParametre;
+		String nomParametre;
+		String typeRetour;
 
 		ArrayList<Parametre> tabParametre = new ArrayList<Parametre>();
 
+		ligne = ligne.replace("(", " ");
+		ligne = ligne.replace(")", " ");
 
 		String[] ligneSplit = ligne.split(" ");
 
-		if(ligneSplit[1].equals("class"))
-				return;
-
-		if(ligneSplit[1].equals("static"))
-			isStatic = true;
 
 
-		if( ligneSplit.length %2 == 0 && !isStatic )
+		if( ligneSplit.length %2 == 0 )
 		{
 			lireConstructeur( ligneSplit );
 			return;
@@ -127,39 +152,22 @@ public class LectureFichier
 			}
 		}
 
-		if(isStatic)
+		typeRetour = ligneSplit[1];
+		nom        = ligneSplit[2];
+
+
+		if(typeRetour.equals("class"))
+				return;
+
+
+		if(ligneSplit.length > 3)
+		for(int i = 3; i+1 < ligneSplit.length; i=i+2)
 		{
-			typeRetour = ligneSplit[2];
-			nom        = ligneSplit[3];
-		}
-		else
-		{
-			typeRetour = ligneSplit[1];
-			nom        = ligneSplit[2];
-		}
-
-		if(nom.equals("main"))
-			return;
-
-
-		int compteur = ligneSplit.length;
-
-		if(ligneSplit.length > 3 && !isStatic)
-			compteur = 3;
-		else
-			if(ligneSplit.length > 4 && isStatic)
-				compteur = 4;
-
-
-		while(compteur+1 < ligneSplit.length)
-		{
-			typeParametre = ligneSplit[compteur];
-			nomParametre  = ligneSplit[compteur+1];
+			typeParametre = ligneSplit[i];
+			nomParametre  = ligneSplit[i+1];
 			nbParametre++;
 
 			tabParametre.add(new Parametre( nbParametre, nomParametre, typeParametre));
-
-			compteur++;
 		}
 
 
@@ -241,7 +249,6 @@ public class LectureFichier
 		{
 			if ( methode.getVisibilite().equals("privée") )
 			{
-				System.out.println("test");
 				sVisibilite = "- ";
 			}
 			else

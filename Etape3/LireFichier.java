@@ -3,8 +3,10 @@ import java.util.*;
 
 public class LireFichier
 {
-	public final String[]             TAB_VISIBILITE = { "public", "private", "protected" };
+	public final String[]             TAB_VISIBILITE = { "public", "private", "protected"                   };
 	public final String[]             TAB_MOTCLE     = { "class", "interface", "enum", "record", "abstract" };
+	public final String[]             TAB_MODIFIEURS = { "static", "final", "abstract", 
+	                                                     "native", "strictfp", "synchronized" };
 
 	private LireDossier               lectureDossier ;
 	

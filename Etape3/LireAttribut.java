@@ -38,16 +38,18 @@ public class LireAttribut
         for (String m : mots) 
         {
 
-
-            // visibilité
-            if (Arrays.asList(this.lireFichier.TAB_VISIBILITE).contains(m)) 
+            for ( String s : this.lireFichier.TAB_VISIBILITE )
             {
-                visibilite = m;
-                continue;
+                if ( s.contains( m ) ) 
+                {
+                    visibilite = m;
+                    continue;
+                }
             }
+            // visibilité
 
             // static ?
-            if (m.equals("static")) 
+            if ( m.equals("static") ) 
             {
                 isStatic = true;
                 continue;

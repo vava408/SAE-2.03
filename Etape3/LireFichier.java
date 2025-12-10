@@ -50,10 +50,10 @@ public class LireFichier
 		return this.lireAttribut.getListeAttributs();
 	}
 
-	/*public ArrayList<Methode> getListeMethodes()
+	public ArrayList<Methode> getListeMethodes()
 	{
 		return this.lireMethode.getListeMethodes();
-	}*/
+	}
 
 	//lit le fichier passé en paramètre 
 	private void lireFichier( String fileName )

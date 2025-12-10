@@ -64,7 +64,7 @@ public class Vue
 
 		sRet += ligne + "\n";
 
-		/*for (Methode methode : this.lireFichier.getListeMethodes() )
+		for (Methode methode : this.lireFichier.getListeMethodes() )
 		{
 			if (methode.getVisibilite().equals("privée"))
 			{
@@ -105,7 +105,7 @@ public class Vue
 			}
 
 			sRet += "\n";
-		}*/
+		}
 
 		sRet += ligne + "\n";
 

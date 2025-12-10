@@ -1,3 +1,9 @@
+package src.metier;
+
+import src.membres.Attribut;
+import src.membres.Methode;
+import src.membres.Parametre;
+
 import java.io.FileInputStream;
 import java.util.*;
 

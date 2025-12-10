@@ -1,3 +1,5 @@
+package src.membres;
+
 public class Attribut
 {
 	private int attributId;

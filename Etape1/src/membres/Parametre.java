@@ -1,3 +1,5 @@
+package src.membres;
+
 public class Parametre 
 {
 	private int        id;

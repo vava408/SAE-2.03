@@ -72,7 +72,7 @@ public class LireDossier
 									cpt2--;
 								}
 								
-								this.ajoutAssociation( lF1 , a1.getType(), multipliciteA, multipliciteB, true );
+								break; // Important : sortir de la boucle après avoir trouvé la relation bidirectionnelle
 							}
 						}
 
@@ -82,10 +82,8 @@ public class LireDossier
 							cpt1--;
 						}
 						
-						if ( unidirectionnel )
-						{
-							this.ajoutAssociation( lF1, a1.getType(), multipliciteA, multipliciteB, false );
-						}
+						this.ajoutAssociation( lF1, a1.getType(), multipliciteA, multipliciteB, !unidirectionnel );
+						break; // Important : sortir de la boucle lF2 après avoir trouvé et traité la classe
 					}
 				}
 			}

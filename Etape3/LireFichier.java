@@ -90,7 +90,7 @@ public class LireFichier
 						}
 						else
 						{
-							//this.lireMethode.lireMethode( tabMots );
+							this.lireMethode.lireMethode( tabMots );
 						}
 					}
 

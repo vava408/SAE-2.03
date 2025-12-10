@@ -5,15 +5,59 @@ import java.util.HashSet;
 
 public class LireDossier
 {
-	private HashSet<LireFichier>					         hSClasses;
-	private HashMap<LireFichier, ArrayList<Association>>  hMAssociations;
+	private HashSet<String>		                         hSClasses;
+	private HashMap<LireFichier, ArrayList<Association>> hMAssociations;
 
 	public LireDossier( String cheminDossier )
 	{
-		hSClasses	   = new HashSet<LireFichier>();
+		hSClasses	   = new HashSet<String>();
 		hMAssociations = new HashMap<LireFichier, ArrayList<Association>>();
 
 		this.lireDossier( cheminDossier );
+
+		this.creerAssociation();
+	}
+
+	private void creerAssociation()
+	{
+		for ( LireFichier lF1 : this.hMAssociations.keySet() )
+		{
+			for ( Attribut a : lF1.getListeAttributs() )
+			{
+				for ( LireFichier lF2 : this.hMAssociations.keySet() )
+				{
+					if ( a.getType().contains( lF2.getNomClasse() ) )
+					{
+						if ( this.hSClasses.contains( a.getType() ) )
+						{
+							this.ajoutAssociation( lF1 , a.getType(), 
+												   this.calculMultiplicite( a.getType(), lF1.getNomClasse() ) );
+
+							lF1.getListeAttributs().remove( a );
+						}
+					}
+				}
+			}
+		}
+	}
+
+	private String calculMultiplicite( String type, String nomClasse )
+	{
+		String sRet = "1..1";
+		
+		if ( type.contains( "<" ) && type.contains( ">" ) || type.contains( "[]" ) )
+		{
+			sRet = "0..*";
+		}
+
+		return sRet;
+	}
+	
+	public void ajoutAssociation( LireFichier lF, String nomAutreClasse, String multipliciteSource )
+	{
+		Association a = new Association ( nomAutreClasse, multipliciteSource );
+		
+		this.hMAssociations.get( lF ).add( a );
 	}
 
 	private void lireDossier( String cheminDossier )
@@ -23,11 +67,11 @@ public class LireDossier
 		
 		for( File fichier : listeFichiers )
 		{
-			if( fichier.isFile() && fichier.getName().endsWith( ".java" ) )
+			if ( fichier.isFile() && fichier.getName().endsWith( ".java" ) )
 			{
 				LireFichier lireFichier = new LireFichier( this, fichier.getAbsolutePath() ); 
 
-				this.hSClasses.add( lireFichier );
+				this.hSClasses.add( lireFichier.getNomClasse() );
 
 				if( ! this.hMAssociations.containsKey( lireFichier ) )
 				{
@@ -37,14 +81,10 @@ public class LireDossier
 		}
 	}
 
-	public void ajoutAssociation( LireFichier lireFichier, String nomAutreClasse, String multipliciteSource )
-	{
-		this.hMAssociations.get( lireFichier ).add( new Association ( nomAutreClasse, multipliciteSource) );
-	}
 
 	public boolean nomEstDansRepertoire( String nomClasse )
 	{
-		for ( LireFichier lF : this.hSClasses )
+		for ( LireFichier lF : this.hMAssociations.keySet() )
 		{
 			if ( lF.getNomClasse().equals( nomClasse ) )
 			{
@@ -60,10 +100,12 @@ public class LireDossier
 		for( LireFichier lF : this.hMAssociations.keySet() )
 		{
 			System.out.println( lF.toString() );
+
+			System.out.println( lF. );
 		}
 	}
 
-	public static void main(String[] args) 
+	public static void main( String[] args ) 
 	{
 		LireDossier lectureDossier = new LireDossier( args[0] );
 

@@ -13,15 +13,20 @@ public class LireMethode
 		this.lireFichier = lireFichier;
 	}
 
+	public ArrayList<Methode> getListeMethodes() 
+	{
+		return this.listeMethodes;
+	}
+
 	public void lireMethode( String[] mots) 
 	{
 		int    nbParametre = 0;
 		
 		String visibilite;
-		String nom;
+		String nom = "";
 		String typeParametre;
 		String nomParametre;
-		String typeRetour;
+		String typeRetour = "";
 
         boolean estStatic = false;
         boolean estFinal = false;
@@ -34,7 +39,6 @@ public class LireMethode
 
 		int cpt = 1;	
 
-        // 1. Analyse des mots
         for (int i = 0; i < mots.length; i++)
         {
 			String m = mots[i];
@@ -74,10 +78,6 @@ public class LireMethode
 			}
         }
 
-		typeRetour = mots[cpt];
-		nom = mots[cpt+1];
-
-
 		if( cpt <= mots.length )
 		{
 
@@ -107,15 +107,8 @@ public class LireMethode
 			}
 		}
 
-
 		Methode methode = new Methode(nom, visibilite, typeRetour, tabParametre, estStatic, estFinal);
 
 		this.listeMethodes.add(methode);
 	}
-
-	public ArrayList<Methode> getListeMethodes() 
-	{
-		return this.listeMethodes;
-	}
-
 }

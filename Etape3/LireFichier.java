@@ -119,32 +119,6 @@ public class LireFichier
 	//affichage de la classe lue sous forme textuelle
 	public String toString()
 	{
-		String sRet = "";
-		String sVisibilite = "";
-		String ligne = "------------------------------------------------";
-
-		sRet += ligne + "\n";
-
-		sRet += String.format("%24s", this.getNomClasse()) + "\n";
-
-		sRet += ligne + "\n";
-
-		for (Attribut attribut : this.getListeAttributs() )
-		{
-
-			if (attribut.getVisibilite().equals("privée"))
-			{
-
-				sVisibilite = "- ";
-			}
-			else
-			{
-				sVisibilite = "+ ";
-			}
-
-			sRet += sVisibilite + attribut.getNom() + "\t" + ": " + attribut.getType() + "\n";
-		}
-		
-		return sRet;
+		return this.vue.afficher();
 	}
 }

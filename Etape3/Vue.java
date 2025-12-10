@@ -66,7 +66,7 @@ public class Vue
 
 		for (Methode methode : this.lireFichier.getListeMethodes() )
 		{
-			if (methode.getVisibilite().equals("privée"))
+			if (methode.getVisibilite().equals("private"))
 			{
 				sVisibilite = "- ";
 			}

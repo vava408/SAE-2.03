@@ -1,6 +1,8 @@
 import java.io.File;
 import java.util.ArrayList;
 
+import src.membres.Association;
+
 public class LireDossier
 {
 	private ArrayList<Association>                       lstAssociations;

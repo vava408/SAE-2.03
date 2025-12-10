@@ -1,7 +1,7 @@
 package src.membres;
 import java.util.*;
 
-import Parametre;
+
 
 public class Methode
 {

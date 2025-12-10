@@ -2,7 +2,7 @@ package src.metier;
 import java.io.File;
 import java.util.ArrayList;
 
-import Association;
+import src.membres.Association;
 import src.membres.Attribut;
 
 public class LireDossier

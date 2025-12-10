@@ -21,7 +21,7 @@ public class LireFichier
 	private LireAttribut              lireAttribut   ;
 	private Vue                       vue            ;
 	
-	
+
 	private String                    motCle         ;
 	private String                    nomClasse      ;
 

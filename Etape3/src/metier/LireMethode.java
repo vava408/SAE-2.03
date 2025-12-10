@@ -1,7 +1,5 @@
 package src.metier;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 
 import src.membres.Methode;
 import src.membres.Parametre;

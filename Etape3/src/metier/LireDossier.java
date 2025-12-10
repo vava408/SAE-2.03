@@ -1,4 +1,5 @@
 package src.metier;
+
 import java.io.File;
 import java.util.ArrayList;
 
@@ -7,8 +8,8 @@ import src.membres.Attribut;
 
 public class LireDossier
 {
-	private ArrayList<Association>                       lstAssociations;
-	private ArrayList<LireFichier>                       lstLireFichiers;
+	private ArrayList<Association> lstAssociations;
+	private ArrayList<LireFichier> lstLireFichiers;
 
 	public LireDossier( String cheminDossier )
 	{
@@ -22,7 +23,7 @@ public class LireDossier
 
 	private void lireDossier( String cheminDossier )
 	{
-		File   dossier       = new File( cheminDossier );
+		File   dossier       = new File ( cheminDossier );
 		File[] listeFichiers = dossier.listFiles();
 		
 		for( File fichier : listeFichiers )

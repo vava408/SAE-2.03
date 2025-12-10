@@ -13,12 +13,12 @@ public class Methode
 	public Methode(String nom, String visibilite, String retour, ArrayList<Parametre> tabParametre, 
 		           boolean estStatic, boolean estFinal)
 	{
-		this.nom          = nom;
-		this.visibilite   = visibilite;
-		this.retour       = retour;
+		this.nom          = nom         ;
+		this.visibilite   = visibilite  ;
+		this.retour       = retour      ;
 		this.tabParametre = tabParametre;
-		this.estStatic    = estStatic;
-		this.estFinal     = estFinal;
+		this.estStatic    = estStatic   ;
+		this.estFinal     = estFinal    ;
 	}
 
 	//retourne le nom de la méthode

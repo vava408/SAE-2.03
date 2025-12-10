@@ -8,12 +8,14 @@ public class Methode
 	private ArrayList<Parametre> tabParametre;
 
 	// constructeur
-	public Methode(String nom, String visibilite, String retour, ArrayList<Parametre> tabParametre)
+	public Methode(String nom, String visibilite, String retour, ArrayList<Parametre> tabParametre, boolean estStatic, boolean estFinal)
 	{
 		this.nom = nom;
 		this.visibilite = visibilite;
 		this.retour = retour;
 		this.tabParametre = tabParametre;
+		this.estStatic  = estStatic;
+		this.estFinal   = estFinal;
 	}
 
 	//retourne le nom de la méthode
@@ -39,6 +41,12 @@ public class Methode
 	{
 		return this.tabParametre;
 	}
+
+	// retourne true si l'attribut est static
+	public boolean isStatic()     { return estStatic ; }
+
+	// retourne true si l'attribut est final
+	public boolean isFinal()      { return estFinal  ; }
 
 	//modifie le nom de la méthode
 	public void setNom(String nom) 

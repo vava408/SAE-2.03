@@ -6,8 +6,6 @@ public class LireMethode
 {
 	LireFichier                   lireFichier;
 
-	private static final String[] TAB_VISIBILITE = { "public", "private", "protected" }; // this.lireFichier.TAB_VISIBILITE
-	
 	private ArrayList<Methode>    listeMethodes  = new ArrayList<Methode>();
 	
 	public LireMethode ( LireFichier lireFichier )
@@ -15,7 +13,7 @@ public class LireMethode
 		this.lireFichier = lireFichier;
 	}
 
-	private void lireMethode( String[] mots) // ex ["private", "void", "lireMethodes", "String[]", "mots"]
+	private void lireMethode( String[] mots) 
 	{
 		int    nbParametre = 0;
 		String visibilite;
@@ -25,13 +23,15 @@ public class LireMethode
 		String nomParametre;
 		String typeRetour;
 
-        boolean isStatic = false;
-        boolean isFinal = false;
+        boolean estStatic = false;
+        boolean estFinal = false;
 
 		ArrayList<Parametre> tabParametre = new ArrayList<Parametre>();
 
 
 		visibilite = mots[0];
+
+		int cpt = 0;	
 
         // 1. Analyse des mots
         for (int i = 0; i < mots.length; i++)
@@ -41,28 +41,16 @@ public class LireMethode
             // static ?
             if (m.equals("static")) 
             {
-                isStatic = true;
+                estStatic = true;
                 continue;
             }
 
             // final ?
             if (m.equals("final")) 
             {
-                isFinal = true;
+                estFinal = true;
                 continue;
             }
-        }
-
-
-
-
-
-
-
-		int cpt = 0;		
-		while ( cpt < mots.length )
-		{
-			String m = mots[ cpt ];
 
 			for( String mod : this.lireFichier.TAB_MODIFIEURS )
 			{
@@ -73,66 +61,40 @@ public class LireMethode
 				}
 			}
 
-			nom = mots[cpt];
+			if (this.lireFichier.getNomClasse().equals(m)) 
+			{
+				typeRetour = null;
+			}
 
-
-		
-			typeParametre = mots[ cpt ];
-    		nomParametre  = mots[ cpt + 1 ];
-
-			nbParametre++;
-			tabParametre.add(new Parametre( nbParametre, nomParametre, typeParametre));
-		
-		}
-		Collections.reverse(tabParametre);
-		
-		///
-		for (String m : mots) 
-        {
-            // visibilité
-            if (Arrays.asList(TAB_VISIBILITE).contains(m)) 
-            {
-                visibilite = m;
-            }
-
-			// type
-            if (this.lireFichier.getNomClasse().equals(m)) 
-            {
-                typeRetour = null;
-            }
-
-			//parametre
-
-
-
-
-
-
-
-		}
-	
-		for (String m : this.lireFichier.TAB_MODIFIEURS) 
-        {
-			
-		}
-
-
-		if(typeRetour.equals("class"))
+			for( String mot : this.lireFichier.TAB_MOTCLE )
+			{
+				if(m.equals(mot))
 				return;
+			}
+        }
+
+		typeRetour = mots[cpt];
+		nom = mots[cpt+1];
 
 
-		if(ligneSplit.length > 3)
-		for(int i = 3; i+1 < ligneSplit.length; i=i+2)
+		cpt++;
+		if( cpt < mots.length )
 		{
-			typeParametre = ligneSplit[i];
-			nomParametre  = ligneSplit[i+1];
-			nbParametre++;
+			while ( cpt < mots.length )
+			{
+				String m = mots[ cpt ];
+			
+				typeParametre = mots[ cpt + 1 ];
+				nomParametre  = mots[ cpt + 2 ];
 
-			tabParametre.add(new Parametre( nbParametre, nomParametre, typeParametre));
+				nbParametre++;
+				tabParametre.add(new Parametre( nbParametre, nomParametre, typeParametre));
+				cpt = cpt + 2;
+			}
 		}
 
 
-		Methode methode = new Methode(nom, visibilitee, typeRetour, tabParametre);
+		Methode methode = new Methode(nom, visibilite, typeRetour, tabParametre, estStatic, estFinal);
 
 		this.listeMethodes.add(methode);
 	}

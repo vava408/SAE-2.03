@@ -81,11 +81,19 @@ public class LireMethode
 		if( cpt <= mots.length )
 		{
 
-			typeRetour = mots[cpt];
-			nom = mots[cpt+1];
-
-			// avancer au premier paramètre
-			cpt += 2;
+			if (constructeur) 
+			{
+				typeRetour = null;
+				nom = mots[cpt];      // nom = Point
+				cpt += 1;             // avancer vers paramètres
+			} 
+			else 
+			{
+				typeRetour = mots[cpt];
+				nom = mots[cpt + 1];
+				cpt += 2;             // avancer vers paramètres
+			}
+			
 			while ( cpt + 1  < mots.length )
 			{
 				String m = mots[ cpt ];
@@ -99,11 +107,6 @@ public class LireMethode
 			}
 		}
 
-		if(constructeur)
-		{
-			typeRetour = null;
-		}
-
 
 		Methode methode = new Methode(nom, visibilite, typeRetour, tabParametre, estStatic, estFinal);
 
@@ -115,5 +118,4 @@ public class LireMethode
 		return this.listeMethodes;
 	}
 
-	
 }

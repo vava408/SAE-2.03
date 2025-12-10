@@ -2,12 +2,12 @@ import java.util.*;
 
 public class Methode 
 {
-    private String   nom;
-    private String   visibilite;
-    private String   retour;
+	private String   nom;
+	private String   visibilite;
+	private String   retour;
 	private ArrayList<Parametre> tabParametre;
 
-
+	// constructeur
 	public Methode(String nom, String visibilite, String retour, ArrayList<Parametre> tabParametre)
 	{
 		this.nom = nom;
@@ -16,54 +16,61 @@ public class Methode
 		this.tabParametre = tabParametre;
 	}
 
+	//retourne le nom de la méthode
 	public String getNom() 
 	{
 		return this.nom;
 	}
 
+	//retourne la visibilité de la méthode
 	public String getVisibilite() 
 	{
 		return this.visibilite;
 	}
 
-
+	//retourne le type de retour de la méthode
 	public String getRetour() 
 	{
 		return this.retour;
 	}
 
-
+	//retourne la liste des paramètres de la méthode
 	public ArrayList<Parametre> getParametre() 
 	{
 		return this.tabParametre;
 	}
 
+	//modifie le nom de la méthode
 	public void setNom(String nom) 
 	{
 		this.nom = nom;
 	}
 
+	//modifie la visibilité de la méthode
 	public void setVisibilite(String visibilite) 
 	{
 		this.visibilite = visibilite;
 	}
 
+	//modifie le type de retour de la méthode
 	public void setRetour(String retour) 
 	{
 		this.retour = retour;
 	}
 
+	//modifie la liste des paramètres de la méthode
 	public void setParametre(ArrayList<Parametre> parametre) 
 	{
 		this.tabParametre = parametre;
 	}
 
-    public String toString() 
+	// affichage textuel de la méthode
+	public String toString() 
 	{
-        String sRet = "";
+		String sRet = "";
 
-        sRet += "méthode : " + this.nom;
-        sRet += " visibilité : " + this.visibilite;
+		sRet += "méthode : " + this.nom;
+		sRet += " visibilité : " + this.visibilite;
 
 		if(this.retour != null)
 			sRet += " type de retour : " + this.retour;
@@ -80,7 +87,7 @@ public class Methode
 
 		sRet += "\n";
 
-        return sRet;
-    }
+		return sRet;
+	}
 
 }

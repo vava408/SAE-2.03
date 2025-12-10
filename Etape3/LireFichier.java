@@ -19,6 +19,7 @@ public class LireFichier
 	private String                    motCle         ;
 	private String                    nomClasse      ;
 
+	// constructeur  prend en paramètre la classe LireDossier et le nom du fichier à lire
 	public LireFichier( LireDossier lectureDossier, String fileName) 
 	{
 		this.lectureDossier  = lectureDossier;
@@ -31,16 +32,19 @@ public class LireFichier
         lireFichier( fileName );
     }
 
+	//retourne le nom de la classe lue
 	public String getNomClasse()
 	{
 		return this.nomClasse;
 	}
 	
+	//retourne le mot clé de la classe lue (class, interface, enum, record, abstract)
 	public String getMotCle()
 	{
 		return this.motCle;
 	}
 
+	//retourne la liste des attributs lus
 	public ArrayList<Attribut> getListeAttributs()
 	{
 		return this.lireAttribut.getListeAttributs();
@@ -51,6 +55,7 @@ public class LireFichier
 		return this.lireMethode.getListeMethodes();
 	}*/
 
+	//lit le fichier passé en paramètre 
 	private void lireFichier( String fileName )
 	{
 		Scanner  sc     ;
@@ -97,6 +102,8 @@ public class LireFichier
 		catch (Exception e){ e.printStackTrace(); }
 	}
 
+
+	//vérifie si le mot passé en paramètre est un mot clé de déclaration de classe
 	private boolean estLaPremiereLigne( String mot )
 	{
 		for ( String motCle : TAB_MOTCLE )
@@ -109,6 +116,7 @@ public class LireFichier
 		return false;
 	}
 
+	//affichage de la classe lue sous forme textuelle
 	public String toString()
 	{
 		String sRet = "";

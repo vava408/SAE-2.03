@@ -3,83 +3,87 @@ import java.util.Arrays;
 
 public class LireAttribut 
 {
-    LireFichier lireFichier;
+	LireFichier lireFichier;
 
-    private ArrayList<Attribut> listeAttributs;
-    private int compteurId = 0;
-    
-    public LireAttribut( LireFichier lireFichier ) 
-    {
-        this.lireFichier = lireFichier;
-        this.listeAttributs = new ArrayList<>();
-    }
-    
-    public ArrayList<Attribut> getListeAttributs() 
-    {
-        return this.listeAttributs;
-    }
+	private ArrayList<Attribut> listeAttributs;
+	private int compteurId = 0;
+	
 
-    public void lireAttribut(String[] mots) 
-    {
+	// constructeur prend en paramètre la classe LireFichier
+	public LireAttribut( LireFichier lireFichier ) 
+	{
+		this.lireFichier = lireFichier;
+		this.listeAttributs = new ArrayList<>();
+	}
+	
+	//retourne la liste des attributs lus
+	public ArrayList<Attribut> getListeAttributs() 
+	{
+		return this.listeAttributs;
+	}
 
-        String visibilite = "default";
-        String type = "";
-        String nom = "";
-        boolean isStatic = false;
-        boolean isFinal = false;
+	//lit un attribut à partir des mots (lignes) passés en paramètre
+	public void lireAttribut(String[] mots) 
+	{
 
-        //Retrait du ;ljj
-        for ( int cpt = 0; cpt < mots.length; cpt++ )
-            {
-                mots[ cpt ] = mots[ cpt ].replace( ";", "" );
-            }
-            
-        // 1. Analyse des mots
-        for (String m : mots) 
-        {
+		String visibilite = "default";
+		String type = "";
+		String nom = "";
+		boolean isStatic = false;
+		boolean isFinal = false;
 
-            for ( String s : this.lireFichier.TAB_VISIBILITE )
-            {
-                if ( s.contains( m ) ) 
-                {
-                    visibilite = m;
-                    continue;
-                }
-            }
-            // visibilité
+		//Retrait du ;ljj
+		for ( int cpt = 0; cpt < mots.length; cpt++ )
+			{
+				mots[ cpt ] = mots[ cpt ].replace( ";", "" );
+			}
+			
+		// 1. Analyse des mots
+		for (String m : mots) 
+		{
 
-            // static ?
-            if ( m.equals("static") ) 
-            {
-                isStatic = true;
-                continue;
-            }
+			for ( String s : this.lireFichier.TAB_VISIBILITE )
+			{
+				if ( s.contains( m ) ) 
+				{
+					visibilite = m;
+					continue;
+				}
+			}
+			// visibilité
 
-            // final ?
-            if (m.equals("final")) 
-            {
-                isFinal = true;
-                continue;
-            }
-        }
+			// static ?
+			if ( m.equals("static") ) 
+			{
+				isStatic = true;
+				continue;
+			}
 
-        // 2. Récupérer type et nom
-        if (mots.length >= 2) 
-        {
-            nom = mots[mots.length - 1];
-            type = mots[mots.length - 2];
-        } 
-        else 
-        {
-            System.out.println("Impossible de lire type/nom dans : " + Arrays.toString(mots));
-            return;
-        }
+			// final ?
+			if (m.equals("final")) 
+			{
+				isFinal = true;
+				continue;
+			}
+		}
 
-        // 3. Créer l'objet attribut
-        Attribut a = new Attribut(compteurId++, nom, type, visibilite, isStatic, isFinal);
+		// 2. Récupérer type et nom
+		if (mots.length >= 2) 
+		{
+			nom = mots[mots.length - 1];
+			type = mots[mots.length - 2];
+		} 
+		else 
+		{
+			System.out.println("Impossible de lire type/nom dans : " + Arrays.toString(mots));
+			return;
+		}
 
-        // 4. Ajouter à la liste
-        this.listeAttributs.add(a);
-    }
+		// 3. Créer l'objet attribut
+		Attribut a = new Attribut(compteurId++, nom, type, visibilite, isStatic, isFinal);
+
+		// 4. Ajouter à la liste
+		this.listeAttributs.add(a);
+	}
 
 }

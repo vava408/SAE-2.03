@@ -2,12 +2,13 @@ public class Vue
 {
 	private LireFichier lireFichier;
 
-
+	// constructeur prend en paramètre la classe LireFichier
 	public Vue( LireFichier lireFichier )
 	{
 		this.lireFichier = lireFichier;
 	}
 
+	//affichage de la classe lue sous forme textuelle 
 	public String afficher()
 	{
 		String sRet = "";
@@ -29,6 +30,7 @@ public class Vue
 		return sRet;
 	}
 
+	//creation du String pour afficher une classe
 	public String afficherClass(String typeClasse)
 	{
 		String sRet = "";

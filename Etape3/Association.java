@@ -3,6 +3,8 @@ public class Association
 	String         nomClasse;
     private String multiplicity;
 
+
+	// Constructeur
 	public Association(String nomClasse, String multiplicity)
 	{
 		this.nomClasse    = nomClasse;

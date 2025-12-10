@@ -2,51 +2,59 @@ public class Parametre
 {
 	private int        id;
 	private String     nom;
-    private String     type;
+	private String     type;
 
-    public Parametre(int numParametre, String nom, String type) 
+	//constructeur
+	public Parametre(int numParametre, String nom, String type) 
 	{
 		this.id   = numParametre;
 		this.nom  = nom;
-        this.type = type;
-    }
+		this.type = type;
+	}
 
-    public String getNom() 
+	//retourne le nom
+	public String getNom() 
 	{
-        return this.nom;
-    }
+		return this.nom;
+	}
 
-    public String getType() 
+	//retourne le type
+	public String getType() 
 	{
-        return this.type;
-    }
+		return this.type;
+	}
 
+	//retourne l'id
 	public int getId() 
 	{
-        return this.id;
-    }
+		return this.id;
+	}
 
-    public void setNom(String nom) 
+	//modifie le nom
+	public void setNom(String nom) 
 	{
-        this.nom = nom;
-    }
+		this.nom = nom;
+	}
 
-    public void setType(String type) 
+	//modifie le type
+	public void setType(String type) 
 	{
-        this.type = type;
-    }
+		this.type = type;
+	}
 
+	//modifie l'id
 	public int setId() 
 	{
-        return this.id;
-    }
+		return this.id;
+	}
 
+	//affichage textuel du paramètre
 	public String toString() 
 	{
-        String sb = "";
-        sb += "p" + getId() + " :" + getNom();
-        sb += " type : " + getType();
-        return sb;
-    }
+		String sb = "";
+		sb += "p" + getId() + " :" + getNom();
+		sb += " type : " + getType();
+		return sb;
+	}
 
 }

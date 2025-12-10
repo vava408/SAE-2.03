@@ -16,8 +16,8 @@ public class LireMethode
 	public void lireMethode( String[] mots) 
 	{
 		int    nbParametre = 0;
-		String visibilite;
 		
+		String visibilite;
 		String nom;
 		String typeParametre;
 		String nomParametre;
@@ -25,6 +25,7 @@ public class LireMethode
 
         boolean estStatic = false;
         boolean estFinal = false;
+		boolean constructeur = false;
 
 		ArrayList<Parametre> tabParametre = new ArrayList<Parametre>();
 
@@ -63,7 +64,7 @@ public class LireMethode
 
 			if (this.lireFichier.getNomClasse().equals(m)) 
 			{
-				typeRetour = null;
+				constructeur = true;
 			}
 
 			for( String mot : this.lireFichier.TAB_MOTCLE )
@@ -77,20 +78,30 @@ public class LireMethode
 		nom = mots[cpt+1];
 
 
-		cpt++;
-		if( cpt < mots.length )
+		if( cpt <= mots.length )
 		{
-			while ( cpt < mots.length )
+
+			typeRetour = mots[cpt];
+			nom = mots[cpt+1];
+
+			// avancer au premier paramètre
+			cpt += 2;
+			while ( cpt + 1  < mots.length )
 			{
 				String m = mots[ cpt ];
 			
-				typeParametre = mots[ cpt + 1 ];
-				nomParametre  = mots[ cpt + 2 ];
+				typeParametre = mots[ cpt ];
+				nomParametre  = mots[ cpt + 1 ];
 
 				nbParametre++;
 				tabParametre.add(new Parametre( nbParametre, nomParametre, typeParametre));
-				cpt = cpt + 2;
+				cpt += 2;
 			}
+		}
+
+		if(constructeur)
+		{
+			typeRetour = null;
 		}
 
 

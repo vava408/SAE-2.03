@@ -1,44 +1,92 @@
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 
 public class LireDossier
 {
-	private HashSet<String>		                         hSClasses;
-	private HashMap<LireFichier, ArrayList<Association>> hMAssociations;
+	private ArrayList<Association>                       lstAssociations;
+	private ArrayList<LireFichier>                       lstLireFichiers;
 
 	public LireDossier( String cheminDossier )
 	{
-		hSClasses	   = new HashSet<String>();
-		hMAssociations = new HashMap<LireFichier, ArrayList<Association>>();
-
+		this.lstAssociations = new ArrayList<Association>();
+		this.lstLireFichiers = new ArrayList<LireFichier>();
+		
 		this.lireDossier( cheminDossier );
-
+		
 		this.creerAssociation();
+	}
+
+	private void lireDossier( String cheminDossier )
+	{
+		File   dossier       = new File( cheminDossier );
+		File[] listeFichiers = dossier.listFiles();
+		
+		for( File fichier : listeFichiers )
+		{
+			if ( fichier.isFile() && fichier.getName().endsWith( ".java" ) )
+			{
+				LireFichier lireFichier = new LireFichier( this, fichier.getAbsolutePath() ); 
+
+				if ( ! this.lstLireFichiers.contains( lireFichier ) )
+				{
+					this.lstLireFichiers.add( lireFichier );
+				}
+			}
+		}
 	}
 
 	private void creerAssociation()
 	{
-		for ( LireFichier lF1 : this.hMAssociations.keySet() )
+		for ( LireFichier lF1 : this.lstLireFichiers )
 		{
-			for ( Attribut a : lF1.getListeAttributs() )
+			for ( int cpt1 = 0; cpt1 < lF1.getListeAttributs().size(); cpt1++ )
 			{
-				for ( LireFichier lF2 : this.hMAssociations.keySet() )
-				{
-					if ( a.getType().contains( lF2.getNomClasse() ) )
-					{
-						if ( this.hSClasses.contains( a.getType() ) )
-						{
-							this.ajoutAssociation( lF1 , a.getType(), 
-												   this.calculMultiplicite( a.getType(), lF1.getNomClasse() ) );
+				Attribut a1 = lF1.getListeAttributs().get( cpt1 );
 
-							lF1.getListeAttributs().remove( a );
+				for ( LireFichier lF2 : this.lstLireFichiers )
+				{
+					if ( a1.getType().contains( lF2.getNomClasse() ) )
+					{
+						String  multipliciteA   = this.calculMultiplicite( a1.getType(), lF1.getNomClasse() );
+						String  multipliciteB   = "0..*"; //on part du principe que c'est unidirectionnel au début
+						boolean unidirectionnel = true;
+
+						for ( int cpt2 = 0; cpt2 < lF2.getListeAttributs().size(); cpt2++ )
+						{
+							Attribut a2 = lF2.getListeAttributs().get( cpt2 );
+
+							if ( a2.getType().contains( lF1.getNomClasse() ) )
+							{
+								unidirectionnel = false;
+
+								multipliciteB = this.calculMultiplicite( a2.getType(), lF2.getNomClasse() );
+								
+								this.ajoutAssociation( lF1 , a1.getType(), multipliciteA, multipliciteB );
+								
+								lF2.getListeAttributs().remove( cpt2 );
+								cpt2--;
+							}
 						}
+
+						if ( unidirectionnel )
+						{
+							this.ajoutAssociation( lF1, a1.getType(), multipliciteA, multipliciteB);
+						}
+						
+						lF1.getListeAttributs().remove( cpt1 );
+						cpt1--;
 					}
 				}
 			}
 		}
+	}
+	
+	public void ajoutAssociation( LireFichier lF, String nomClasseB,
+								  String multipliciteA, String multipliciteB )
+	{
+		Association a = new Association ( lF.getNomClasse(), nomClasseB, multipliciteB, multipliciteA );
+		
+		this.lstAssociations.add( a );
 	}
 
 	private String calculMultiplicite( String type, String nomClasse )
@@ -53,38 +101,9 @@ public class LireDossier
 		return sRet;
 	}
 	
-	public void ajoutAssociation( LireFichier lF, String nomAutreClasse, String multipliciteSource )
-	{
-		Association a = new Association ( nomAutreClasse, multipliciteSource );
-		
-		this.hMAssociations.get( lF ).add( a );
-	}
-
-	private void lireDossier( String cheminDossier )
-	{
-		File   dossier       = new File( cheminDossier );
-		File[] listeFichiers = dossier.listFiles();
-		
-		for( File fichier : listeFichiers )
-		{
-			if ( fichier.isFile() && fichier.getName().endsWith( ".java" ) )
-			{
-				LireFichier lireFichier = new LireFichier( this, fichier.getAbsolutePath() ); 
-
-				this.hSClasses.add( lireFichier.getNomClasse() );
-
-				if( ! this.hMAssociations.containsKey( lireFichier ) )
-				{
-					this.hMAssociations.put( lireFichier, new ArrayList<Association>() );
-				}
-			}
-		}
-	}
-
-
 	public boolean nomEstDansRepertoire( String nomClasse )
 	{
-		for ( LireFichier lF : this.hMAssociations.keySet() )
+		for ( LireFichier lF : this.lstLireFichiers )
 		{
 			if ( lF.getNomClasse().equals( nomClasse ) )
 			{
@@ -95,13 +114,17 @@ public class LireDossier
 		return false;
 	}
 
+
 	public void afficherClasses()
 	{
-		for( LireFichier lF : this.hMAssociations.keySet() )
+		for( LireFichier lF : this.lstLireFichiers )
 		{
 			System.out.println( lF.toString() );
+		}
 
-			System.out.println( lF. );
+		for ( Association a : this.lstAssociations )
+		{
+			System.out.println( a );
 		}
 	}
 

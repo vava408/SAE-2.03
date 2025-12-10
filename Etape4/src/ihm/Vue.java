@@ -151,7 +151,7 @@ public class Vue
 		{
 			for (String classe : this.lireFichier.getMapImple().keySet())
 			{
-				sRet += classe + " hérite de " + this.lireFichier.getMapImple().get(classe) + "\n";
+				sRet += classe + " implémente " + this.lireFichier.getMapImple().get(classe) + "\n";
 			}
 		}
 		return sRet;
@@ -164,7 +164,7 @@ public class Vue
 		{
 			for (String classe : this.lireFichier.getMapHerit().keySet())
 			{
-				sRet += classe + " implémente " + this.lireFichier.getMapHerit().get(classe) + "\n";
+				sRet += classe + " hérite de  " + this.lireFichier.getMapHerit().get(classe) + "\n";
 			}
 		}
 		return sRet;

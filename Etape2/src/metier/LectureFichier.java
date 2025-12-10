@@ -1,3 +1,9 @@
+package src.metier;
+
+import src.membres.Attribut;
+import src.membres.Methode;
+import src.membres.Parametre;
+
 import java.io.FileInputStream;
 import java.util.*;
 
@@ -224,27 +230,22 @@ public class LectureFichier
 
 			sRet += sVisibilite + methode.getNom() + " (";
 
-			if ( methode.getParametre().size() == 0 )
-			{
-				sRet += ")";
-			}
 
 			for ( int cpt = 0; cpt < methode.getParametre().size(); cpt++ )
 			{
 				Parametre parametre = methode.getParametre().get( cpt );
 
-				sRet += " " + parametre.getNom() + " : " + parametre.getType();
+				String nomPropre = parametre.getNom().replace(",", "");
+
+				sRet += " " + nomPropre + " : " + parametre.getType();
 
 				if ( cpt < methode.getParametre().size() - 1 )
 				{
-					sRet += ",";
+					sRet += ", ";
 				}
-				else
-				{
-					sRet += " )";
-				}
-
 			}
+			
+			sRet += ")";
 
 			if ( methode.getRetour() != null && ! methode.getRetour().equals( "void" ) )
 			{

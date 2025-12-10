@@ -1,3 +1,5 @@
+package src.membres;
+
 import java.util.*;
 
 public class Methode 

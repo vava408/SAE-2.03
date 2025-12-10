@@ -49,7 +49,7 @@ public class Vue
 		for (Attribut attribut : this.lireFichier.getListeAttributs() )
 		{
 
-			if (attribut.getVisibilite().equals("privée"))
+			if (attribut.getVisibilite().equals("private"))
 			{
 
 				sVisibilite = "- ";

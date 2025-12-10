@@ -1,52 +1,43 @@
 import java.util.*;
 
-public class Methode 
+public class Methode
 {
-	private String   nom;
-	private String   visibilite;
-	private String   retour;
+	private String               nom         ;
+	private String               visibilite  ;
+	private String               retour      ;
 	private ArrayList<Parametre> tabParametre;
+	private boolean              estStatic   ;
+	private boolean              estFinal    ;
 
 	// constructeur
-	public Methode(String nom, String visibilite, String retour, ArrayList<Parametre> tabParametre, boolean estStatic, boolean estFinal)
+	public Methode(String nom, String visibilite, String retour, ArrayList<Parametre> tabParametre, 
+		           boolean estStatic, boolean estFinal)
 	{
-		this.nom = nom;
-		this.visibilite = visibilite;
-		this.retour = retour;
+		this.nom          = nom;
+		this.visibilite   = visibilite;
+		this.retour       = retour;
 		this.tabParametre = tabParametre;
-		this.estStatic  = estStatic;
-		this.estFinal   = estFinal;
+		this.estStatic    = estStatic;
+		this.estFinal     = estFinal;
 	}
 
 	//retourne le nom de la méthode
-	public String getNom() 
-	{
-		return this.nom;
-	}
+	public String getNom()                     { return this.nom         ; }
 
 	//retourne la visibilité de la méthode
-	public String getVisibilite() 
-	{
-		return this.visibilite;
-	}
+	public String getVisibilite()              { return this.visibilite  ; }
 
 	//retourne le type de retour de la méthode
-	public String getRetour() 
-	{
-		return this.retour;
-	}
+	public String getRetour()                  { return this.retour      ; }
 
 	//retourne la liste des paramètres de la méthode
-	public ArrayList<Parametre> getParametre() 
-	{
-		return this.tabParametre;
-	}
+	public ArrayList<Parametre> getParametre() { return this.tabParametre; }
 
 	// retourne true si l'attribut est static
-	public boolean isStatic()     { return estStatic ; }
+	public boolean isStatic()                  { return this.estStatic   ; }
 
 	// retourne true si l'attribut est final
-	public boolean isFinal()      { return estFinal  ; }
+	public boolean isFinal()                   { return this.estFinal    ; }
 
 	//modifie le nom de la méthode
 	public void setNom(String nom) 

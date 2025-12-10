@@ -120,7 +120,6 @@ public class LireDossier
 		return false;
 	}
 
-
 	public void afficherClasses()
 	{
 		for( LireFichier lF : this.lstLireFichiers )
@@ -128,9 +127,17 @@ public class LireDossier
 			System.out.println( lF.toString() );
 		}
 
+		System.out.println();
+		
 		for ( Association a : this.lstAssociations )
 		{
 			System.out.println( a );
+		}
+
+		for ( LireFichier lF : this.lstLireFichiers )
+		{
+			System.out.println( lF.afficherHeritage () );
+			System.out.println( lF.afficherInterface() );
 		}
 	}
 

@@ -1,33 +1,41 @@
 package src.membres;
 public class Association 
 {
-	private String nomClasseA   ;
-	private String nomClasseB   ;
-    private String multiplicityA;
-	private String multiplicityB;
+	private String  nomClasseA    ;
+	private String  nomClasseB    ;
+    private String  multiplicityA ;
+	private String  multiplicityB ;
+	private boolean bidirectionnel;
 
 	// Constructeur
-	public Association( String nomClasseA, String nomClasseB, String multiplicityA, String multiplicityB )
+	public Association( String nomClasseA, String nomClasseB, String multiplicityA,
+		                String multiplicityB, boolean bidirectionnel )
 	{
-		this.nomClasseA    = nomClasseA;
-		this.nomClasseB    = nomClasseB;
+		this.nomClasseA     = nomClasseA;
+		this.nomClasseB     = nomClasseB;
 
-		this.multiplicityA = multiplicityA;
-		this.multiplicityB = multiplicityB;
+		this.multiplicityA  = multiplicityA;
+		this.multiplicityB  = multiplicityB;
+
+		this.bidirectionnel = bidirectionnel;
 	}
 
-	public String getNomClasseA   () { return this.nomClasseA   ; }
-	public String getNomClasseB   () { return this.nomClasseB   ; }
-
-	public String getMultiplicityA() { return this.multiplicityA; }
-	public String getMultiplicityB() { return this.multiplicityB; }
+	public String  getNomClasseA   () { return this.nomClasseA    ; }
+	public String  getNomClasseB   () { return this.nomClasseB    ; }
+	public String  getMultiplicityA() { return this.multiplicityA ; }
+	public String  getMultiplicityB() { return this.multiplicityB ; }
+	public boolean isBidirectionnel() { return this.bidirectionnel; }
 
 	public String toString() 
 	{
 		String sRet = "";
 
-		if ( this.multiplicityA.equals( "0..*" ) && this.multiplicityB.equals( "1..1" ) ||
-	         this.multiplicityB.equals( "0..*" ) && this.multiplicityA.equals( "1..1" )    )
+		if ( this.bidirectionnel )
+		{
+			sRet += "Bidirectionnelle entre " + this.nomClasseA + "(" + this.multiplicityA + ") et " + 
+									            this.nomClasseB + "(" + this.multiplicityB + ")";
+		}
+		else
 		{
 			sRet += "Unidirectionnelle de ";
 
@@ -41,11 +49,6 @@ public class Association
 				sRet += this.nomClasseB + "(" + this.multiplicityB + ") vers " + 
 			            this.nomClasseA + "(" + this.multiplicityA + ")";
 			}
-		}
-		else
-		{
-			sRet += "Bidirectionnelle entre " + this.nomClasseA + "(" + this.multiplicityA + ") et " + 
-			                                    this.nomClasseB + "(" + this.multiplicityB + ")";
 		}
 
 		return sRet;	

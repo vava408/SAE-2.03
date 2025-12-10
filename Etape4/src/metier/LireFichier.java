@@ -140,6 +140,16 @@ public class LireFichier
 		return false;
 	}
 
+	public String afficherHeritage()
+	{
+		return this.vue.afficherHeritage();
+	}
+
+	public String afficherInterface()
+	{
+		return this.vue.afficherInterface();
+	}
+
 	//affichage de la classe lue sous forme textuelle
 	public String toString()
 	{

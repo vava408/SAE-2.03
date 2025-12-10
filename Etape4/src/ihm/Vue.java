@@ -36,8 +36,6 @@ public class Vue
 			
 		}
 
-		sRet += this.afficherHeritage();
-		sRet += this .afficherInterface();
 		return sRet;
 	}
 
@@ -146,7 +144,7 @@ public class Vue
 		return sRet;
 	}
 
-	private String afficherInterface()
+	public String afficherInterface()
 	{
 		String sRet = "";
 		if (this.lireFichier.getMapImple() != null  &&!this.lireFichier.getMapImple().isEmpty())

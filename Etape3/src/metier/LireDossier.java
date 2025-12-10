@@ -53,7 +53,7 @@ public class LireDossier
 					if ( a1.getType().contains( lF2.getNomClasse() ) )
 					{
 						String  multipliciteA   = this.calculMultiplicite( a1.getType(), lF1.getNomClasse() );
-						String  multipliciteB   = "0..*"; //on part du principe que c'est unidirectionnel au début
+						String  multipliciteB   = "0..1"; //on part du principe que c'est unidirectionnel au début
 						boolean unidirectionnel = true;
 
 						for ( int cpt2 = 0; cpt2 < lF2.getListeAttributs().size(); cpt2++ )
@@ -66,20 +66,26 @@ public class LireDossier
 
 								multipliciteB = this.calculMultiplicite( a2.getType(), lF2.getNomClasse() );
 								
-								this.ajoutAssociation( lF1 , a1.getType(), multipliciteA, multipliciteB );
+								if ( lF2.getListeAttributs().size() > 0 )
+								{
+									lF2.getListeAttributs().remove( cpt2 );
+									cpt2--;
+								}
 								
-								lF2.getListeAttributs().remove( cpt2 );
-								cpt2--;
+								this.ajoutAssociation( lF1 , a1.getType(), multipliciteA, multipliciteB, true );
 							}
 						}
 
-						if ( unidirectionnel )
+						if ( lF1.getListeAttributs().size() > 0 )
 						{
-							this.ajoutAssociation( lF1, a1.getType(), multipliciteA, multipliciteB);
+							lF1.getListeAttributs().remove( cpt1 );
+							cpt1--;
 						}
 						
-						lF1.getListeAttributs().remove( cpt1 );
-						cpt1--;
+						if ( unidirectionnel )
+						{
+							this.ajoutAssociation( lF1, a1.getType(), multipliciteA, multipliciteB, false );
+						}
 					}
 				}
 			}
@@ -87,9 +93,9 @@ public class LireDossier
 	}
 	
 	public void ajoutAssociation( LireFichier lF, String nomClasseB,
-								  String multipliciteA, String multipliciteB )
+								  String multipliciteA, String multipliciteB, boolean bidirectionnelle )
 	{
-		Association a = new Association ( lF.getNomClasse(), nomClasseB, multipliciteB, multipliciteA );
+		Association a = new Association ( lF.getNomClasse(), nomClasseB, multipliciteB, multipliciteA, bidirectionnelle );
 		
 		this.lstAssociations.add( a );
 	}

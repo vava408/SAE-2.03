@@ -13,7 +13,7 @@ public class LireMethode
 		this.lireFichier = lireFichier;
 	}
 
-	private void lireMethode( String[] mots) 
+	public void lireMethode( String[] mots) 
 	{
 		int    nbParametre = 0;
 		String visibilite;
@@ -31,7 +31,7 @@ public class LireMethode
 
 		visibilite = mots[0];
 
-		int cpt = 0;	
+		int cpt = 1;	
 
         // 1. Analyse des mots
         for (int i = 0; i < mots.length; i++)

@@ -3,7 +3,6 @@ import src.membres.Attribut;
 import src.membres.Methode;
 import src.membres.Parametre;
 import src.metier.LireFichier;
-import src.metier.LireHeritImple;
 
 public class Vue
 {
@@ -68,7 +67,7 @@ public class Vue
 				sVisibilite = "+ ";
 			}
 
-			sRet += sVisibilite + attribut.getNom() + "\t" + ": " + attribut.getType() + "\n";
+			sRet += String.format("%s%-35s: %s\n", sVisibilite, attribut.getNom(), attribut.getType());
 		}
 
 		sRet += ligne + "\n";
@@ -84,42 +83,43 @@ public class Vue
 				sVisibilite = "+ ";
 			}
 
-			sRet += sVisibilite + methode.getNom() + " (";
+			String signature = sVisibilite + methode.getNom() + " (";
 
 			if (methode.getParametre().size() == 0)
 			{
-				sRet += ")";
+				signature += ")";
 			}
 
 			for (int cpt = 0; cpt < methode.getParametre().size(); cpt++)
 			{
 				Parametre parametre = methode.getParametre().get(cpt);
 
-				sRet += " " + parametre.getNom() + " : " + parametre.getType();
+				signature += " " + parametre.getNom() + " : " + parametre.getType();
 
 				if (cpt < methode.getParametre().size() - 1)
 				{
-					sRet += ",";
+					signature += ",";
 				}
 				else
 				{
-					sRet += " )";
+					signature += " )";
 				}
 
 			}
 
 			if (methode.getRetour() != null && !methode.getRetour().equals("void"))
 			{
-				sRet += String.format("%20s", ": " + methode.getRetour());
+				sRet += String.format("%-37s: %s\n", signature, methode.getRetour());
 			}
-
-			sRet += "\n";
+			else
+			{
+				sRet += signature + "\n";
+			}
 		}
 
 		sRet += ligne + "\n";
 
 		return sRet;
-
 	}
 
 	public String afficherEnum()

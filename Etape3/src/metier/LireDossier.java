@@ -53,7 +53,7 @@ public class LireDossier
 					if ( a1.getType().contains( lF2.getNomClasse() ) )
 					{
 						String  multipliciteA   = this.calculMultiplicite( a1.getType(), lF1.getNomClasse() );
-						String  multipliciteB   = "0..1"; //on part du principe que c'est unidirectionnel au début
+						String  multipliciteB   = "0..*"; //on part du principe que c'est unidirectionnel au début
 						boolean unidirectionnel = true;
 
 						for ( int cpt2 = 0; cpt2 < lF2.getListeAttributs().size(); cpt2++ )
@@ -82,7 +82,7 @@ public class LireDossier
 							cpt1--;
 						}
 						
-						this.ajoutAssociation( lF1, a1.getType(), multipliciteA, multipliciteB, !unidirectionnel );
+						this.ajoutAssociation( lF1, lF2.getNomClasse(), multipliciteA, multipliciteB, !unidirectionnel );
 						break; // Important : sortir de la boucle lF2 après avoir trouvé et traité la classe
 					}
 				}

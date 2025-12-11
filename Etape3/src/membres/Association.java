@@ -32,12 +32,15 @@ public class Association
 
 		if ( this.bidirectionnel )
 		{
-			sRet += "Bidirectionnelle entre " + this.nomClasseA + "(" + this.multiplicityA + ") et " + 
-									            this.nomClasseB + "(" + this.multiplicityB + ")";
+			sRet += String.format( "%-18s", "Bidirectionnelle " );
+			sRet += String.format( "%-6s", "entre " );
+			sRet += this.nomClasseA + "(" + this.multiplicityA + ") et " + 
+					this.nomClasseB + "(" + this.multiplicityB + ")";
 		}
 		else
 		{
-			sRet += "Unidirectionnelle de ";
+			sRet += String.format( "%-18s", "Unidirectionnelle " );
+			sRet += String.format( "%-6s", "de " );
 
 			if ( this.multiplicityB.equals( "1..1" ) )
 			{

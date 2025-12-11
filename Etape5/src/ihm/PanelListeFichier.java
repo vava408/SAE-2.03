@@ -2,14 +2,14 @@ package src.ihm;
 
 import javax.swing.JPanel;
 
-import src.Controleur;
-
 public class PanelListeFichier extends JPanel 
 {
-	private Controleur ctrl;
+	private FrameUML frameUML;
 
-	public PanelListeFichier ( Controleur ctrl )
+	public PanelListeFichier ( FrameUML frameUML )
 	{
-		this.ctrl = ctrl;
+		this.frameUML = frameUML;
+
+
 	}
 }

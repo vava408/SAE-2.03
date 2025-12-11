@@ -2,24 +2,17 @@ package src.ihm;
 
 import src.Controleur;
 
-import java.awt.event.*;
+import java.awt.BorderLayout;
 
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 
 public class FrameUML extends JFrame
 {
 	private Controleur        ctrl;
 
+	private Menu              menuBar;
 	private PanelPrincipal    panelPrincipal;
 	private PanelListeFichier panelListeFichier;
-
-	private JMenuItem      menuiFichierOuvrir ;
-	private JMenuItem      menuiFichierQuitter;
 	
 	public FrameUML( Controleur ctrl )
 	{
@@ -27,17 +20,20 @@ public class FrameUML extends JFrame
 
 		this.setTitle   ( "Schéma UML" );
 		this.setLocation( 50, 25       );
-		this.setSize    ( 410, 600     );
+		this.setSize    ( 1400, 800     );
+		this.setLayout  ( new BorderLayout() );
 
-		this.panelPrincipal    = new PanelPrincipal   ( this.ctrl );
-		this.panelListeFichier = new PanelListeFichier( this.ctrl );
+		this.menuBar           = new Menu             ( this );
+		this.panelPrincipal    = new PanelPrincipal   ( this );
+		this.panelListeFichier = new PanelListeFichier( this );
 
 		/*-------------------------------*/
 		/* positionnement des composants */
 		/*-------------------------------*/
 
-		this.add( this.panelPrincipal    );
-		this.add( this.panelListeFichier );
+		this.add( this.menuBar          , BorderLayout.NORTH  );
+		this.add( this.panelPrincipal   , BorderLayout.CENTER );
+		this.add( this.panelListeFichier, BorderLayout.EAST   );
 
 		/*-------------------------------*/
 		/* Finalisation                  */

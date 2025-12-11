@@ -1,18 +1,16 @@
 package src.ihm;
 
-import src.Controleur;
-
 import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
 public class PanelPrincipal extends JPanel 
 {
-	private Controleur ctrl;
+	private FrameUML frameUML;
 
-	public PanelPrincipal ( Controleur ctrl )
+	public PanelPrincipal ( FrameUML frameUML )
 	{
-		this.ctrl = ctrl;
+		this.frameUML = frameUML;
 	}
 
 	public void paintComponent (Graphics g)

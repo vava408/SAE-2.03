@@ -1,9 +1,13 @@
 package src.ihm;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.function.Consumer;
 import javax.swing.*;
 
-public class Menu extends JMenuBar {
+public class Menu extends JMenuBar implements ActionListener
+{
+    private FrameUML frameUML;
 
     private JMenu     menuFichier;
     private JMenuItem itemSauvegarde;
@@ -12,23 +16,25 @@ public class Menu extends JMenuBar {
     private JMenuItem itemExporter;
     private JMenuItem itemRefresh;
     
-    // Callbacks to be provided by the controller / application
+
     private Consumer<String> onChargerDossier;
     private Runnable onSauvegarder;
     private Consumer<String> onExporter;
     private Runnable onActualiser;
 
-    public Menu() {
-        
+    public Menu(FrameUML frameUML) 
+    {
+        this.frameUML = frameUML;
+
         // Menu principal
-        menuFichier       = new JMenu    ("Fichier"          );
+        this.menuFichier       = new JMenu    ("Menu"          );
 
         // Items du menu
-        itemSauvegarde    = new JMenuItem("Sauvegarder"   );
-        itemOuvrirDossier = new JMenuItem("Ouvrir dossier");
-        itemExporter      = new JMenuItem("Exporter"      );
-        itemRefresh       = new JMenuItem("Rafraîchir"    );
-        itemQuitter       = new JMenuItem("Quitter"       );
+        this.itemSauvegarde    = new JMenuItem("Sauvegarder"   );
+        this.itemOuvrirDossier = new JMenuItem("Ouvrir dossier");
+        this.itemExporter      = new JMenuItem("Exporter"      );
+        this.itemRefresh       = new JMenuItem("Rafraîchir"    );
+        this.itemQuitter       = new JMenuItem("Quitter"       );
 
         // Ajout des items dans le menu
         menuFichier.add         (itemSauvegarde   );
@@ -42,14 +48,34 @@ public class Menu extends JMenuBar {
         add(menuFichier);
 
         // Action 
-        itemOuvrirDossier.addActionListener(e -> {OuvrirDossier();});
-        itemSauvegarde.   addActionListener(e -> {Sauvegarder();  });
-        itemExporter.     addActionListener(e -> {Exporter();     });
-        itemRefresh.      addActionListener(e -> {Refresh();      });
+        itemOuvrirDossier.addActionListener(e -> {ouvrirDossier();});
+        itemSauvegarde.   addActionListener(e -> {sauvegarder();  });
+        itemExporter.     addActionListener(e -> {exporter();     });
+        itemRefresh.      addActionListener(e -> {refresh();      });
             
         // Action Quitter
         itemQuitter.addActionListener(e -> System.exit(0));
     }
+
+    public void actionPerformed ( ActionEvent e )
+	{
+		if ( e.getSource() == this.itemOuvrirDossier )
+        {
+            this.ouvrirDossier();
+        }
+        else if ( e.getSource() == this.itemSauvegarde )
+        {
+            this.sauvegarder();
+        }
+        else if ( e.getSource() == this.itemExporter )
+        {
+            this.exporter();
+        }
+        else if ( e.getSource() == this.itemRefresh )
+        {
+            this.refresh();
+        }
+	}
 
     // Getters si besoin de récupérer les actions
     public JMenuItem getItemSauvegarde()    { return itemSauvegarde;   }
@@ -59,38 +85,63 @@ public class Menu extends JMenuBar {
     public JMenuItem getItemQuitter()       { return itemQuitter;      }
 
 
-    public void OuvrirDossier() {
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        int returnValue = fileChooser.showOpenDialog(null);
-        if (returnValue == JFileChooser.APPROVE_OPTION) {
-            String selectedPath = fileChooser.getSelectedFile().getAbsolutePath();
-            if (onChargerDossier != null) {
-                onChargerDossier.accept(selectedPath);
+    public void ouvrirDossier() 
+    {
+        try 
+        {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            int returnValue = fileChooser.showOpenDialog(null);
+            if (returnValue == JFileChooser.APPROVE_OPTION) 
+            {
+                String selectedPath = fileChooser.getSelectedFile().getAbsolutePath();
+                if (onChargerDossier != null) 
+                {
+                    onChargerDossier.accept(selectedPath);
+                } 
             }
-        }
+        } 
+        catch (Exception ex) {}
     }
 
-    public void Sauvegarder() {
-        if (onSauvegarder != null) {
-            onSauvegarder.run();
-        }
+    public void sauvegarder() 
+    {
+        try 
+        {
+            if (onSauvegarder != null) 
+            {
+                onSauvegarder.run();
+            } 
+        } 
+        catch (Exception ex) {}
     }
 
-    public void Exporter() {
-        JFileChooser fileChooser = new JFileChooser();
-        int returnValue = fileChooser.showSaveDialog(null);
-        if (returnValue == JFileChooser.APPROVE_OPTION) {
-            String selectedPath = fileChooser.getSelectedFile().getAbsolutePath();
-            if (onExporter != null) {
-                onExporter.accept(selectedPath);
+    public void exporter() 
+    {
+        try 
+        {
+            JFileChooser fileChooser = new JFileChooser();
+            int returnValue = fileChooser.showSaveDialog(null);
+            if (returnValue == JFileChooser.APPROVE_OPTION) 
+            {
+                String selectedPath = fileChooser.getSelectedFile().getAbsolutePath();
+                if (onExporter != null) 
+                {
+                    onExporter.accept(selectedPath);
+                } 
             }
-        }
+        } 
+        catch (Exception ex) {}
     }
 
-    public void Refresh() {
-        if (onActualiser != null) {
-            onActualiser.run();
-        }
+    public void refresh() 
+    {
+        try 
+        {
+            if (onActualiser != null) 
+            {
+                onActualiser.run();
+            }
+        } catch (Exception ex) {}
     }
 }

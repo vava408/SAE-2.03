@@ -5,7 +5,7 @@
 /*- Date de création : 10/12/2025 08:30                              */
 /*-------------------------------------------------------------------*/
 
-public class Disque
+public class Disque extends Figure implements Forme
 {
 	/*--------------------------------------------------------------*/
 	/* Déclaration des attributs                                    */
@@ -16,7 +16,9 @@ public class Disque
 	/*--------------------------------------------------------------*/
 	/* Constructeur : initialise un disque                           */
 	/*--------------------------------------------------------------*/
-	public Disque(Point centre, double rayon)
+	public Disque(Point centre, double rayon
+
+)
 	{
 		this.centre = centre;
 		this.rayon  = rayon;

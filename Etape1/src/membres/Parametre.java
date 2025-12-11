@@ -47,3 +47,4 @@ public class Parametre
 	{
 		return "p" + mId + " : " + mNom + " type : " + mType;
 	}
+}

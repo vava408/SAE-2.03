@@ -29,7 +29,10 @@ public class LireHeritImple
 
 		if (mots[3].equals("implements"))
 		{
-			this.mapImplements.put(nomClasse, motCle);
+			if (this.lireFichier.nomEstDansRepertoire(motCle) )
+			{
+				this.mapImplements.put(nomClasse, motCle);
+			}
 		}
 
 		if (mots[3].equals("extends"))

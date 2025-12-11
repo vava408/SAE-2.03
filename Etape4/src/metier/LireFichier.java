@@ -52,6 +52,11 @@ public class LireFichier
 		return this.motCle;
 	}
 
+	public boolean nomEstDansRepertoire (String nomClasse)
+	{
+		return this.lectureDossier.nomEstDansRepertoire(nomClasse);
+	}
+
 	//retourne la liste des attributs lus
 	public ArrayList<Attribut> getListeAttributs()
 	{

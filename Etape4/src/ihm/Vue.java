@@ -1,65 +1,73 @@
 package src.ihm;
+
 import src.membres.Attribut;
 import src.membres.Methode;
 import src.membres.Parametre;
 import src.metier.LireFichier;
 
+/*-------------------------------------------------------------------*/
+/*- Classe Vue : Gère l’affichage textuel d’une classe UML.          */
+/*- Etape 4                                                           */
+/*- Groupe 6                                                          */
+/*- Date de création : 10/12/2025 14:30                               */
+/*-------------------------------------------------------------------*/
+
 public class Vue
 {
+	/*--------------------------------------------------------------*/
+	/* Déclaration des attributs                                    */
+	/*--------------------------------------------------------------*/
 	private LireFichier lireFichier;
 
-
-
-	// constructeur prend en paramètre la classe LireFichier
-	public Vue( LireFichier lireFichier )
+	/*--------------------------------------------------------------*/
+	/* Constructeur : initialise la vue avec un lecteur de fichier   */
+	/*--------------------------------------------------------------*/
+	public Vue(LireFichier lireFichier)
 	{
 		this.lireFichier = lireFichier;
 	}
 
-	//affichage de la classe lue sous forme textuelle 
+	/*--------------------------------------------------------------*/
+	/* Retourne la représentation textuelle de la classe UML        */
+	/*--------------------------------------------------------------*/
 	public String afficher()
 	{
 		String sRet = "";
 
-		switch ( this.lireFichier.getMotCle() )
+		switch (this.lireFichier.getMotCle())
 		{
-			case "class"    -> { sRet = this.afficherClass( this.lireFichier.getMotCle() ); }
-		
-			case "enum"     -> { sRet = this.afficherEnum (                              ); }
-			
-			case "record"   -> { sRet = this.afficherClass( "Record"          ); }
-
-			case "abstract" -> { sRet = this.afficherClass( "Abstract"        ); }
-
-			default         -> { break; }
-			
+			case "class"    -> { sRet = this.afficherClass(this.lireFichier.getMotCle()) ;}
+			case "enum"     -> { sRet = this.afficherEnum (                            ) ;}
+			case "record"   -> { sRet = this.afficherClass("Record"  )                   ;}
+			case "abstract" -> { sRet = this.afficherClass("Abstract")                   ;}
+			default         -> { break                                                   ;}
 		}
 
 		return sRet;
 	}
 
-	//creation du String pour afficher une classe
+	/*--------------------------------------------------------------*/
+	/* Affiche une classe UML (class, record, abstract…)            */
+	/*--------------------------------------------------------------*/
 	public String afficherClass(String typeClasse)
 	{
-		String sRet = "";
-		String sVisibilite = "";
-		String ligne = "------------------------------------------------";
-		if(!typeClasse.equals("class"))
-			sRet += "<<"+  typeClasse +">>\n";
-	
+		String sRet         = "";
+		String ligne        = "------------------------------------------------";
+		String sVisibilite;
 
-		sRet += ligne + "\n";
-
-		sRet += String.format("%24s", this.lireFichier.getNomClasse()) + "\n";
-
-		sRet += ligne + "\n";
-
-		for (Attribut attribut : this.lireFichier.getListeAttributs() )
+		if (!typeClasse.equals("class"))
 		{
+			sRet += "<<" + typeClasse + ">>\n";
+		}
 
+		sRet += ligne + "\n";
+		sRet += String.format("%24s", this.lireFichier.getNomClasse()) + "\n";
+		sRet += ligne + "\n";
+
+		for (Attribut attribut : this.lireFichier.getListeAttributs())
+		{
 			if (attribut.getVisibilite().equals("private"))
 			{
-
 				sVisibilite = "- ";
 			}
 			else
@@ -72,7 +80,7 @@ public class Vue
 
 		sRet += ligne + "\n";
 
-		for (Methode methode : this.lireFichier.getListeMethodes() )
+		for (Methode methode : this.lireFichier.getListeMethodes())
 		{
 			if (methode.getVisibilite().equals("private"))
 			{
@@ -85,7 +93,7 @@ public class Vue
 
 			String signature = sVisibilite + methode.getNom() + " (";
 
-			if (methode.getParametre().size() == 0)
+			if (methode.getParametre().isEmpty())
 			{
 				signature += ")";
 			}
@@ -104,7 +112,6 @@ public class Vue
 				{
 					signature += " )";
 				}
-
 			}
 
 			if (methode.getRetour() != null && !methode.getRetour().equals("void"))
@@ -122,20 +129,20 @@ public class Vue
 		return sRet;
 	}
 
+	/*--------------------------------------------------------------*/
+	/* Affiche une énumération UML                                  */
+	/*--------------------------------------------------------------*/
 	public String afficherEnum()
 	{
 		String sRet = "";
-		String sVisibilite = "";
 		String ligne = "------------------------------------------------";
+
 		sRet += "<<Enumération>>\n";
-
+		sRet += ligne + "\n";
+		sRet += String.format("%24s", this.lireFichier.getNomClasse()) + "\n";
 		sRet += ligne + "\n";
 
-		sRet += String.format ("%24s", this.lireFichier.getNomClasse() ) + "\n";
-
-		sRet += ligne + "\n";
-
-		for ( Attribut attribut : this.lireFichier.getListeAttributs() )
+		for (Attribut attribut : this.lireFichier.getListeAttributs())
 		{
 			sRet += attribut.getNom() + "\n";
 		}
@@ -144,30 +151,39 @@ public class Vue
 		return sRet;
 	}
 
+	/*--------------------------------------------------------------*/
+	/* Affiche les relations Interface / Implémentation             */
+	/*--------------------------------------------------------------*/
 	public String afficherInterface()
 	{
 		String sRet = "";
-		if (this.lireFichier.getMapImple() != null  &&!this.lireFichier.getMapImple().isEmpty())
+
+		if (this.lireFichier.getMapImple() != null && !this.lireFichier.getMapImple().isEmpty())
 		{
 			for (String classe : this.lireFichier.getMapImple().keySet())
 			{
 				sRet += classe + " implémente " + this.lireFichier.getMapImple().get(classe) + "\n";
 			}
 		}
+
 		return sRet;
 	}
 
+	/*--------------------------------------------------------------*/
+	/* Affiche les relations d’héritage                             */
+	/*--------------------------------------------------------------*/
 	public String afficherHeritage()
 	{
 		String sRet = "";
-		if (this.lireFichier.getMapHerit() != null  && !this.lireFichier.getMapHerit().isEmpty())
+
+		if (this.lireFichier.getMapHerit() != null && !this.lireFichier.getMapHerit().isEmpty())
 		{
 			for (String classe : this.lireFichier.getMapHerit().keySet())
 			{
 				sRet += classe + " hérite de  " + this.lireFichier.getMapHerit().get(classe) + "\n";
 			}
 		}
-		return sRet;
-	} 
 
+		return sRet;
+	}
 }

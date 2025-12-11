@@ -1,105 +1,91 @@
 package src.membres;
 
-import java.util.*;
+/*--------------------------------------------------------------------*/
+/*- Classe Methode : gère une méthode d’une classe UML.              */
+/*- Exercice 5                                                       */
+/*- Groupe 6                                                         */
+/*- Date de création : 08/12/2025 10:45                              */
+/*--------------------------------------------------------------------*/
 
-public class Methode 
+public class Methode
 {
-    private String   nom;
-    private String   visibilite;
-    private String   retour;
-	private ArrayList<Parametre> tabParametre;
+	/*--------------------------------------------------------------*/
+	/* Déclaration des attributs préfixés                           */
+	/*--------------------------------------------------------------*/
+	private String      mNom;
+	private String      mVisibilite;
+	private String      mRetour;
+	private Parametre[] mTabParametre;
 
-	private static final String[] TAB_TYPES_RETOUR    = { "void", "int", "double", "float", "boolean", "char", "String"};
-	private static final String[] TAB_TYPES_RETOUR_FR = {"vide", "entier", "double", "flottant", "booléen", "caractère", "chaîne" };
+	private static final String[] TAB_TYPES_RETOUR    =
+		{ "void", "int",    "double", "float",    "boolean", "char",      "String" };
+	private static final String[] TAB_TYPES_RETOUR_FR =
+		{ "vide", "entier", "double", "flottant", "booléen", "caractère", "chaîne" };
 
-
-
-	public Methode(String nom, String visibilite, String retour, ArrayList<Parametre> tabParametre)
+	/*--------------------------------------------------------------*/
+	/* Constructeur : initialise une méthode UML                    */
+	/*--------------------------------------------------------------*/
+	public Methode(String nom, String visibilite, String retour, Parametre[] tabParametre)
 	{
-		this.nom = nom;
-		this.visibilite = visibilite;
-		this.retour = retour;
-		this.tabParametre = tabParametre;
+		mNom          = nom;
+		mVisibilite   = visibilite;
+		mRetour       = retour;
+		mTabParametre = tabParametre;
 	}
 
-	public String getNom() 
+	/*--------------------------------------------------------------*/
+	/* Accesseurs                                                   */
+	/*--------------------------------------------------------------*/
+	public String      getNom()        { return mNom          ;}
+	public String      getVisibilite() { return mVisibilite   ;}
+	public String      getRetour()     { return mRetour       ;}
+	public Parametre[] getParametre()  { return mTabParametre ;}
+
+	/*--------------------------------------------------------------*/
+	/* Modificateurs                                                */
+	/*--------------------------------------------------------------*/
+	public void setNom       (String      nom)           { mNom = nom                   ;}
+	public void setVisibilite(String      visibilite)    { mVisibilite = visibilite     ;}
+	public void setRetour    (String      retour)        { mRetour = retour             ;}
+	public void setParametre (Parametre[] tabParametre)  { mTabParametre = tabParametre ;}
+
+	/*--------------------------------------------------------------*/
+	/* Retourne une chaîne décrivant l’objet Methode                */
+	/*--------------------------------------------------------------*/
+	public String toString()
 	{
-		return this.nom;
-	}
+		String sRet = "";
 
-	public String getVisibilite() 
-	{
-		return this.visibilite;
-	}
+		sRet += "méthode : "     + mNom;
+		sRet += " visibilité : " + mVisibilite;
 
-
-	public String getRetour() 
-	{
-		return this.retour;
-	}
-
-
-	public ArrayList<Parametre> getParametre() 
-	{
-		return this.tabParametre;
-	}
-
-	public void setNom(String nom) 
-	{
-		this.nom = nom;
-	}
-
-	public void setVisibilite(String visibilite) 
-	{
-		this.visibilite = visibilite;
-	}
-
-	public void setRetour(String retour) 
-	{
-		this.retour = retour;
-	}
-
-	public void setParametre(ArrayList<Parametre> parametre) 
-	{
-		this.tabParametre = parametre;
-	}
-
-    public String toString() 
-	{
-
-
-        String sRet = "";
-
-        sRet += "méthode : " + this.nom;
-        sRet += " visibilité : " + this.visibilite;
-
-		if(this.retour != null)
+		if (mRetour != null)
 		{
-
-			for (int cpt = 0; cpt < Methode.TAB_TYPES_RETOUR.length; cpt++)
+			for (int i = 0; i < TAB_TYPES_RETOUR.length; i++)
 			{
-				if ( this.retour.equals(TAB_TYPES_RETOUR[cpt] ) )
+				if (mRetour.equals(TAB_TYPES_RETOUR[i]))
 				{
-					this.retour = TAB_TYPES_RETOUR_FR[cpt];
+					mRetour = TAB_TYPES_RETOUR_FR[i];
 				}
 			}
-			
-			sRet += " type de retour : " + this.retour;
+
+			sRet += " type de retour : " + mRetour;
 		}
 
 		sRet += "\nparamètres : ";
 
-		if(this.tabParametre.isEmpty())
-			sRet += "aucun";
-		else
-			for ( Parametre p : this.tabParametre )
-			{
-				sRet += "\n" + String.format( "%14s", p.toString() );
-			}
+		if (mTabParametre == null || mTabParametre.length == 0)
+		{
+			sRet += "aucun\n";
+			return sRet;
+		}
+
+		for (int i = 0; i < mTabParametre.length; i++)
+		{
+			sRet += "\n" + String.format("%14s", mTabParametre[i].toString());
+		}
 
 		sRet += "\n";
-
-        return sRet;
-    }
-
+		return sRet;
+	}
 }

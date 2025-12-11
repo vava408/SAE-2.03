@@ -1,54 +1,49 @@
 package src.membres;
 
-public class Parametre 
+/*--------------------------------------------------------------------*/
+/*- Classe Parametre : représente un paramètre de méthode UML.        */
+/*- Exercice 5                                                        */
+/*- Groupe 6                                                          */
+/*- Date de création : 08/12/2025 11:50                               */
+/*--------------------------------------------------------------------*/
+
+public class Parametre
 {
-	private int        id;
-	private String     nom;
-    private String     type;
+	/*--------------------------------------------------------------*/
+	/* Déclaration des attributs préfixés                           */
+	/*--------------------------------------------------------------*/
+	private int    mId;
+	private String mNom;
+	private String mType;
 
-    public Parametre( int numParametre, String nom, String type ) 
+	/*--------------------------------------------------------------*/
+	/* Constructeur : initialise un paramètre                       */
+	/*--------------------------------------------------------------*/
+	public Parametre(int id, String nom, String type)
 	{
-		this.id   = numParametre;
-		this.nom  = nom;
-        this.type = type;
-    }
+		mId   = id;
+		mNom  = nom;
+		mType = type;
+	}
 
-    public String getNom() 
+	/*--------------------------------------------------------------*/
+	/* Accesseurs                                                   */
+	/*--------------------------------------------------------------*/
+	public int    getId()   { return mId   ;}
+	public String getNom()  { return mNom  ;}
+	public String getType() { return mType ;}
+
+	/*--------------------------------------------------------------*/
+	/* Modificateurs                                                */
+	/*--------------------------------------------------------------*/
+	public void setId  (int id)       { mId = id    ;}
+	public void setNom (String nom)   { mNom = nom  ;}
+	public void setType(String type)  { mType = type;}
+
+	/*--------------------------------------------------------------*/
+	/* Retourne une chaîne décrivant l’objet Parametre              */
+	/*--------------------------------------------------------------*/
+	public String toString()
 	{
-        return this.nom;
-    }
-
-    public String getType() 
-	{
-        return this.type;
-    }
-
-	public int getId() 
-	{
-        return this.id;
-    }
-
-    public void setNom(String nom) 
-	{
-        this.nom = nom;
-    }
-
-    public void setType(String type) 
-	{
-        this.type = type;
-    }
-
-	public int setId() 
-	{
-        return this.id;
-    }
-
-	public String toString() 
-	{
-        String sb = "";
-        sb += "p" + getId() + " :" + getNom();
-        sb += " type : " + getType();
-        return sb;
-    }
-
-}
+		return "p" + mId + " : " + mNom + " type : " + mType;
+	}

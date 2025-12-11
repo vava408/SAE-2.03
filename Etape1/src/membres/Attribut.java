@@ -9,48 +9,47 @@ package src.membres;
 
 public class Attribut
 {
-    /*--------------------------------------------------------------*/
-    /* Déclaration des attributs préfixés                           */
-    /*--------------------------------------------------------------*/
-    private int    mAttributId;
-    private String mNom;
-    private String mType;
-    private String mVisibilite;
-    private String mInstance;
+	/*--------------------------------------------------------------*/
+	/* Déclaration des attributs préfixés                           */
+	/*--------------------------------------------------------------*/
+	private int    mAttributId;
+	private String mNom;
+	private String mType;
+	private String mVisibilite;
+	private String mInstance;
 
-    /*--------------------------------------------------------------*/
-    /* Constructeur : initialise un attribut UML                    */
-    /*--------------------------------------------------------------*/
-    public Attribut(int attributId, String nom, String type, String visibilite, String instance)
-    {
-        mAttributId = attributId;
-        mNom        = nom;
-        mType       = type;
-        mVisibilite = visibilite;
-        mInstance   = instance;
-    }
+	/*--------------------------------------------------------------*/
+	/* Constructeur : initialise un attribut UML                    */
+	/*--------------------------------------------------------------*/
+	public Attribut(int attributId, String nom, String type, String visibilite, String instance)
+	{
+		mAttributId = attributId;
+		mNom        = nom;
+		mType       = type;
+		mVisibilite = visibilite;
+		mInstance   = instance;
+	}
 
-    /*--------------------------------------------------------------*/
-    /* Accesseur : retourne les différents attribut                 */
-    /*--------------------------------------------------------------*/
-    public int    getAttributId() { return mAttributId;}
+	/*--------------------------------------------------------------*/
+	/* Accesseur : retourne les différents attribut                 */
+	/*--------------------------------------------------------------*/
+	public int    getAttributId() { return mAttributId;}
 
-    public String getNom()        { return mNom       ;}
-  
-    public String getType()       { return mType      ;}
+	public String getNom()        { return mNom       ;}
 
-    public String getVisibilite() { return mVisibilite;}
+	public String getType()       { return mType      ;}
 
-    public String getInstance()   { return mInstance  ;}
+	public String getVisibilite() { return mVisibilite;}
+
+	public String getInstance()   { return mInstance  ;}
 
 
-    /*--------------------------------------------------------------*/
-    /* Retourne une chaîne décrivant l’objet Attribut               */
-    /*--------------------------------------------------------------*/
-    public String toString()
-    {
-        return String.format(
-            "attribut : %d nom : %-8s type : %-8s visibilité : %s portée : %s",
-                    mAttributId,  mNom,      mType,      mVisibilite,    mInstance   );
-    }
+	/*--------------------------------------------------------------*/
+	/* Retourne une chaîne décrivant l’objet Attribut               */
+	/*--------------------------------------------------------------*/
+	public String toString()
+	{
+		return String.format("attribut : %d nom : %-8s type : %-8s visibilité : %s portée : %s",
+									mAttributId,  mNom,      mType,      mVisibilite,    mInstance   );
+	}
 }

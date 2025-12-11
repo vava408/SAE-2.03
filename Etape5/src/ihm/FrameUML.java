@@ -46,6 +46,6 @@ public class FrameUML extends JFrame
 		this.setVisible( true );
 	}
 
-	// Déclenche la méthode paintComponent du PanelImage
+	// Déclenche la méthode paintComponent du PanelPrincipal
 	public void maj() { this.panelPrincipal.repaint(); }
 }

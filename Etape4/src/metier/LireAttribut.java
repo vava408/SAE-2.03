@@ -10,7 +10,7 @@ public class LireAttribut
 
 	private ArrayList<Attribut> listeAttributs;
 	private int compteurId = 0;
-	
+
 
 	// constructeur prend en paramètre la classe LireFichier
 	public LireAttribut( LireFichier lireFichier ) 
@@ -18,7 +18,7 @@ public class LireAttribut
 		this.lireFichier = lireFichier;
 		this.listeAttributs = new ArrayList<>();
 	}
-	
+
 	//retourne la liste des attributs lus
 	public ArrayList<Attribut> getListeAttributs() 
 	{
@@ -35,16 +35,17 @@ public class LireAttribut
 		boolean isStatic = false;
 		boolean isFinal = false;
 
-		//Retrait du ;ljj
+		//Retrait du ;
 		for ( int cpt = 0; cpt < mots.length; cpt++ )
 			{
 				mots[ cpt ] = mots[ cpt ].replace( ";", "" );
 			}
-			
+
 		// 1. Analyse des mots
 		for (String m : mots) 
 		{
 
+			//parcours du tableau des visibilités pour en trouver une qui correspond
 			for ( String s : this.lireFichier.TAB_VISIBILITE )
 			{
 				if ( s.contains( m ) ) 
@@ -53,16 +54,16 @@ public class LireAttribut
 					continue;
 				}
 			}
-			// visibilité
 
-			// static ?
+
+			//même chose pour static
 			if ( m.equals("static") ) 
 			{
 				isStatic = true;
 				continue;
 			}
 
-			// final ?
+			//même chose pour final
 			if (m.equals("final")) 
 			{
 				isFinal = true;
@@ -73,10 +74,10 @@ public class LireAttribut
 		// 2. Récupérer type et nom
 		if (mots.length >= 2) 
 		{
-			nom = mots[mots.length - 1];
+			nom  = mots[mots.length - 1];
 			type = mots[mots.length - 2];
-		} 
-		else 
+		}
+		else
 		{
 			System.out.println("Impossible de lire type/nom dans : " + Arrays.toString(mots));
 			return;

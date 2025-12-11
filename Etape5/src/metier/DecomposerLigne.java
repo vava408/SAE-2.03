@@ -46,8 +46,10 @@ public class DecomposerLigne
 				s.trim();
 
 				//on supprime la ligne si c'est un commentaire
-				if(s.startsWith("//"))
+				if(s.startsWith("//") || s.startsWith("/*") || s.startsWith("*/"))
+				{
 					s = null;
+				}
 
 				//on supprime la ligne si c'est une chaine de caractère
 				if(s.startsWith("\""))

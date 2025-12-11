@@ -1,33 +1,49 @@
-public class Point 
+/*--------------------------------------------------------------------*/
+/*- Classe Point : représente un point du plan                        */
+/*- Etape 1                                                           */
+/*- Groupe 6                                                          */
+/*- Date de création : 08/12/2025 10:35                               */
+/*--------------------------------------------------------------------*/
+
+public class Point
 {
-    private String nom;
-    private int    x;
-    private int    y;
+	/*--------------------------------------------------------------*/
+	/* Attributs préfixés                                           */
+	/*--------------------------------------------------------------*/
+	private String mNom;
+	private int    mX;
+	private int    mY;
 
-    public Point( String nom, int x, int y ) 
-    {
-        this.nom = nom;
-        this.x   = x;
-        this.y   = y;
-    }
+	/*--------------------------------------------------------------*/
+	/* Constructeur : initialise un point                           */
+	/*--------------------------------------------------------------*/
+	public Point(String nom, int x, int y)
+	{
+		mNom = nom;
+		mX   = x;
+		mY   = y;
+	}
 
-    public int getX() 
-    {
-        return x;
-    }
+	/*--------------------------------------------------------------*/
+	/* Accesseur coordonnée X et Y                                  */
+	/*--------------------------------------------------------------*/
+	public int getX() { return mX ;}
 
-    public int getY()
-    {
-        return y;
-    }
+	public int getY() { return mY ;}
 
-    public void setX( int x ) 
-    {
-        this.x = x;
-    }
+	/*--------------------------------------------------------------*/
+	/* Modifie la coordonnée X                                      */
+	/*--------------------------------------------------------------*/
+	public void setX(int x)
+	{
+		mX = x;
+	}
 
-    public void setY( int y ) 
-    {
-        this.y = y;
-    }
+	/*--------------------------------------------------------------*/
+	/* Modifie la coordonnée Y                                      */
+	/*--------------------------------------------------------------*/
+	public void setY(int y)
+	{
+		mY = y;
+	}
 }

@@ -1,10 +1,10 @@
 package src.membres;
 
 /*--------------------------------------------------------------------*/
-/*- Classe Methode : gère une méthode d’une classe UML.              */
-/*- Exercice 5                                                       */
-/*- Groupe 6                                                         */
-/*- Date de création : 08/12/2025 10:45                              */
+/*- Classe Methode : gère une méthode d’une classe UML.               */
+/*- Etape 1                                                           */
+/*- Groupe 6                                                          */
+/*- Date de création : 08/12/2025 10:45                               */
 /*--------------------------------------------------------------------*/
 
 public class Methode

@@ -1,70 +1,82 @@
 package src.metier;
+
 import java.util.ArrayList;
 import java.util.Arrays;
-
 import src.membres.Attribut;
 
-public class LireAttribut 
+/*-------------------------------------------------------------------*/
+/*- Classe LireAttribut : Lit les attributs d'une classe à partir    */
+/*- de lignes de code décomposées et les stocke dans une liste.     */
+/*- Etape 1                                                           */
+/*- Groupe 6                                                          */
+/*- Date de création : 08/12/2025 10:30                               */
+/*-------------------------------------------------------------------*/
+
+public class LireAttribut
 {
-	LireFichier lireFichier;
+	/*--------------------------------------------------------------*/
+	/* Déclaration des attributs                                    */
+	/*--------------------------------------------------------------*/
+	private LireFichier            lireFichier;
+	private ArrayList<Attribut>    listeAttributs;
+	private int                    compteurId = 0;
 
-	private ArrayList<Attribut> listeAttributs;
-	private int compteurId = 0;
-
-
-	// constructeur prend en paramètre la classe LireFichier
-	public LireAttribut( LireFichier lireFichier ) 
+	/*--------------------------------------------------------------*/
+	/* Constructeur : initialise la liste d'attributs             */
+	/*--------------------------------------------------------------*/
+	public LireAttribut(LireFichier lireFichier) 
 	{
-		this.lireFichier = lireFichier;
+		this.lireFichier    = lireFichier;
 		this.listeAttributs = new ArrayList<>();
 	}
 
-	//retourne la liste des attributs lus
+	/*--------------------------------------------------------------*/
+	/* Accesseur : retourne la liste des attributs lus             */
+	/*--------------------------------------------------------------*/
 	public ArrayList<Attribut> getListeAttributs() 
 	{
 		return this.listeAttributs;
 	}
 
-	//lit un attribut à partir des mots (lignes) passés en paramètre
+	/*--------------------------------------------------------------*/
+	/* Méthode : lit un attribut à partir des mots fournis         */
+	/*--------------------------------------------------------------*/
 	public void lireAttribut(String[] mots) 
 	{
-
 		String visibilite = "default";
-		String type = "";
-		String nom = "";
-		boolean isStatic = false;
-		boolean isFinal = false;
+		String type       = "";
+		String nom        = "";
+		boolean isStatic  = false;
+		boolean isFinal   = false;
 
-		//Retrait du ;
-		for ( int cpt = 0; cpt < mots.length; cpt++ )
-			{
-				mots[ cpt ] = mots[ cpt ].replace( ";", "" );
-			}
+		// retrait du ;
+		for (int cpt = 0; cpt < mots.length; cpt++)
+		{
+			mots[cpt] = mots[cpt].replace(";", "");
+		}
 
-		// 1. Analyse des mots
+		// 1. Analyse des mots pour visibilité, static et final
 		for (String m : mots) 
 		{
-
-			//parcours du tableau des visibilités pour en trouver une qui correspond
-			for ( String s : this.lireFichier.TAB_VISIBILITE )
+			// visibilite
+			for (String s : this.lireFichier.TAB_VISIBILITE)
 			{
-				if ( s.contains( m ) ) 
+				if (s.contains(m)) 
 				{
-					visibilite = m;
+					visibilite = m; 
 					continue;
 				}
 			}
 
-
-			//même chose pour static
-			if ( m.equals("static") ) 
+			// static
+			if (m.equals("static")) 
 			{
-				isStatic = true;
+				isStatic = true; 
 				continue;
 			}
 
-			//même chose pour final
-			if (m.equals("final")) 
+			// final
+			if (m.equals("final"))
 			{
 				isFinal = true;
 				continue;
@@ -83,11 +95,10 @@ public class LireAttribut
 			return;
 		}
 
-		// 3. Créer l'objet attribut
-		Attribut a = new Attribut(compteurId++, nom, type, visibilite, isStatic, isFinal);
+		// 3. Créer l'objet Attribut
+		Attribut a = new Attribut(this.compteurId++, nom, type, visibilite, isStatic, isFinal);
 
 		// 4. Ajouter à la liste
 		this.listeAttributs.add(a);
 	}
-
 }

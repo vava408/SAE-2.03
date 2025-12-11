@@ -2,162 +2,180 @@ package src.metier;
 
 import java.io.FileInputStream;
 import java.util.*;
-
 import src.ihm.Vue;
 import src.membres.Attribut;
 import src.membres.Methode;
 
+
+/*-------------------------------------------------------------------*/
+/*- Classe LireFichier : Lit un fichier Java et extrait les classes, */
+/*- méthodes, attributs, héritages et interfaces                     */
+/*- Etape 4                                                          */
+/*- Groupe 6                                                         */
+/*- Date de création : 08/12/2025 9:30                               */
+/*-------------------------------------------------------------------*/
+
 public class LireFichier
 {
-	public final String[]             TAB_VISIBILITE = { "public", "private", "protected"                   };
-	public final String[]             TAB_MOTCLE     = { "class", "interface", "enum", "record", "abstract" };
-	public final String[]             TAB_MODIFIEURS = { "static", "final", "abstract", 
-	                                                     "native", "strictfp", "synchronized" };
+    /*--------------------------------------------------------------*/
+    /* Tableaux de référence pour lecture des mots clés            */
+    /*--------------------------------------------------------------*/
+    public final String[] TAB_VISIBILITE   = { "public"  , "private"  , "protected"                       };
+    public final String[] TAB_MOTCLE       = { "class"   , "interface", "enum"     , "record", "abstract" };
+    public final String[] TAB_MODIFIEURS   = { "static"  , "final"    , "abstract" , "native", 
+	                                           "strictfp", "synchronized" };
 
-	private LireDossier               lectureDossier     ;
-	private LireHeritImple            lireHeritImplements;
-	
-	private DecomposerLigne           decomposerLigne;
-	private LireMethode               lireMethode    ;
-	private LireAttribut              lireAttribut   ;
-	private Vue                       vue            ;
-	
-	
-	private String                    motCle         ;
-	private String                    nomClasse      ;
+    /*--------------------------------------------------------------*/
+    /* Attributs de la classe                                      */
+    /*--------------------------------------------------------------*/
+    private LireDossier     lectureDossier     ;
+    private LireHeritImple  lireHeritImplements;
+	private LireMethode     lireMethode        ;
+    private LireAttribut    lireAttribut       ;
 
-	// constructeur  prend en paramètre la classe LireDossier et le nom du fichier à lire
-	public LireFichier( LireDossier lectureDossier, String fileName) 
-	{
-		this.lectureDossier  = lectureDossier;
+    private DecomposerLigne decomposerLigne;
 
-		this.decomposerLigne = new DecomposerLigne();
-		this.lireHeritImplements = new LireHeritImple( this);
-		this.lireMethode     = new LireMethode    ( this );
-		this.lireAttribut    = new LireAttribut   ( this );
-		this.vue             = new Vue            ( this );
+    private Vue             vue            ;
 
-        lireFichier( fileName );
+    private String          motCle         ;
+    private String          nomClasse      ;
+
+    /*--------------------------------------------------------------*/
+    /* Constructeur : initialise la lecture d'un fichier           */
+    /*--------------------------------------------------------------*/
+    public LireFichier(LireDossier lectureDossier, String fileName)
+    {
+        this.lectureDossier      = lectureDossier           ;
+        this.decomposerLigne     = new DecomposerLigne()    ;
+        this.lireHeritImplements = new LireHeritImple (this);
+        this.lireMethode         = new LireMethode    (this);
+        this.lireAttribut        = new LireAttribut   (this);
+        this.vue                 = new Vue            (this);
+
+        lireFichier(fileName);
     }
 
-	//retourne le nom de la classe lue
-	public String getNomClasse()
-	{
-		return this.nomClasse;
-	}
-	
-	//retourne le mot clé de la classe lue (class, interface, enum, record, abstract)
-	public String getMotCle()
-	{
-		return this.motCle;
-	}
+    /*--------------------------------------------------------------*/
+    /* Retourne le nom de la classe lue                             */
+    /*--------------------------------------------------------------*/
+    public String getNomClasse()
+    {
+        return this.nomClasse;
+    }
 
-	public boolean nomEstDansRepertoire (String nomClasse)
-	{
-		return this.lectureDossier.nomEstDansRepertoire(nomClasse);
-	}
+    /*--------------------------------------------------------------*/
+    /* Retourne le mot clé de la classe lue (class, interface, etc)*/
+    /*--------------------------------------------------------------*/
+    public String getMotCle()
+    {
+        return this.motCle;
+    }
 
-	//retourne la liste des attributs lus
-	public ArrayList<Attribut> getListeAttributs()
-	{
-		return this.lireAttribut.getListeAttributs();
-	}
+    /*--------------------------------------------------------------*/
+    /* Vérifie si une classe existe dans le répertoire              */
+    /*--------------------------------------------------------------*/
+    public boolean nomEstDansRepertoire(String nomClasse)
+    {
+        return this.lectureDossier.nomEstDansRepertoire(nomClasse);
+    }
 
-	public ArrayList<Methode> getListeMethodes()
-	{
-		return this.lireMethode.getListeMethodes();
-	}
+    /*---------------------------------------------------------------*/
+    /*  Accesseur : retourne les attributs de la classe              */
+    /*---------------------------------------------------------------*/
+    public ArrayList<Attribut>     getListeAttributs() { return this.lireAttribut.getListeAttributs();}
 
-	public HashMap<String, String> getMapHerit()
-	{
-		return this.lireHeritImplements.getMapExtends();
-	}
+    public ArrayList<Methode>      getListeMethodes () { return this.lireMethode .getListeMethodes ();}
 
+    public HashMap<String, String> getMapHerit      () { return this.lireHeritImplements.getMapExtends   ();}
 
-	public HashMap<String, String> getMapImple()
-	{
-		return this.lireHeritImplements.getMapImplements();
-	}
+    public HashMap<String, String> getMapImple      () { return this.lireHeritImplements.getMapImplements();}
 
-	//lit le fichier passé en paramètre 
-	private void lireFichier( String fileName )
-	{
-		Scanner  sc     ;
-		String   ligne  ;
-		String[] tabMots;
-		
-		try
-		{
-			sc = new Scanner ( new FileInputStream ( fileName ), "UTF8" );
-	
-			while ( sc.hasNextLine() )
-			{
-				ligne = sc.nextLine();
-				ligne = ligne.trim();
+    /*--------------------------------------------------------------*/
+    /* Lit le fichier Java et analyse son contenu                   */
+    /*--------------------------------------------------------------*/
+    private void lireFichier(String fileName)
+    {
+        Scanner  sc;
+        String   ligne;
+        String[] tabMots;
 
-				tabMots = this.decomposerLigne.decomposerLigne( ligne );
-				
-				if ( ! ligne.startsWith( "import" ) && !ligne.isBlank() && ligne.startsWith( "private"    ) ||
-				                                                                   ligne.startsWith( "public"    )  ||
-																				   ligne.startsWith( "protected" ) )
-				{
-					if (ligne.contains("implements") || ligne.contains("extends"))
-					{
-						this.lireHeritImplements.lireHeritImple(ligne);
-					}
+        try
+        {
+            sc = new Scanner( new FileInputStream(fileName), "UTF8" );
 
-					if ( this.estLaPremiereLigne( tabMots[1] ) )
-					{
-						this.motCle    = tabMots[ 1 ];
-						this.nomClasse = tabMots[ 2 ];
-					}
-					else
-					{
-						if ( ligne.endsWith( ";" ) )
-						{
-							this.lireAttribut.lireAttribut( tabMots );
-						}
-						else
-						{
-							this.lireMethode.lireMethode( tabMots );
-						}
-					}
+            while (sc.hasNextLine())
+            {
+                ligne   = sc.nextLine().trim();
+                tabMots = this.decomposerLigne.decomposerLigne(ligne);
 
-				}
-			}
+                if (!ligne.startsWith("import") && !ligne.isBlank() &&
+                    (ligne.startsWith("private") || ligne.startsWith("public") || ligne.startsWith("protected")))
+                {
+                    if (ligne.contains("implements") || ligne.contains("extends"))
+                    {
+                        this.lireHeritImplements.lireHeritImple(ligne);
+                    }
 
-			sc.close();
-		}
-		catch (Exception e){ e.printStackTrace(); }
-	}
+                    if (this.estLaPremiereLigne(tabMots[1]))
+                    {
+                        this.motCle    = tabMots[1];
+                        this.nomClasse = tabMots[2];
+                    }
+                    else
+                    {
+                        if (ligne.endsWith(";"))
+                        {
+                            this.lireAttribut.lireAttribut(tabMots);
+                        }
+                        else
+                        {
+                            this.lireMethode .lireMethode (tabMots);
+                        }
+                    }
+                }
+            }
 
+            sc.close();
+        }
+        catch (Exception e) { e.printStackTrace();}
+    }
 
-	//vérifie si le mot passé en paramètre est un mot clé de déclaration de classe
-	private boolean estLaPremiereLigne( String mot )
-	{
-		for ( String motCle : TAB_MOTCLE )
-		{
-			if ( mot.equals( motCle ) )
-			{
-				return true;
-			}
-		}
-		return false;
-	}
+    /*--------------------------------------------------------------*/
+    /* Vérifie si le mot passé est un mot clé de déclaration       */
+    /*--------------------------------------------------------------*/
+    private boolean estLaPremiereLigne(String mot)
+    {
+        for (String motCle : TAB_MOTCLE)
+        {
+            if (mot.equals(motCle))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 
-	public String afficherHeritage()
-	{
-		return this.vue.afficherHeritage();
-	}
+    /*--------------------------------------------------------------*/
+    /* Affiche l'héritage de la classe                              */
+    /*--------------------------------------------------------------*/
+    public String afficherHeritage()
+    {
+        return this.vue.afficherHeritage();
+    }
 
-	public String afficherInterface()
-	{
-		return this.vue.afficherInterface();
-	}
+    /*--------------------------------------------------------------*/
+    /* Affiche les interfaces implémentées par la classe            */
+    /*--------------------------------------------------------------*/
+    public String afficherInterface()
+    {
+        return this.vue.afficherInterface();
+    }
 
-	//affichage de la classe lue sous forme textuelle
-	public String toString()
-	{
-		return this.vue.afficher();
-	}
+    /*--------------------------------------------------------------*/
+    /* Affichage textuel complet de la classe                       */
+    /*--------------------------------------------------------------*/
+    public String toString()
+    {
+        return this.vue.afficher();
+    }
 }

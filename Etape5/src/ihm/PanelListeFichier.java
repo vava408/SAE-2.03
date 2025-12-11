@@ -1,5 +1,13 @@
 package src.ihm;
 
-public class PanelListeFichier {
-	
+import src.Controleur;
+
+public class PanelListeFichier 
+{
+	private Controleur ctrl;
+
+	public PanelListeFichier ( Controleur ctrl )
+	{
+		this.ctrl = ctrl;
+	}
 }

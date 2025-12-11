@@ -6,4 +6,4 @@ set -e
 # Compile tous les .java dans src/
 javac @compile.list
 
-java src.metier.LireDossier src/repertoire
+java src.Controleur src/repertoire

@@ -1,3 +1,5 @@
+src/Controleur.java
+
 src/membres/Association.java
 src/membres/Attribut.java
 src/membres/Methode.java
@@ -10,4 +12,8 @@ src/metier/LireAttribut.java
 src/metier/LireMethode.java
 src/metier/LireHeritImple.java
 
+src/ihm/FrameUML.java
+src/ihm/Menu.java
+src/ihm/PanelListeFichier.java
+src/ihm/PanelPrincipal.java
 src/ihm/Vue.java

@@ -4,6 +4,6 @@
 set -e
 
 # Compile tous les .java dans src/
-javac @compile.list
+javac @compile.list -d ./class
 
-java src.metier.LireDossier src/repertoire
+java -cp class src.metier.LireDossier data

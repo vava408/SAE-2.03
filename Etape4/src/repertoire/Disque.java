@@ -1,41 +1,48 @@
-public class Disque implements Point
+/*-----------------------------------------------------------------------*/
+/*- Classe Disque : représente un disque défini par un centre et un      */
+/*- rayon.                                                               */
+/*- Etape 4                                                              */
+/*- Groupe 6                                                             */
+/*- Date de création : 08/12/2025  9:00                                  */
+/*-----------------------------------------------------------------------*/
+
+public class Disque
 {
-    private Point  centre;
-    private double rayon;
+	/*--------------------------------------------------------------*/
+	/* Attributs                                                    */
+	/*--------------------------------------------------------------*/
+	private Point  centre;   // centre du disque
+	private double rayon;    // rayon du disque
 
-    public Disque ( Point centre, double rayon )
-    {
-        this.centre = centre;
-        this.rayon  = rayon;
-    }
+	/*--------------------------------------------------------------*/
+	/* Constructeur                                                 */
+	/*--------------------------------------------------------------*/
+	public Disque(Point centre, double rayon)
+	{
+		this.centre = centre;
+		this.rayon  = rayon ;
+	}
 
-    public Point getCentre()
-    {
-        return centre;
-    }
+	/*--------------------------------------------------------------*/
+	/* Accesseurs : retourne les attributs du disque                */
+	/*--------------------------------------------------------------*/
+	public Point getCentre() { return this.centre ;}
 
-    public double getRayon()
-    {
-        return rayon;
-    }
+	public double getRayon() { return this.rayon  ;}
 
-    public double calculerAire()
-    {
-        return Math.PI * rayon * rayon;
-    }
+	/*--------------------------------------------------------------*/
+	/* Calcul de l’aire du disque                                   */
+	/*--------------------------------------------------------------*/
+	public double calculerAire()
+	{
+		return Math.PI * this.rayon * this.rayon;
+	}
 
-    public double calculerPerimetre()
-    {
-        return 2 * Math.PI * rayon;
-    }
-
-    public void setX( int x )
-    {
-        centre.setX( x );
-    }
-
-    public void setY( int y )
-    {
-        centre.setY( y );
-    }
+	/*--------------------------------------------------------------*/
+	/* Calcul du périmètre du disque                                */
+	/*--------------------------------------------------------------*/
+	public double calculerPerimetre()
+	{
+		return 2 * Math.PI * this.rayon;
+	}
 }

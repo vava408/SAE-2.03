@@ -1,33 +1,51 @@
-public class Point 
+/*-------------------------------------------------------------------*/
+/*- Classe Point : Représente un point dans un plan (coord. x, y).   */
+/*- Etape 4                                                           */
+/*- Groupe 6                                                          */
+/*- Date de création : 10/12/2025 08:30                               */
+/*-------------------------------------------------------------------*/
+
+public class Point
 {
-    private String nom;
-    private int    x;
-    private int    y;
+	/*--------------------------------------------------------------*/
+	/* Déclaration des attributs                                    */
+	/*--------------------------------------------------------------*/
+	private String nom;
+	private int    x;
+	private int    y;
 
-    public Point( String nom, int x, int y ) 
-    {
-        this.nom = nom;
-        this.x   = x;
-        this.y   = y;
-    }
+	/*--------------------------------------------------------------*/
+	/* Constructeur : initialise un point                           */
+	/*--------------------------------------------------------------*/
+	public Point(String nom, int x, int y)
+	{
+		this.nom = nom;
+		this.x   = x;
+		this.y   = y;
+	}
 
-    public int getX() 
-    {
-        return x;
-    }
+	/*--------------------------------------------------------------*/
+	/* Accesseur : retourne le nom, la coordonnée X et Y                    */
+	/*--------------------------------------------------------------*/
+	public String getNom() { return this.nom ;}
+	
+	public int    getX()   { return this.x   ;}
 
-    public int getY()
-    {
-        return y;
-    }
+	public int    getY()   { return this.y   ;}
 
-    public void setX( int x ) 
-    {
-        this.x = x;
-    }
+	/*--------------------------------------------------------------*/
+	/* Modifie la coordonnée X                                      */
+	/*--------------------------------------------------------------*/
+	public void setX(int x)
+	{
+		this.x = x;
+	}
 
-    public void setY( int y ) 
-    {
-        this.y = y;
-    }
+	/*--------------------------------------------------------------*/
+	/* Modifie la coordonnée Y                                      */
+	/*--------------------------------------------------------------*/
+	public void setY(int y)
+	{
+		this.y = y;
+	}
 }

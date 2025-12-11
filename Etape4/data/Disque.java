@@ -1,36 +1,64 @@
-public class Disque 
+/*-------------------------------------------------------------------*/
+/*- Classe Disque : Gère un disque défini par un centre et un rayon. */
+/*- Etape 1                                                          */
+/*- Groupe 6                                                         */
+/*- Date de création : 10/12/2025 08:30                              */
+/*-------------------------------------------------------------------*/
+
+public class Disque
 {
-    private Point  centre;
-    private double rayon;
+	/*--------------------------------------------------------------*/
+	/* Déclaration des attributs                                    */
+	/*--------------------------------------------------------------*/
+	private Point  centre;
+	private double rayon;
 
-    public Disque ( Point centre, double rayon )
-    {
-        this.centre = centre;
-        this.rayon  = rayon;
-    }
+	/*--------------------------------------------------------------*/
+	/* Constructeur : initialise un disque                           */
+	/*--------------------------------------------------------------*/
+	public Disque(Point centre, double rayon)
+	{
+		this.centre = centre;
+		this.rayon  = rayon;
+	}
 
-    public double calculerAire()
-    {
-        return Math.PI * rayon * rayon;
-    }
+	/*--------------------------------------------------------------*/
+	/* Calcule et retourne l’aire du disque                         */
+	/*--------------------------------------------------------------*/
+	public double calculerAire()
+	{
+		return Math.PI * this.rayon * this.rayon;
+	}
 
-    public double calculerPerimetre()
-    {
-        return 2 * Math.PI * rayon;
-    }
+	/*--------------------------------------------------------------*/
+	/* Calcule et retourne le périmètre du disque                   */
+	/*--------------------------------------------------------------*/
+	public double calculerPerimetre()
+	{
+		return 2 * Math.PI * this.rayon;
+	}
 
-    public void setX( int x )
-    {
-        centre.setX( x );
-    }
+	/*--------------------------------------------------------------*/
+	/* Modifie la coordonnée X du centre                             */
+	/*--------------------------------------------------------------*/
+	public void setX(int x)
+	{
+		this.centre.setX(x);
+	}
 
-    public void setY( int y )
-    {
-        centre.setY( y );
-    }
-	
+	/*--------------------------------------------------------------*/
+	/* Modifie la coordonnée Y du centre                             */
+	/*--------------------------------------------------------------*/
+	public void setY(int y)
+	{
+		this.centre.setY(y);
+	}
+
+	/*--------------------------------------------------------------*/
+	/* Méthode privée de test (exemple)                              */
+	/*--------------------------------------------------------------*/
 	private void setTest(int y)
 	{
-		centre.setY(y);
+		this.centre.setY(y);
 	}
 }

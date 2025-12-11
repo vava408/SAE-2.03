@@ -16,8 +16,6 @@ public class Menu extends JMenuBar implements ActionListener
     private JMenuItem itemExporter;
     private JMenuItem itemRefresh;
     
-
-    private Consumer<String> onChargerDossier;
     private Runnable onSauvegarder;
     private Consumer<String> onExporter;
     private Runnable onActualiser;
@@ -49,30 +47,32 @@ public class Menu extends JMenuBar implements ActionListener
 
         // Définir des action commands et enregistrer ce menu comme listener
         itemOuvrirDossier.setActionCommand("ouvrirDossier");
-        itemSauvegarde.   setActionCommand("sauvegarder");
-        itemExporter.     setActionCommand("exporter");
-        itemRefresh.      setActionCommand("refresh");
-        itemQuitter.      setActionCommand("quitter");
+        itemSauvegarde   .setActionCommand("sauvegarder");
+        itemExporter     .setActionCommand("exporter");
+        itemRefresh      .setActionCommand("refresh");
+        itemQuitter      .setActionCommand("quitter");
 
         itemOuvrirDossier.addActionListener(this);
-        itemSauvegarde.addActionListener(this);
-        itemExporter.addActionListener(this);
-        itemRefresh.addActionListener(this);
-        itemQuitter.addActionListener(this);
+        itemSauvegarde   .addActionListener(this);
+        itemExporter     .addActionListener(this);
+        itemRefresh      .addActionListener(this);
+        itemQuitter      .addActionListener(this);
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e) 
+    {
         String cmd = e.getActionCommand();
         if (cmd == null) return;
 
-        switch (cmd) {
+        switch (cmd) 
+        {
             case "ouvrirDossier" -> ouvrirDossier();
-            case "sauvegarder"    -> sauvegarder();
+            case "sauvegarder"   -> sauvegarder();
             case "exporter"      -> exporter();
             case "refresh"       -> refresh();
             case "quitter"       -> System.exit(0);
-            default -> {
+            default -> 
+            {
                 // no-op
             }
         }
@@ -91,15 +91,14 @@ public class Menu extends JMenuBar implements ActionListener
         try 
         {
             JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-            int returnValue = fileChooser.showOpenDialog(null);
-            if (returnValue == JFileChooser.APPROVE_OPTION) 
+            fileChooser.setFileSelectionMode( JFileChooser.DIRECTORIES_ONLY );
+
+            int returnValue = fileChooser.showOpenDialog( null );
+            if ( returnValue == JFileChooser.APPROVE_OPTION ) 
             {
-                String selectedPath = fileChooser.getSelectedFile().getAbsolutePath();
-                if (onChargerDossier != null) 
-                {
-                    onChargerDossier.accept(selectedPath);
-                } 
+                String chemin = fileChooser.getSelectedFile().getAbsolutePath();
+
+                this.frameUML.lireDossier( chemin );
             }
         } 
         catch (Exception ex) {}
@@ -114,7 +113,7 @@ public class Menu extends JMenuBar implements ActionListener
                 onSauvegarder.run();
             } 
         } 
-        catch (Exception ex) {}
+        catch ( Exception e ) {}
     }
 
     public void exporter() 

@@ -42,6 +42,11 @@ public class FrameUML extends JFrame
 		this.setVisible( true );
 	}
 
+	public void lireDossier( String chemin )
+	{
+		this.ctrl.lireDossier( chemin );
+	}
+
 	// Déclenche la méthode paintComponent du PanelPrincipal
 	public void maj() { this.panelPrincipal.repaint(); }
 }

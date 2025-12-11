@@ -1,5 +1,5 @@
 package src.ihm;
 
-public class Menue {
+public class Menu {
 	
 }

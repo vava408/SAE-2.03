@@ -47,35 +47,36 @@ public class Menu extends JMenuBar implements ActionListener
         // Ajout du menu à la barre
         add(menuFichier);
 
-        // Action 
-        itemOuvrirDossier.addActionListener(e -> {ouvrirDossier();});
-        itemSauvegarde.   addActionListener(e -> {sauvegarder();  });
-        itemExporter.     addActionListener(e -> {exporter();     });
-        itemRefresh.      addActionListener(e -> {refresh();      });
-            
-        // Action Quitter
-        itemQuitter.addActionListener(e -> System.exit(0));
+        // Définir des action commands et enregistrer ce menu comme listener
+        itemOuvrirDossier.setActionCommand("ouvrirDossier");
+        itemSauvegarde.   setActionCommand("sauvegarder");
+        itemExporter.     setActionCommand("exporter");
+        itemRefresh.      setActionCommand("refresh");
+        itemQuitter.      setActionCommand("quitter");
+
+        itemOuvrirDossier.addActionListener(this);
+        itemSauvegarde.addActionListener(this);
+        itemExporter.addActionListener(this);
+        itemRefresh.addActionListener(this);
+        itemQuitter.addActionListener(this);
     }
 
-    public void actionPerformed ( ActionEvent e )
-	{
-		if ( e.getSource() == this.itemOuvrirDossier )
-        {
-            this.ouvrirDossier();
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String cmd = e.getActionCommand();
+        if (cmd == null) return;
+
+        switch (cmd) {
+            case "ouvrirDossier" -> ouvrirDossier();
+            case "sauvegarder"    -> sauvegarder();
+            case "exporter"      -> exporter();
+            case "refresh"       -> refresh();
+            case "quitter"       -> System.exit(0);
+            default -> {
+                // no-op
+            }
         }
-        else if ( e.getSource() == this.itemSauvegarde )
-        {
-            this.sauvegarder();
-        }
-        else if ( e.getSource() == this.itemExporter )
-        {
-            this.exporter();
-        }
-        else if ( e.getSource() == this.itemRefresh )
-        {
-            this.refresh();
-        }
-	}
+    }
 
     // Getters si besoin de récupérer les actions
     public JMenuItem getItemSauvegarde()    { return itemSauvegarde;   }

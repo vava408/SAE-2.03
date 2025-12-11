@@ -10,9 +10,9 @@ import src.membres.Parametre;
 /*--------------------------------------------------------------------*/
 /*- Classe LireFichier : lit un fichier source et extrait les         */
 /*-                      attributs et méthodes d'une classe UML.      */
-/*- Exercice 5                                                        */
+/*- Etape 1                                                           */
 /*- Groupe 6                                                          */
-/*- Date de création : 08/12/2025 11:10                               */
+/*- Date de création : 08/12/2025 09:10                               */
 /*--------------------------------------------------------------------*/
 
 public class LireFichier

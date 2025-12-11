@@ -1,31 +1,56 @@
-public class Disque 
+/*--------------------------------------------------------------------*/
+/*- Classe Disque : représente un disque géométrique                  */
+/*- Etape 1                                                           */
+/*- Groupe 6                                                          */
+/*- Date de création : 08/12/2025 10:30                               */
+/*--------------------------------------------------------------------*/
+
+public class Disque
 {
-    private Point  centre;
-    private double rayon;
+	/*--------------------------------------------------------------*/
+	/* Attributs préfixés                                           */
+	/*--------------------------------------------------------------*/
+	private Point  mCentre;
+	private double mRayon;
 
-    public Disque ( Point centre, double rayon )
-    {
-        this.centre = centre;
-        this.rayon  = rayon;
-    }
+	/*--------------------------------------------------------------*/
+	/* Constructeur : initialise un disque                          */
+	/*--------------------------------------------------------------*/
+	public Disque(Point centre, double rayon)
+	{
+		mCentre = centre;
+		mRayon  = rayon;
+	}
 
-    public double calculerAire()
-    {
-        return Math.PI * rayon * rayon;
-    }
+	/*--------------------------------------------------------------*/
+	/* Calcule l'aire du disque                                     */
+	/*--------------------------------------------------------------*/
+	public double calculerAire()
+	{
+		return Math.PI * mRayon * mRayon;
+	}
 
-    public double calculerPerimetre()
-    {
-        return 2 * Math.PI * rayon;
-    }
+	/*--------------------------------------------------------------*/
+	/* Calcule le périmètre du disque                               */
+	/*--------------------------------------------------------------*/
+	public double calculerPerimetre()
+	{
+		return 2 * Math.PI * mRayon;
+	}
 
-    public void setX( int x )
-    {
-        centre.setX( x );
-    }
+	/*--------------------------------------------------------------*/
+	/* Modifie l'abscisse du centre du disque                       */
+	/*--------------------------------------------------------------*/
+	public void setX(int x)
+	{
+		mCentre.setX(x);
+	}
 
-    public void setY( int y )
-    {
-        centre.setY( y );
-    }
+	/*--------------------------------------------------------------*/
+	/* Modifie l'ordonnée du centre du disque                       */
+	/*--------------------------------------------------------------*/
+	public void setY(int y)
+	{
+		mCentre.setY(y);
+	}
 }

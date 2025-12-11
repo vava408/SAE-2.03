@@ -51,31 +51,51 @@ public class Vue
 	/*--------------------------------------------------------------*/
 	public String afficherClass(String typeClasse)
 	{
+		final String ANSI_UNDERLINE = "\033[4m";
+		final String ANSI_RESET = "\033[0m";
 		String sRet         = "";
 		String ligne        = "------------------------------------------------";
 		String sVisibilite;
 
+		sRet += ligne + "\n";
+		
 		if (!typeClasse.equals("class"))
 		{
-			sRet += "<<" + typeClasse + ">>\n";
+			sRet += String.format("%29s","<<" + typeClasse + ">>\n");
 		}
 
-		sRet += ligne + "\n";
 		sRet += String.format("%24s", this.lireFichier.getNomClasse()) + "\n";
 		sRet += ligne + "\n";
 
 		for (Attribut attribut : this.lireFichier.getListeAttributs())
 		{
+			String sModifier = ""; // pour final ou autres annotations
+
+			// Déterminer la visibilité
 			if (attribut.getVisibilite().equals("private"))
 			{
 				sVisibilite = "- ";
 			}
 			else
 			{
-				sVisibilite = "+ ";
+				sVisibilite = "+ "; // public ou autre
 			}
 
-			sRet += String.format("%s%-35s: %s\n", sVisibilite, attribut.getNom(), attribut.getType());
+			// Ajouter l'indication "final" si nécessaire
+			if (attribut.isFinal())
+			{
+				sModifier = " {geler}";
+				sRet += String.format("%s%-35s: %s%s\n", sVisibilite, attribut.getNom(), attribut.getType(), sModifier);
+
+			}
+
+			// Souligner si static
+			if (attribut.isStatic())
+			{
+				sRet += String.format("%s%-35s: %s%s\n", sVisibilite, "\033[4m" + attribut.getNom() + "\033[0m", attribut.getType(), sModifier);
+
+			}
+			
 		}
 
 		sRet += ligne + "\n";

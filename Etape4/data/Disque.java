@@ -11,7 +11,7 @@ public class Disque extends Figure implements Forme
 	/* Déclaration des attributs                                    */
 	/*--------------------------------------------------------------*/
 	private Point  centre;
-	private double rayon;
+	private static double rayon;
 
 	/*--------------------------------------------------------------*/
 	/* Constructeur : initialise un disque                           */

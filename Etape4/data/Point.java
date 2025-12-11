@@ -10,9 +10,9 @@ public class Point
 	/*--------------------------------------------------------------*/
 	/* Déclaration des attributs                                    */
 	/*--------------------------------------------------------------*/
-	private String nom;
+	private static String nom;
 	private int    x;
-	private int    y;
+	private final int    y;
 
 	/*--------------------------------------------------------------*/
 	/* Constructeur : initialise un point                           */

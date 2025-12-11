@@ -47,11 +47,13 @@ public class DecomposerLigne
 
 				//on supprime la ligne si c'est un commentaire
 				if(s.startsWith("//") || s.startsWith("/*") || s.startsWith("*/"))
-					s = null;
+				{
+					s = "";
+				}
 
 				//on supprime la ligne si c'est une chaine de caractère
 				if(s.startsWith("\""))
-					s = null;
+					s = "";
 
 				//quitte la boucle si on rencontre throws qui est toujours à la fin d'une méthode
 				if(s.startsWith("throws"))
@@ -59,7 +61,7 @@ public class DecomposerLigne
 
 
 				//on rajoute le mot de la string dans la liste si elle ne fait pas partie des exceptions
-				if(s != null)
+				if(!s.isBlank())
 					lstMots.add(s);
 			}
 		}

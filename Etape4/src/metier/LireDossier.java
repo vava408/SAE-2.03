@@ -2,6 +2,9 @@ package src.metier;
 
 import java.io.File;
 import java.util.ArrayList;
+
+import src.Controleur;
+
 import src.membres.Association;
 import src.membres.Attribut;
 
@@ -20,14 +23,18 @@ public class LireDossier
 	/*--------------------------------------------------------------*/
 	/* Déclaration des attributs                                    */
 	/*--------------------------------------------------------------*/
+	private Controleur             ctrl;
+
 	private ArrayList<Association> lstAssociations;
 	private ArrayList<LireFichier> lstLireFichiers;
 
 	/*--------------------------------------------------------------*/
 	/* Constructeur : lit un dossier et crée les associations      */
 	/*--------------------------------------------------------------*/
-	public LireDossier(String cheminDossier)
+	public LireDossier( Controleur ctrl, String cheminDossier )
 	{
+		this.ctrl = ctrl;
+
 		this.lstAssociations = new ArrayList<>();
 		this.lstLireFichiers = new ArrayList<>();
 
@@ -55,6 +62,11 @@ public class LireDossier
 				}
 			}
 		}
+	}
+
+	public ArrayList<LireFichier> getListeFichiers()
+	{
+		return this.lstLireFichiers;
 	}
 
 	/*--------------------------------------------------------------*/
@@ -164,42 +176,5 @@ public class LireDossier
 			}
 		}
 		return false;
-	}
-
-	/*--------------------------------------------------------------*/
-	/* Affiche toutes les classes et associations                  */
-	/*--------------------------------------------------------------*/
-	/**
-	 * Affiche le contenu UML complet : toutes les classes, associations
-	 * et relations d'héritage/implémentation.
-	 */
-	public void afficherClasses()
-	{
-		for (LireFichier lF : this.lstLireFichiers)
-		{
-			System.out.println(lF.toString());
-		}
-
-
-		for (Association a : this.lstAssociations)
-		{
-			System.out.println(a);
-		}
-
-		for (LireFichier lF : this.lstLireFichiers)
-		{
-			System.out.println(lF.afficherHeritage());
-			System.out.print(lF.afficherInterface());
-		}
-
-	}
-
-	/*--------------------------------------------------------------*/
-	/* Méthode main pour tester la lecture d'un dossier            */
-	/*--------------------------------------------------------------*/
-	public static void main(String[] args)
-	{
-		LireDossier lectureDossier = new LireDossier(args[0]);
-		lectureDossier.afficherClasses();
 	}
 }

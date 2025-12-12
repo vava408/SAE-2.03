@@ -37,8 +37,6 @@ public class LireFichier
 
     private DecomposerLigne decomposerLigne;
 
-    private Vue             vue            ;
-
     private String          motCle         ;
     private String          nomClasse      ;
 
@@ -52,7 +50,6 @@ public class LireFichier
         this.lireHeritImplements = new LireHeritImple (this);
         this.lireMethode         = new LireMethode    (this);
         this.lireAttribut        = new LireAttribut   (this);
-        this.vue                 = new Vue            (this);
 
         lireFichier(fileName);
     }
@@ -194,44 +191,5 @@ public class LireFichier
             }
         }
         return false;
-    }
-
-    /*--------------------------------------------------------------*/
-    /* Affiche l'héritage de la classe                              */
-    /*--------------------------------------------------------------*/
-    /**
-     * Retourne la représentation textuelle de l'héritage.
-     *
-     * @return chaîne formatée affichant la classe mère si elle existe
-     */
-    public String afficherHeritage()
-    {
-        return this.vue.afficherHeritage();
-    }
-
-    /*--------------------------------------------------------------*/
-    /* Affiche les interfaces implémentées par la classe            */
-    /*--------------------------------------------------------------*/
-    /**
-     * Retourne la représentation textuelle des interfaces implémentées.
-     *
-     * @return chaîne formatée listant les interfaces
-     */
-    public String afficherInterface()
-    {
-        return this.vue.afficherInterface();
-    }
-
-    /*--------------------------------------------------------------*/
-    /* Affichage textuel complet de la classe                       */
-    /*--------------------------------------------------------------*/
-    /**
-     * Retourne la représentation UML complète de la classe.
-     *
-     * @return chaîne formatée contenant la classe, attributs et méthodes
-     */
-    public String toString()
-    {
-        return this.vue.afficher();
     }
 }

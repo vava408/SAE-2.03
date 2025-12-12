@@ -1,8 +1,8 @@
 /*-------------------------------------------------------------------*/
 /*- Classe Disque : Gère un disque défini par un centre et un rayon. */
-/*- Etape 1                                                          */
+/*- Etape 4                                                          */
 /*- Groupe 6                                                         */
-/*- Date de création : 10/12/2025 08:30                              */
+/*- Date de création : 08/12/2025 08:30                              */
 /*-------------------------------------------------------------------*/
 
 public class Disque extends Figure implements Forme
@@ -10,15 +10,13 @@ public class Disque extends Figure implements Forme
 	/*--------------------------------------------------------------*/
 	/* Déclaration des attributs                                    */
 	/*--------------------------------------------------------------*/
-	private Point  centre;
+	private Point         centre;
 	private static double rayon;
 
 	/*--------------------------------------------------------------*/
-	/* Constructeur : initialise un disque                           */
+	/* Constructeur : initialise un disque                          */
 	/*--------------------------------------------------------------*/
-	public Disque(Point centre, double rayon
-
-)
+	public Disque(Point centre, double rayon)
 	{
 		this.centre = centre;
 		this.rayon  = rayon;
@@ -41,7 +39,7 @@ public class Disque extends Figure implements Forme
 	}
 
 	/*--------------------------------------------------------------*/
-	/* Modifie la coordonnée X du centre                             */
+	/* Modifie la coordonnée X du centre                            */
 	/*--------------------------------------------------------------*/
 	public void setX(int x)
 	{
@@ -49,7 +47,7 @@ public class Disque extends Figure implements Forme
 	}
 
 	/*--------------------------------------------------------------*/
-	/* Modifie la coordonnée Y du centre                             */
+	/* Modifie la coordonnée Y du centre                            */
 	/*--------------------------------------------------------------*/
 	public void setY(int y)
 	{
@@ -57,7 +55,7 @@ public class Disque extends Figure implements Forme
 	}
 
 	/*--------------------------------------------------------------*/
-	/* Méthode privée de test (exemple)                              */
+	/* Méthode privée de test (exemple)                             */
 	/*--------------------------------------------------------------*/
 	private void setTest(int y)
 	{

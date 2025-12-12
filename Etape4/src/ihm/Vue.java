@@ -28,28 +28,31 @@ public class Vue
     /*--------------------------------------------------------------*/
     private Controleur ctrl;
 
-	/**
-	 * Construit une vue pour afficher une classe analysée avec un 
-	 * lecteur de fichier.
-	 *
-	 * @param lireFichier lecteur contenant les données de la classe
-	 */
-	public Vue(LireFichier lireFichier)
-	{
-		this.lireFichier = lireFichier;
-	}
+    /*--------------------------------------------------------------*/
+    /* Constructeur : initialise la vue avec le contrôleur          */
+    /*--------------------------------------------------------------*/
+    /**
+     * Construit une vue pour afficher les classes analysées.
+     *
+     * @param ctrl le contrôleur contenant les données et le dossier lu
+     */
+    public Vue( Controleur ctrl )
+    {
+        this.ctrl = ctrl;
+    }
 
-	/**
-	 * Retourne la représentation UML complète de la classe.
-	 *
-	 * Dirige le rendu selon le type de la classe
-	 * (classe, abstract, enum, record).
-	 *
-	 * @return chaîne formatée contenant le diagramme UML textuel
-	 */
-	public String afficher()
-	{
-		String sRet = "";
+    /*--------------------------------------------------------------*/
+    /* Affichage complet des classes UML                             */
+    /*--------------------------------------------------------------*/
+    /**
+     * Parcourt toutes les classes lues et produit une chaîne
+     * contenant leur représentation UML textuelle.
+     *
+     * @return chaîne formatée avec toutes les classes
+     */
+    public String afficher()
+    {
+        String sRet = "";
 
         for ( LireFichier lF : this.ctrl.getLireDossier().getListeFichiers() )
         {
@@ -66,23 +69,27 @@ public class Vue
         return sRet;
     }
 
-	/**
-	 * Affiche une classe avec ses attributs et méthodes au format UML.
-	 *
-	 * Formatage :
-	 * - Attributs : visibilité (+ ou -), nom, type
-	 * - Méthodes : visibilité, signature avec paramètres, type de retour
-	 * - Static : souligné
-	 * - Final : marqué avec `{geler}`
-	 *
-	 * @param typeClasse type de déclaration (`class`, `Abstract`, `Record`)
-	 * @return chaîne formatée avec la classe et ses membres
-	 */
-	public String afficherClass(String typeClasse)
-	{
-		String sRet         = "";
-		String ligne        = "------------------------------------------------";
-		String sVisibilite;
+    /*--------------------------------------------------------------*/
+    /* Affiche une classe UML (class, record, abstract…)            */
+    /*--------------------------------------------------------------*/
+    /**
+     * Affiche une classe avec ses attributs et méthodes au format UML.
+     *
+     * Formatage :
+     * - Attributs : visibilité (+ ou -), nom, type
+     * - Méthodes : visibilité, signature avec paramètres, type de retour
+     * - Static : souligné
+     * - Final : marqué avec `{geler}`
+     *
+     * @param lF la classe à afficher
+     * @param typeClasse type de déclaration (`class`, `Abstract`, `Record`)
+     * @return chaîne formatée avec la classe et ses membres
+     */
+    public String afficherClass( LireFichier lF, String typeClasse )
+    {
+        String sRet = "";
+        String ligne = "------------------------------------------------";
+        String sVisibilite;
 
         sRet += ligne + "\n";
 
@@ -174,7 +181,6 @@ public class Vue
         return sRet;
     }
 
-<<<<<<< HEAD
     /*--------------------------------------------------------------*/
     /* Affiche les relations Interface / Implémentation             */
     /*--------------------------------------------------------------*/
@@ -187,18 +193,6 @@ public class Vue
     public String afficherInterface( LireFichier lF )
     {
         StringBuilder sRet = new StringBuilder();
-=======
-
-	/**
-	 * Affiche une énumération avec ses constantes au format UML.
-	 *
-	 * @return chaîne formatée avec l'enum et ses constantes
-	 */
-	public String afficherEnum()
-	{
-		String sRet = "";
-		String ligne = "------------------------------------------------";
->>>>>>> 620b768a8933da201bb45b94a21f77c17f45ab5f
 
         if ( lF.getMapImple() != null && !lF.getMapImple().isEmpty() )
         {
@@ -231,7 +225,6 @@ public class Vue
     {
         String sRet = "";
 
-<<<<<<< HEAD
         if ( lF.getMapHerit() != null && !lF.getMapHerit().isEmpty() )
         {
             for ( String classe : lF.getMapHerit().keySet() )
@@ -239,45 +232,6 @@ public class Vue
                 sRet += classe + " hérite de " + lF.getMapHerit().get(classe) + "\n";
             }
         }
-=======
-
-	/**
-	 * Retourne la liste des interfaces implémentées par la classe.
-	 *
-	 * @return chaîne formatée listant chaque implémentation
-	 */
-		public String afficherInterface()
-	{
-		StringBuilder sRet = new StringBuilder();
-	
-		if (this.lireFichier.getMapImple() != null && !this.lireFichier.getMapImple().isEmpty())
-		{
-			for (String classe : this.lireFichier.getMapImple().keySet())
-			{
-				ArrayList<String> interfaces = this.lireFichier.getMapImple().get(classe);
-				if (interfaces != null && !interfaces.isEmpty())
-				{
-					sRet.append(classe)
-						.append(" implémente ")
-						.append(String.join(", ", interfaces))
-						.append("\n");
-				}
-			}
-		}
-	
-		return sRet.toString();
-	}
-
-
-	/**
-	 * Retourne la classe mère (héritage) de la classe.
-	 *
-	 * @return chaîne formatée listant chaque héritage
-	 */
-	public String afficherHeritage()
-	{
-		String sRet = "";
->>>>>>> 620b768a8933da201bb45b94a21f77c17f45ab5f
 
         return sRet;
     }

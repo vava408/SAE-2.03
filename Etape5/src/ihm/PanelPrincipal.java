@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 public class PanelPrincipal extends JPanel
 {
     private FrameUML frame;
+	private Bloc     bloc;
 
     public PanelPrincipal ( FrameUML frame )
     {
@@ -35,4 +36,10 @@ public class PanelPrincipal extends JPanel
 		this.revalidate();
         this.repaint();
     }
+
+	public void exportToImage(String selectedPath)
+	{
+		System.out.println("Exporting de Panel to: " + selectedPath);
+		this.bloc.exportToImage(selectedPath);
+	}
 }

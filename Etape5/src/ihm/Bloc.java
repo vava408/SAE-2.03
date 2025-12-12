@@ -10,6 +10,8 @@ import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+
 import javax.swing.JPanel;
 
 import src.metier.LireFichier;
@@ -17,10 +19,12 @@ import src.metier.LireFichier;
 public class Bloc extends JPanel
 {
     private LireFichier lireFichier;
+	private CreerImage   creerImage;
 
     public Bloc ( LireFichier lireFichier )
     {
         this.lireFichier = lireFichier;
+		this.creerImage  = new CreerImage();
         this.setBackground ( new Color ( 250, 250, 250 ) );
         this.maj ( );
 
@@ -186,4 +190,24 @@ public class Bloc extends JPanel
             getParent ( ).repaint ( );
         }
     }
+
+	public void exportToImage(String path)
+	{
+
+		BufferedImage img = new BufferedImage(5000, 5000, BufferedImage.TYPE_INT_ARGB);
+		
+		// Récupération du Graphics2D de l'image
+		Graphics2D g2d = img.createGraphics();
+
+		// Dessiner le panel dans le BufferedImage
+		this.paint(g2d);
+
+		// Libération des ressources graphiques
+		g2d.dispose();
+
+		System.out.println("Export de l'image vers : " + path);
+
+		System.out.println(this.creerImage.saveImg(img, path));
+
+	}
 }

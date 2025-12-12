@@ -10,17 +10,14 @@ public class Disque extends Figure implements Forme
 	/*--------------------------------------------------------------*/
 	/* Déclaration des attributs                                    */
 	/*--------------------------------------------------------------*/
-	private Point  centre;
 	private double rayon;
 
 	/*--------------------------------------------------------------*/
 	/* Constructeur : initialise un disque                           */
 	/*--------------------------------------------------------------*/
-	public Disque(Point centre, double rayon
-
-)
+	public Disque( Point centre, double rayon )
 	{
-		this.centre = centre;
+		super ( centre );
 		this.rayon  = rayon;
 	}
 

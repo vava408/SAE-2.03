@@ -23,11 +23,9 @@ public class Vue
 	/*--------------------------------------------------------------*/
 	private LireFichier lireFichier;
 
-	/*--------------------------------------------------------------*/
-	/* Constructeur : initialise la vue avec un lecteur de fichier   */
-	/*--------------------------------------------------------------*/
 	/**
-	 * Construit une vue pour afficher une classe analysée.
+	 * Construit une vue pour afficher une classe analysée avec un 
+	 * lecteur de fichier.
 	 *
 	 * @param lireFichier lecteur contenant les données de la classe
 	 */
@@ -36,9 +34,6 @@ public class Vue
 		this.lireFichier = lireFichier;
 	}
 
-	/*--------------------------------------------------------------*/
-	/* Retourne la représentation textuelle de la classe UML        */
-	/*--------------------------------------------------------------*/
 	/**
 	 * Retourne la représentation UML complète de la classe.
 	 *
@@ -63,9 +58,6 @@ public class Vue
 		return sRet;
 	}
 
-	/*--------------------------------------------------------------*/
-	/* Affiche une classe UML (class, record, abstract…)            */
-	/*--------------------------------------------------------------*/
 	/**
 	 * Affiche une classe avec ses attributs et méthodes au format UML.
 	 *
@@ -178,9 +170,7 @@ public class Vue
 		return sRet;
 	}
 
-	/*--------------------------------------------------------------*/
-	/* Affiche une énumération UML                                  */
-	/*--------------------------------------------------------------*/
+
 	/**
 	 * Affiche une énumération avec ses constantes au format UML.
 	 *
@@ -205,9 +195,7 @@ public class Vue
 		return sRet;
 	}
 
-	/*--------------------------------------------------------------*/
-	/* Affiche les relations Interface / Implémentation             */
-	/*--------------------------------------------------------------*/
+
 	/**
 	 * Retourne la liste des interfaces implémentées par la classe.
 	 *
@@ -234,9 +222,8 @@ public class Vue
 	
 		return sRet.toString();
 	}
-	/*--------------------------------------------------------------*/
-	/* Affiche les relations d'héritage                             */
-	/*--------------------------------------------------------------*/
+
+
 	/**
 	 * Retourne la classe mère (héritage) de la classe.
 	 *

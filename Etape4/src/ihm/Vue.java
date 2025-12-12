@@ -127,7 +127,7 @@ public class Vue
 			else
 			{
 				sRet += String.format("%s%-35s: %s%s\n", sVisibilite, attribut.getNom(), attribut.getType(), sModifier);
-			}		
+			}
 		}
 
 		sRet += ligne + "\n";

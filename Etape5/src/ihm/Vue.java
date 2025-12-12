@@ -100,13 +100,16 @@ public class Vue
 				sRet += String.format("%s%-35s: %s%s\n", sVisibilite, attribut.getNom(), attribut.getType(), sModifier);
 
 			}
-
 			// Souligner si static
-			if (attribut.isStatic())
+			else if (attribut.isStatic())
 			{
 				sRet += String.format("%s%-35s: %s%s\n", sVisibilite, "\033[4m" + attribut.getNom() + "\033[0m",
 						attribut.getType(), sModifier);
 
+			}
+			else
+			{
+				sRet += String.format("%s%-35s: %s%s\n", sVisibilite, attribut.getNom(), attribut.getType(), sModifier);
 			}
 
 		}

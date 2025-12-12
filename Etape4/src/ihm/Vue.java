@@ -66,6 +66,16 @@ public class Vue
             }
         }
 
+        for ( LireFichier lF : this.ctrl.getLireDossier().getListeFichiers() )
+        {
+            sRet += this.afficherHeritage( lF );
+        }
+
+        for ( LireFichier lF : this.ctrl.getLireDossier().getListeFichiers() )
+        {
+            sRet += this.afficherInterface( lF );
+        }
+
         return sRet;
     }
 

@@ -1,5 +1,7 @@
 package src.ihm;
 
+import java.util.ArrayList;
+
 import src.membres.Attribut;
 import src.membres.Methode;
 import src.membres.Parametre;
@@ -182,23 +184,33 @@ public class Vue
 		return sRet;
 	}
 
+
+
 	/*--------------------------------------------------------------*/
 	/* Affiche les relations Interface / Implémentation */
 	/*--------------------------------------------------------------*/
 	public String afficherInterface()
 	{
-		String sRet = "";
-
+		StringBuilder sRet = new StringBuilder();
+	
 		if (this.lireFichier.getMapImple() != null && !this.lireFichier.getMapImple().isEmpty())
 		{
 			for (String classe : this.lireFichier.getMapImple().keySet())
 			{
-				sRet += classe + " implémente " + this.lireFichier.getMapImple().get(classe) + "\n";
+				ArrayList<String> interfaces = this.lireFichier.getMapImple().get(classe);
+				if (interfaces != null && !interfaces.isEmpty())
+				{
+					sRet.append(classe)
+						.append(" implémente ")
+						.append(String.join(", ", interfaces))
+						.append("\n");
+				}
 			}
 		}
-
-		return sRet;
+	
+		return sRet.toString();
 	}
+
 
 	/*--------------------------------------------------------------*/
 	/* Affiche les relations d’héritage */

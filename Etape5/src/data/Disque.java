@@ -11,6 +11,7 @@ public class Disque extends Figure implements Forme
 	/* Déclaration des attributs                                    */
 	/*--------------------------------------------------------------*/
 	private double rayon;
+	private static int entierTest = 2;
 
 	/*--------------------------------------------------------------*/
 	/* Constructeur : initialise un disque                           */

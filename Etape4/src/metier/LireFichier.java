@@ -101,15 +101,16 @@ public class LireFichier
 
         try
         {
-            sc = new Scanner( new FileInputStream(fileName), "UTF8" );
+            sc = new Scanner( new FileInputStream( fileName ), "UTF8" );
 
             while (sc.hasNextLine())
             {
                 ligne   = sc.nextLine().trim();
                 tabMots = this.decomposerLigne.decomposerLigne(ligne);
 
-                if (!ligne.startsWith("import") && !ligne.isBlank() &&
-                    (ligne.startsWith("private") || ligne.startsWith("public") || ligne.startsWith("protected")))
+                if ( ! ligne.startsWith( "import"    )     && ! ligne.isBlank()                     &&
+                   (   ligne.startsWith( "private"   )     ||   ligne.startsWith( "public") || 
+                       ligne.startsWith( "protected" ) ) )
                 {
                     if (ligne.contains("implements") || ligne.contains("extends"))
                     {
@@ -119,7 +120,9 @@ public class LireFichier
                     if (this.estLaPremiereLigne(tabMots[1]))
                     {
                         this.motCle    = tabMots[1];
-                        this.nomClasse = tabMots[2];
+                        
+                        if   ( this.motCle.equals( "abstract" ) ) { this.nomClasse = tabMots[3]; }
+                        else                                      { this.nomClasse = tabMots[2]; }                       
                     }
                     else
                     {

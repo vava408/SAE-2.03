@@ -70,25 +70,56 @@ public class Methode
 	public String toString() 
 	{
 		String sRet = "";
+		String sVisibilite;
 
-		sRet += "méthode : " + this.nom;
-		sRet += " visibilité : " + this.visibilite;
+		String sModifier = ""; // pour final ou autres annotations
 
-		if(this.retour != null)
-			sRet += " type de retour : " + this.retour;
-
-		sRet += "\nparamètres : ";
-
-		if(this.tabParametre.isEmpty())
-			sRet += "aucun";
-		else
-			for ( Parametre p : this.tabParametre )
+			// Déterminer la visibilité
+			if (this.getVisibilite().equals("public"))
 			{
-				sRet += "\n" + String.format( "%14s", p.toString() );
+				sVisibilite = "+ ";
+			}
+			else if (this.getVisibilite().equals("private"))
+			{
+				sVisibilite = "- "; 
+			}
+			else
+			{
+				sVisibilite = "# ";
 			}
 
-		sRet += "\n";
+			
+		String signature = sVisibilite + this.getNom() + " (";
 
+			if (this.getParametre().isEmpty())
+			{
+				signature += ")";
+			}
+
+			for (int cpt = 0; cpt < this.getParametre().size(); cpt++)
+			{
+				Parametre parametre = this.getParametre().get(cpt);
+
+				signature += " " + parametre.getNom() + " : " + parametre.getType();
+
+				if (cpt < this.getParametre().size() - 1)
+				{
+					signature += ",";
+				}
+				else
+				{
+					signature += " )";
+				}
+			}
+
+			if (this.getRetour() != null && !this.getRetour().equals("void"))
+			{
+				sRet += String.format("%-37s: %s\n", signature, this.getRetour());
+			}
+			else
+			{
+				sRet += signature + "\n";
+			}
 		return sRet;
 	}
 

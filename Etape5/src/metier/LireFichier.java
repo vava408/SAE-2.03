@@ -153,14 +153,6 @@ public class LireFichier
     //méthode pour traiter les records
     public void traiterRecord(String[] tabMots)
     {
-
-<<<<<<< HEAD
-	//méthode pour traiter les records
-    public void traiterRecord(String[] tabMots)
-    {
-
-=======
->>>>>>> 77ff8b1 (rajout du traitement et la création des méthodes correspondantes pour les records (dans étape4 et 5))
         //récupération de chaque valeur de la création du record pour créer des attributs
         String[] tabAttributs = new String[tabMots.length-3];
         for(int i = 3; i <tabMots.length;i++)

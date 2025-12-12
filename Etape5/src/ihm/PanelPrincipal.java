@@ -1,20 +1,38 @@
 package src.ihm;
 
-import java.awt.Graphics;
-
+import java.awt.Color;
+import java.awt.FlowLayout;
 import javax.swing.JPanel;
 
-public class PanelPrincipal extends JPanel 
+public class PanelPrincipal extends JPanel
 {
-	private FrameUML frameUML;
+    private FrameUML frame;
 
-	public PanelPrincipal ( FrameUML frameUML )
+    public PanelPrincipal ( FrameUML frame )
+    {
+        this.frame = frame;
+
+        this.setBackground( new Color( 245, 245, 245 ) );
+        this.setLayout( new FlowLayout() );
+    }
+
+	public void instancierPanel()
 	{
-		this.frameUML = frameUML;
+		this.removeAll();
+	
+		for ( var lf : frame.getListeFichiers() )
+		{
+			Bloc bloc = new Bloc( lf );
+			this.add( bloc );
+		}
+
+		this.maj();
 	}
 
-	public void paintComponent (Graphics g)
-	{
-		super.paintComponent( g );
-	}
+    public void maj ()
+    {
+
+		this.revalidate();
+        this.repaint();
+    }
 }

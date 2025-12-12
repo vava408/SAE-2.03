@@ -23,226 +23,227 @@ import src.metier.LireFichier;
  */
 public class Vue
 {
-    /*--------------------------------------------------------------*/
-    /* Déclaration des attributs                                    */
-    /*--------------------------------------------------------------*/
-    private Controleur ctrl;
+	/*--------------------------------------------------------------*/
+	/* Déclaration des attributs                                    */
+	/*--------------------------------------------------------------*/
+	private Controleur ctrl;
 
-    /*--------------------------------------------------------------*/
-    /* Constructeur : initialise la vue avec le contrôleur          */
-    /*--------------------------------------------------------------*/
-    /**
-     * Construit une vue pour afficher les classes analysées.
-     *
-     * @param ctrl le contrôleur contenant les données et le dossier lu
-     */
-    public Vue( Controleur ctrl )
-    {
-        this.ctrl = ctrl;
-    }
+	/*--------------------------------------------------------------*/
+	/* Constructeur : initialise la vue avec le contrôleur          */
+	/*--------------------------------------------------------------*/
+	/**
+	 * Construit une vue pour afficher les classes analysées.
+	 *
+	 * @param ctrl le contrôleur contenant les données et le dossier lu
+	 */
+	public Vue( Controleur ctrl )
+	{
+		this.ctrl = ctrl;
+	}
 
-    /*--------------------------------------------------------------*/
-    /* Affichage complet des classes UML                             */
-    /*--------------------------------------------------------------*/
-    /**
-     * Parcourt toutes les classes lues et produit une chaîne
-     * contenant leur représentation UML textuelle.
-     *
-     * @return chaîne formatée avec toutes les classes
-     */
-    public String afficher()
-    {
-        String sRet = "";
+	/*--------------------------------------------------------------*/
+	/* Affichage complet des classes UML                             */
+	/*--------------------------------------------------------------*/
+	/**
+	 * Parcourt toutes les classes lues et produit une chaîne
+	 * contenant leur représentation UML textuelle.
+	 *
+	 * @return chaîne formatée avec toutes les classes
+	 */
+	public String afficher()
+	{
+		String sRet = "";
 
-        for ( LireFichier lF : this.ctrl.getLireDossier().getListeFichiers() )
-        {
-            switch ( lF.getMotCle() )
-            {
-                case "class"    -> sRet += this.afficherClass( lF, "class"    );
-                case "enum"     -> sRet += this.afficherEnum ( lF );
-                case "record"   -> sRet += this.afficherClass( lF, "Record"   );
-                case "abstract" -> sRet += this.afficherClass( lF, "Abstract" );
-                default         -> {}
-            }
-        }
+		for ( LireFichier lF : this.ctrl.getLireDossier().getListeFichiers() )
+		{
+			switch ( lF.getMotCle() )
+			{
+				case "class"     -> sRet += this.afficherClass( lF, "class"    );
+				case "enum"      -> sRet += this.afficherEnum ( lF );
+				case "record"    -> sRet += this.afficherClass( lF, "Record"   );
+				case "abstract"  -> sRet += this.afficherClass( lF, "Abstract" );
+				case "interface" -> sRet += this.afficherClass( lF, "Interface" );
+				default         -> {}
+			}
+		}
 
-        for ( LireFichier lF : this.ctrl.getLireDossier().getListeFichiers() )
-        {
-            sRet += this.afficherHeritage( lF );
-        }
+		for ( LireFichier lF : this.ctrl.getLireDossier().getListeFichiers() )
+		{
+			sRet += this.afficherHeritage( lF );
+		}
 
-        for ( LireFichier lF : this.ctrl.getLireDossier().getListeFichiers() )
-        {
-            sRet += this.afficherInterface( lF );
-        }
+		for ( LireFichier lF : this.ctrl.getLireDossier().getListeFichiers() )
+		{
+			sRet += this.afficherInterface( lF );
+		}
 
-        return sRet;
-    }
+		return sRet;
+	}
 
-    /*--------------------------------------------------------------*/
-    /* Affiche une classe UML (class, record, abstract…)            */
-    /*--------------------------------------------------------------*/
-    /**
-     * Affiche une classe avec ses attributs et méthodes au format UML.
-     *
-     * Formatage :
-     * - Attributs : visibilité (+ ou -), nom, type
-     * - Méthodes : visibilité, signature avec paramètres, type de retour
-     * - Static : souligné
-     * - Final : marqué avec `{geler}`
-     *
-     * @param lF la classe à afficher
-     * @param typeClasse type de déclaration (`class`, `Abstract`, `Record`)
-     * @return chaîne formatée avec la classe et ses membres
-     */
-    public String afficherClass( LireFichier lF, String typeClasse )
-    {
-        String sRet = "";
-        String ligne = "------------------------------------------------";
-        String sVisibilite;
+	/*--------------------------------------------------------------*/
+	/* Affiche une classe UML (class, record, abstract…)            */
+	/*--------------------------------------------------------------*/
+	/**
+	 * Affiche une classe avec ses attributs et méthodes au format UML.
+	 *
+	 * Formatage :
+	 * - Attributs : visibilité (+ ou -), nom, type
+	 * - Méthodes : visibilité, signature avec paramètres, type de retour
+	 * - Static : souligné
+	 * - Final : marqué avec `{geler}`
+	 *
+	 * @param lF la classe à afficher
+	 * @param typeClasse type de déclaration (`class`, `Abstract`, `Record`)
+	 * @return chaîne formatée avec la classe et ses membres
+	 */
+	public String afficherClass( LireFichier lF, String typeClasse )
+	{
+		String sRet = "";
+		String ligne = "------------------------------------------------";
+		String sVisibilite;
 
-        sRet += ligne + "\n";
+		sRet += ligne + "\n";
 
-        // Affichage du stéréotype si nécessaire
-        if ( !typeClasse.equals("class") )
-        {
-            sRet += String.format("%29s", "<<" + typeClasse + ">>") + "\n";
-        }
+		// Affichage du stéréotype si nécessaire
+		if ( !typeClasse.equals("class") )
+		{
+			sRet += String.format("%29s", "<<" + typeClasse + ">>") + "\n";
+		}
 
-        // Nom de la classe
-        sRet += String.format("%24s", lF.getNomClasse()) + "\n";
-        sRet += ligne + "\n";
+		// Nom de la classe
+		sRet += String.format("%24s", lF.getNomClasse()) + "\n";
+		sRet += ligne + "\n";
 
-        // --- Attributs ---
-        for ( Attribut attribut : lF.getListeAttributs() )
-        {
-            String sModifier = "";
-            if ( attribut.getVisibilite().equals("private") ) sVisibilite = "- "; else sVisibilite = "+ ";
+		// --- Attributs ---
+		for ( Attribut attribut : lF.getListeAttributs() )
+		{
+			String sModifier = "";
+			if ( attribut.getVisibilite().equals("private") ) sVisibilite = "- "; else sVisibilite = "+ ";
 
-            if ( attribut.isFinal() ) sModifier = " {geler}";
+			if ( attribut.isFinal() ) sModifier = " {geler}";
 
-            if ( attribut.isStatic() )
-            {
-                sRet += String.format("%s%-35s: %s%s\n", sVisibilite, "\033[4m" + attribut.getNom() + "\033[0m", attribut.getType(), sModifier);
-            }
-            else
-            {
-                sRet += String.format("%s%-35s: %s%s\n", sVisibilite, attribut.getNom(), attribut.getType(), sModifier);
-            }
-        }
+			if ( attribut.isStatic() )
+			{
+				sRet += String.format("%s%-35s: %s%s\n", sVisibilite, "\033[4m" + attribut.getNom() + "\033[0m", attribut.getType(), sModifier);
+			}
+			else
+			{
+				sRet += String.format("%s%-35s: %s%s\n", sVisibilite, attribut.getNom(), attribut.getType(), sModifier);
+			}
+		}
 
-        sRet += ligne + "\n";
+		sRet += ligne + "\n";
 
-        // --- Méthodes ---
-        for ( Methode methode : lF.getListeMethodes() )
-        {
-            if ( methode.getVisibilite().equals("private") ) sVisibilite = "- "; else sVisibilite = "+ ";
+		// --- Méthodes ---
+		for ( Methode methode : lF.getListeMethodes() )
+		{
+			if ( methode.getVisibilite().equals("private") ) sVisibilite = "- "; else sVisibilite = "+ ";
 
-            String signature = sVisibilite + methode.getNom() + " (";
+			String signature = sVisibilite + methode.getNom() + " (";
 
-            if ( methode.getParametre().isEmpty() )
-            {
-                signature += ")";
-            }
-            for ( int cpt = 0; cpt < methode.getParametre().size(); cpt++ )
-            {
-                Parametre parametre = methode.getParametre().get(cpt);
-                signature += " " + parametre.getNom() + " : " + parametre.getType();
-                if ( cpt < methode.getParametre().size() - 1 ) signature += ",";
-                else signature += " )";
-            }
+			if ( methode.getParametre().isEmpty() )
+			{
+				signature += ")";
+			}
+			for ( int cpt = 0; cpt < methode.getParametre().size(); cpt++ )
+			{
+				Parametre parametre = methode.getParametre().get(cpt);
+				signature += " " + parametre.getNom() + " : " + parametre.getType();
+				if ( cpt < methode.getParametre().size() - 1 ) signature += ",";
+				else signature += " )";
+			}
 
-            if ( methode.getRetour() != null && !methode.getRetour().equals("void") )
-                sRet += String.format("%-37s: %s\n", signature, methode.getRetour());
-            else
-                sRet += signature + "\n";
-        }
+			if ( methode.getRetour() != null && !methode.getRetour().equals("void") )
+				sRet += String.format("%-37s: %s\n", signature, methode.getRetour());
+			else
+				sRet += signature + "\n";
+		}
 
-        sRet += ligne + "\n";
+		sRet += ligne + "\n";
 
-        return sRet;
-    }
+		return sRet;
+	}
 
-    /*--------------------------------------------------------------*/
-    /* Affiche une énumération UML                                  */
-    /*--------------------------------------------------------------*/
-    /**
-     * Affiche une énumération avec ses constantes au format UML.
-     *
-     * @param lF la classe enum à afficher
-     * @return chaîne formatée avec l'enum et ses constantes
-     */
-    public String afficherEnum( LireFichier lF )
-    {
-        String sRet = "";
-        String ligne = "------------------------------------------------";
+	/*--------------------------------------------------------------*/
+	/* Affiche une énumération UML                                  */
+	/*--------------------------------------------------------------*/
+	/**
+	 * Affiche une énumération avec ses constantes au format UML.
+	 *
+	 * @param lF la classe enum à afficher
+	 * @return chaîne formatée avec l'enum et ses constantes
+	 */
+	public String afficherEnum( LireFichier lF )
+	{
+		String sRet = "";
+		String ligne = "------------------------------------------------";
 
-        sRet += "<<Enumération>>\n";
-        sRet += ligne + "\n";
-        sRet += String.format("%24s", lF.getNomClasse()) + "\n";
-        sRet += ligne + "\n";
+		sRet += "<<Enumération>>\n";
+		sRet += ligne + "\n";
+		sRet += String.format("%24s", lF.getNomClasse()) + "\n";
+		sRet += ligne + "\n";
 
-        for ( Attribut attribut : lF.getListeAttributs() )
-        {
-            sRet += attribut.getNom() + "\n";
-        }
+		for ( Attribut attribut : lF.getListeAttributs() )
+		{
+			sRet += attribut.getNom() + "\n";
+		}
 
-        sRet += ligne + "\n";
-        return sRet;
-    }
+		sRet += ligne + "\n";
+		return sRet;
+	}
 
-    /*--------------------------------------------------------------*/
-    /* Affiche les relations Interface / Implémentation             */
-    /*--------------------------------------------------------------*/
-    /**
-     * Retourne la liste des interfaces implémentées par la classe.
-     *
-     * @param lF la classe à analyser
-     * @return chaîne formatée listant chaque implémentation
-     */
-    public String afficherInterface( LireFichier lF )
-    {
-        StringBuilder sRet = new StringBuilder();
+	/*--------------------------------------------------------------*/
+	/* Affiche les relations Interface / Implémentation             */
+	/*--------------------------------------------------------------*/
+	/**
+	 * Retourne la liste des interfaces implémentées par la classe.
+	 *
+	 * @param lF la classe à analyser
+	 * @return chaîne formatée listant chaque implémentation
+	 */
+	public String afficherInterface( LireFichier lF )
+	{
+		StringBuilder sRet = new StringBuilder();
 
-        if ( lF.getMapImple() != null && !lF.getMapImple().isEmpty() )
-        {
-            for ( String classe : lF.getMapImple().keySet() )
-            {
-                ArrayList<String> interfaces = lF.getMapImple().get(classe);
-                if ( interfaces != null && !interfaces.isEmpty() )
-                {
-                    sRet.append(classe)
-                        .append(" implémente ")
-                        .append(String.join(", ", interfaces))
-                        .append("\n");
-                }
-            }
-        }
+		if ( lF.getMapImple() != null && !lF.getMapImple().isEmpty() )
+		{
+			for ( String classe : lF.getMapImple().keySet() )
+			{
+				ArrayList<String> interfaces = lF.getMapImple().get(classe);
+				if ( interfaces != null && !interfaces.isEmpty() )
+				{
+					sRet.append(classe)
+						.append(" implémente ")
+						.append(String.join(", ", interfaces))
+						.append("\n");
+				}
+			}
+		}
 
-        return sRet.toString();
-    }
+		return sRet.toString();
+	}
 
-    /*--------------------------------------------------------------*/
-    /* Affiche les relations d'héritage                             */
-    /*--------------------------------------------------------------*/
-    /**
-     * Retourne la classe mère (héritage) de la classe.
-     *
-     * @param lF la classe à analyser
-     * @return chaîne formatée listant chaque héritage
-     */
-    public String afficherHeritage( LireFichier lF )
-    {
-        String sRet = "";
+	/*--------------------------------------------------------------*/
+	/* Affiche les relations d'héritage                             */
+	/*--------------------------------------------------------------*/
+	/**
+	 * Retourne la classe mère (héritage) de la classe.
+	 *
+	 * @param lF la classe à analyser
+	 * @return chaîne formatée listant chaque héritage
+	 */
+	public String afficherHeritage( LireFichier lF )
+	{
+		String sRet = "";
 
-        if ( lF.getMapHerit() != null && !lF.getMapHerit().isEmpty() )
-        {
-            for ( String classe : lF.getMapHerit().keySet() )
-            {
-                sRet += classe + " hérite de " + lF.getMapHerit().get(classe) + "\n";
-            }
-        }
+		if ( lF.getMapHerit() != null && !lF.getMapHerit().isEmpty() )
+		{
+			for ( String classe : lF.getMapHerit().keySet() )
+			{
+				sRet += classe + " hérite de " + lF.getMapHerit().get(classe) + "\n";
+			}
+		}
 
-        return sRet;
-    }
+		return sRet;
+	}
 }

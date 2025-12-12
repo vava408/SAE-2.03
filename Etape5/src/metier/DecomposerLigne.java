@@ -1,85 +1,113 @@
 package src.metier;
-import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Scanner;
 
+/**
+ * Décompose une ligne de code source en mots utiles pour analyse.
+ *
+ * Supprime les caractères spéciaux (parenthèses, accolades, virgules)
+ * et fragmente la ligne selon les espaces pour faciliter l'extraction
+ * des tokens significatifs.
+ *
+ * @author Groupe 6
+ * @version Etape 5 - 08/12/2025
+ */
 public class DecomposerLigne
 {
-	//méthode pour retirer une ligne de tout ce qui n'est pas utile pour la rendre utilisable
-	//puis de la décomposer à l'aide d'un scanner pour rentrer chaque valeurs dans un tableau
+	/*--------------------------------------------------------------*/
+	/* Méthode : décomposer une ligne de code en mots utiles        */
+	/*--------------------------------------------------------------*/
+	/**
+	 * Décompose une ligne de code en un tableau de tokens significatifs.
+	 *
+	 * Supprime les caractères spéciaux et filtre les commentaires et
+	 * les chaînes de caractères pour isoler les mots-clés et identificateurs.
+	 *
+	 * @param ligne la ligne de code à décomposer
+	 * @return tableau de mots extraits de la ligne
+	 */
 	public String[] decomposerLigne(String ligne)
 	{
-		//création d'une liste pour stocker chaque mots et un string temporaire
+		// création d'une liste pour stocker chaque mot et un string temporaire
 		ArrayList<String> lstMots = new ArrayList<String>();
-
 		String s;
 
-
-		//on retire les paranthèses
+		// on retire les parenthèses
 		ligne = ligne.replace("(", " ");
 		ligne = ligne.replace(")", " ");
 
-		//on retire les accolades
+		// on retire les accolades
 		ligne = ligne.replace("{", " ");
 		ligne = ligne.replace("}", " ");
 
-		//on retire les virgules
+		// on retire les virgules
 		ligne = ligne.replace(",", " ");
 
-		//on retire les égaux
-		ligne = ligne.replace("=", " ");
+		// on met des espaces autour les égaux
+		ligne = ligne.replace("=", " = ");
+
+		// on supprime tous les doubles espaces pour faciliter le traitement
+		ligne = ligne.replaceAll("\\s+", " ").trim();
 
 
-		//on supprime tout les espaces en doubles pour faciliter le traitement
-		ligne = ligne.replaceAll("\s+", " ").trim();
-
-
-
-		//création d'un scanner pour traiter la ligne
+		// création d'un scanner pour traiter la ligne
 		Scanner sc = new Scanner(ligne).useDelimiter("\\s");
 		{
-			//parcours chaque mots délimités par un espace
+			// parcours chaque mot délimité par un espace
 			while(sc.hasNext())
 			{
 				s = sc.next();
 
-				//on supprime les espaces en trop
-				s.trim();
+				// on supprime les espaces en trop
+				s = s.trim();
 
-				//on supprime la ligne si c'est un commentaire
+				// on ignore les commentaires
 				if(s.startsWith("//") || s.startsWith("/*") || s.startsWith("*/"))
 				{
 					s = "";
 				}
 
-				//on supprime la ligne si c'est une chaine de caractère
+				// on ignore les chaînes de caractères
 				if(s.startsWith("\""))
+				{
 					s = "";
-
-				//quitte la boucle si on rencontre throws qui est toujours à la fin d'une méthode
+				}
+				
+				// quitte la boucle si on rencontre throws (toujours à la fin d'une méthode)
 				if(s.startsWith("throws"))
+				{
 					break;
+				}
 
+				// quitte la boucle si on rencontre un espace
+				if(s.startsWith("="))
+				{
+					break;
+				}
 
-				//on rajoute le mot de la string dans la liste si elle ne fait pas partie des exceptions
+				// on ajoute le mot à la liste si elle n'est pas vide
 				if(!s.isBlank())
+				{
 					lstMots.add(s);
+				}
 			}
 		}
-			sc.close();
+		sc.close();
 
+		// création d'un tableau de la taille de la liste, il est nécessaire pour les prochains traitements
+		String[] tabRet = new String[lstMots.size()];
 
-			//création d'un tableau de la taille de la liste
-			//le tableau est nécessaire pour les prochains traitements
-			String[] tabRet = new String[lstMots.size()];
+		// transfert chaque mot de la liste dans le tableau
+		for(int i = 0; i < lstMots.size(); i++)
+		{
+			tabRet[i] = lstMots.get(i);
+		}
 
-			//transfert chaque mot de la liste dans le tableau
-			for(int i = 0; i < lstMots.size(); i++)
-				tabRet[i] = lstMots.get(i);
-
-			return tabRet;
+		return tabRet;
 	}
+
+	// enlever les commentaires
+	// enlever les exceptions
+	// enlever les "strings"
+	// vérifier si on me donne les imports
 }
-	//enlever les commentaires
-	//enlever les exceptions
-	//enlever les "strings"
-	//vérifier si on me donne les imports

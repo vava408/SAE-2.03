@@ -126,7 +126,7 @@ public class LireFichier
      *
      * @return map `nomClasse` → `nomInterface`
      */
-    public HashMap<String, String> getMapImple      () { return this.lireHeritImplements.getMapImplements();}
+    public HashMap<String, ArrayList<String> > getMapImple      () { return this.lireHeritImplements.getMapImplements();}
 
     /*--------------------------------------------------------------*/
     /* Lit le fichier Java et analyse son contenu                   */

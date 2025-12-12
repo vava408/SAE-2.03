@@ -1,5 +1,6 @@
 package src.metier;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -17,10 +18,11 @@ public class LireHeritImple
 	/*--------------------------------------------------------------*/
 	/* Attributs                                                    */
 	/*--------------------------------------------------------------*/
-	private LireFichier             lireFichier    ;
-	private DecomposerLigne         decomposerLigne;
-	private HashMap<String, String> mapImplements  ;
-	private HashMap<String, String> mapExtends     ;
+	private LireFichier                        lireFichier    ;
+	private DecomposerLigne                    decomposerLigne;
+	private ArrayList<String>                  listeImplements;
+	private HashMap<String, ArrayList<String>> mapImplements  ;
+	private HashMap<String, String>            mapExtends     ;
 
 	/*--------------------------------------------------------------*/
 	/* Constructeur : initialisation des structures                 */
@@ -31,6 +33,7 @@ public class LireHeritImple
 		this.decomposerLigne = new DecomposerLigne();
 		this.mapImplements   = new HashMap<>();
 		this.mapExtends      = new HashMap<>();
+		this.listeImplements = new ArrayList<>();
 	}
 
 	/*--------------------------------------------------------------*/
@@ -41,7 +44,7 @@ public class LireHeritImple
 	 *
 	 * @return map associant nom de classe → nom de l'interface implémentée
 	 */
-	public HashMap<String, String> getMapImplements() { return this.mapImplements;}
+		public HashMap<String, ArrayList<String> > getMapImplements()  { return this.mapImplements;}
 
 	/**
 	 * Retourne la classe mère de chaque classe (héritage).
@@ -63,38 +66,42 @@ public class LireHeritImple
 	{
 		String[] mots = this.decomposerLigne.decomposerLigne(ligne);
 
-		if (mots.length < 5)
-		{
-			return;
-		}
-
 		String nomClasse = mots[2];
-		String motCle    = mots[4];
-
-		// Vérification de "implements"                            
+		String motCle = mots[4];
 
 		if (mots[3].equals("implements"))
 		{
-			if (this.lireFichier.nomEstDansRepertoire(motCle))
+			int index = 0;
+			for (String stringMot : mots)
 			{
-				this.mapImplements.put(nomClasse, motCle);
+				index++;
+				if (this.lireFichier.nomEstDansRepertoire(stringMot) || index > 4)
+				{
+					this.listeImplements.add(stringMot);
+				}
 			}
+			this.mapImplements.put(nomClasse, this.listeImplements);
 		}
 
-		//vérification s'il y a extends
-		if (mots[3].equals("extends"))
-		{
-			this.mapExtends.put(nomClasse, motCle);
-		}
-
-		// Vérification d’un "implements" après "extends"
 		if (mots.length > 6 && mots[5].equals("implements"))
 		{
-			motCle = mots[6];
-			if (this.lireFichier.nomEstDansRepertoire(motCle))
+			int index = 0;
+			for (String stringMot : mots)
 			{
-				this.mapImplements.put(nomClasse, motCle);
+				index++;
+				if (this.lireFichier.nomEstDansRepertoire(stringMot) || index > 6)
+				{
+					this.listeImplements.add(stringMot);
+				}
 			}
+			this.mapImplements.put(nomClasse, this.listeImplements);
+
+		}
+
+		if (mots[3].equals("extends"))
+		{
+			// System.out.println(this.lireFichier.getNomClasse());
+			this.mapExtends.put(nomClasse, motCle);
 		}
 	}
 }

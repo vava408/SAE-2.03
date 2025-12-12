@@ -27,12 +27,15 @@ public class FrameUML extends JFrame
 
 		this.menuBar           = new Menu             ( this );
 		this.panelPrincipal    = new PanelPrincipal   ( this );
+		this.panelListeFichier = new PanelListeFichier( this );
+		
 		/*-------------------------------*/
 		/* positionnement des composants */
 		/*-------------------------------*/
 
 		this.add( this.menuBar          , BorderLayout.NORTH  );
 		this.add( this.panelPrincipal   , BorderLayout.CENTER );
+		this.add( this.panelListeFichier, BorderLayout.EAST   );
 
 		/*-------------------------------*/
 		/* Finalisation                  */
@@ -44,9 +47,7 @@ public class FrameUML extends JFrame
 	public void lireDossier( String chemin )
 	{
 		this.ctrl.lireDossier( chemin );
-
-		this.panelListeFichier = new PanelListeFichier( this );
-		this.add( this.panelListeFichier, BorderLayout.EAST   );
+		this.panelListeFichier.instancierPanel();
 	}
 
 	public int getNbClasses()
@@ -63,6 +64,6 @@ public class FrameUML extends JFrame
 	public void maj()
 	{
 		this.panelPrincipal   .repaint();
-		this.panelListeFichier.repaint();
+		this.panelListeFichier.maj();
 	}
 }

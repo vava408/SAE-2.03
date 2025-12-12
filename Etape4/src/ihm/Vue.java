@@ -5,13 +5,16 @@ import src.membres.Methode;
 import src.membres.Parametre;
 import src.metier.LireFichier;
 
-/*-------------------------------------------------------------------*/
-/*- Classe Vue : Gère l’affichage textuel d’une classe UML.          */
-/*- Etape 4                                                           */
-/*- Groupe 6                                                          */
-/*- Date de création : 10/12/2025 14:30                               */
-/*-------------------------------------------------------------------*/
-
+/**
+ * Gère l'affichage textuel formaté d'une classe UML.
+ *
+ * Produit une représentation ASCII d'une classe avec ses attributs, méthodes,
+ * héritages et interfaces implémentées. Supporte les classes abstraites,
+ * enumerations, records et classes standard.
+ *
+ * @author Groupe 6
+ * @version Etape 4 - 10/12/2025
+ */
 public class Vue
 {
 	/*--------------------------------------------------------------*/
@@ -22,6 +25,11 @@ public class Vue
 	/*--------------------------------------------------------------*/
 	/* Constructeur : initialise la vue avec un lecteur de fichier   */
 	/*--------------------------------------------------------------*/
+	/**
+	 * Construit une vue pour afficher une classe analysée.
+	 *
+	 * @param lireFichier lecteur contenant les données de la classe
+	 */
 	public Vue(LireFichier lireFichier)
 	{
 		this.lireFichier = lireFichier;
@@ -30,6 +38,14 @@ public class Vue
 	/*--------------------------------------------------------------*/
 	/* Retourne la représentation textuelle de la classe UML        */
 	/*--------------------------------------------------------------*/
+	/**
+	 * Retourne la représentation UML complète de la classe.
+	 *
+	 * Dirige le rendu selon le type de la classe
+	 * (classe, abstract, enum, record).
+	 *
+	 * @return chaîne formatée contenant le diagramme UML textuel
+	 */
 	public String afficher()
 	{
 		String sRet = "";
@@ -49,6 +65,18 @@ public class Vue
 	/*--------------------------------------------------------------*/
 	/* Affiche une classe UML (class, record, abstract…)            */
 	/*--------------------------------------------------------------*/
+	/**
+	 * Affiche une classe avec ses attributs et méthodes au format UML.
+	 *
+	 * Formatage :
+	 * - Attributs : visibilité (+ ou -), nom, type
+	 * - Méthodes : visibilité, signature avec paramètres, type de retour
+	 * - Static : souligné
+	 * - Final : marqué avec `{geler}`
+	 *
+	 * @param typeClasse type de déclaration (`class`, `Abstract`, `Record`)
+	 * @return chaîne formatée avec la classe et ses membres
+	 */
 	public String afficherClass(String typeClasse)
 	{
 		final String ANSI_UNDERLINE = "\033[4m";
@@ -152,6 +180,11 @@ public class Vue
 	/*--------------------------------------------------------------*/
 	/* Affiche une énumération UML                                  */
 	/*--------------------------------------------------------------*/
+	/**
+	 * Affiche une énumération avec ses constantes au format UML.
+	 *
+	 * @return chaîne formatée avec l'enum et ses constantes
+	 */
 	public String afficherEnum()
 	{
 		String sRet = "";
@@ -174,6 +207,11 @@ public class Vue
 	/*--------------------------------------------------------------*/
 	/* Affiche les relations Interface / Implémentation             */
 	/*--------------------------------------------------------------*/
+	/**
+	 * Retourne la liste des interfaces implémentées par la classe.
+	 *
+	 * @return chaîne formatée listant chaque implémentation
+	 */
 	public String afficherInterface()
 	{
 		String sRet = "";
@@ -190,8 +228,13 @@ public class Vue
 	}
 
 	/*--------------------------------------------------------------*/
-	/* Affiche les relations d’héritage                             */
+	/* Affiche les relations d'héritage                             */
 	/*--------------------------------------------------------------*/
+	/**
+	 * Retourne la classe mère (héritage) de la classe.
+	 *
+	 * @return chaîne formatée listant chaque héritage
+	 */
 	public String afficherHeritage()
 	{
 		String sRet = "";

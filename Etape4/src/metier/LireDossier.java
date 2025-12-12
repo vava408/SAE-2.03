@@ -5,14 +5,16 @@ import java.util.ArrayList;
 import src.membres.Association;
 import src.membres.Attribut;
 
-/*-------------------------------------------------------------------*/
-/*- Classe LireDossier : Lit un dossier de fichiers Java et crée les */
-/*- associations entre les classes détectées                          */
-/*- Etape 4                                                           */
-/*- Groupe 6                                                          */
-/*- Date de création : 10/12/2025 15:30                               */
-/*-------------------------------------------------------------------*/
-
+/**
+ * Parcourt un dossier de fichiers Java et crée les associations.
+ *
+ * Lit tous les fichiers `.java` d'un dossier, construit une liste
+ * de classes analysées, puis détecte les relations d'association
+ * entre ces classes pour générer une représentation UML complète.
+ *
+ * @author Groupe 6
+ * @version Etape 4 - 10/12/2025
+ */
 public class LireDossier
 {
 	/*--------------------------------------------------------------*/
@@ -58,6 +60,13 @@ public class LireDossier
 	/*--------------------------------------------------------------*/
 	/* Crée les associations entre classes à partir des attributs  */
 	/*--------------------------------------------------------------*/
+	/**
+	 * Détecte les associations entre les classes analysées.
+	 *
+	 * Parcourt tous les attributs et identifie les références de types
+	 * vers d'autres classes pour créer les associations UML (unidirectionnelles
+	 * ou bidirectionnelles).
+	 */
 	private void creerAssociation()
 	{
 		for (LireFichier lF1 : this.lstLireFichiers)
@@ -106,6 +115,14 @@ public class LireDossier
 	/*--------------------------------------------------------------*/
 	/* Crée et ajoute une association à la liste                   */
 	/*--------------------------------------------------------------*/
+	/**
+	 * Crée une {@link Association} entre deux classes et l'ajoute à la liste.
+	 *
+	 * @param lF classe source (classe A)
+	 * @param nomClasseB nom de la classe destinataire (classe B)
+	 * @param multipliciteA multiplicité du côté de la classe source
+	 * @param multipliciteB multiplicité du côté de la classe destinataire
+	 */
 	public void ajoutAssociation(LireFichier lF, String nomClasseB,
 								 String multipliciteA, String multipliciteB)
 	{
@@ -131,6 +148,12 @@ public class LireDossier
 	/*--------------------------------------------------------------*/
 	/* Vérifie si une classe existe dans le répertoire             */
 	/*--------------------------------------------------------------*/
+	/**
+	 * Vérifie si une classe avec le nom donné a été analysée.
+	 *
+	 * @param nomClasse le nom de la classe à rechercher
+	 * @return `true` si la classe existe dans le dossier analysé
+	 */
 	public boolean nomEstDansRepertoire(String nomClasse)
 	{
 		for (LireFichier lF : this.lstLireFichiers)
@@ -146,6 +169,10 @@ public class LireDossier
 	/*--------------------------------------------------------------*/
 	/* Affiche toutes les classes et associations                  */
 	/*--------------------------------------------------------------*/
+	/**
+	 * Affiche le contenu UML complet : toutes les classes, associations
+	 * et relations d'héritage/implémentation.
+	 */
 	public void afficherClasses()
 	{
 		for (LireFichier lF : this.lstLireFichiers)

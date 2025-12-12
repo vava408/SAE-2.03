@@ -2,13 +2,16 @@ package src.metier;
 
 import java.util.HashMap;
 
-/*-----------------------------------------------------------------------*/
-/*- Classe LireHeritImple : analyse des mots-clés extends / implements   */
-/*- Etape 4                                                              */
-/*- Groupe 6                                                             */
-/*- Date de création : 10/12/2025 15:00                                  */
-/*-----------------------------------------------------------------------*/
-
+/**
+ * Analyse des relations d'héritage et d'implémentation d'interfaces.
+ *
+ * Extrait les informations `extends` et `implements` des lignes de
+ * déclaration de classe pour construire une cartographie complète
+ * des dépendances de la classe.
+ *
+ * @author Groupe 6
+ * @version Etape 4 - 10/12/2025
+ */
 public class LireHeritImple
 {
 	/*--------------------------------------------------------------*/
@@ -33,13 +36,29 @@ public class LireHeritImple
 	/*--------------------------------------------------------------*/
 	/* Accesseurs                                                   */
 	/*--------------------------------------------------------------*/
+	/**
+	 * Retourne les interfaces implémentées par la classe.
+	 *
+	 * @return map associant nom de classe → nom de l'interface implémentée
+	 */
 	public HashMap<String, String> getMapImplements() { return this.mapImplements;}
 
+	/**
+	 * Retourne la classe mère de chaque classe (héritage).
+	 *
+	 * @return map associant nom de classe → nom de la classe mère
+	 */
 	public HashMap<String, String> getMapExtends()    { return this.mapExtends   ;}
 
 	/*--------------------------------------------------------------*/
 	/* Analyse la ligne reçue et extrait extends / implements       */
 	/*--------------------------------------------------------------*/
+	/**
+	 * Analyse une ligne de déclaration de classe pour extraire
+	 * les informations d'héritage (`extends`) et d'implémentation (`implements`).
+	 *
+	 * @param ligne ligne de déclaration contenant `extends` ou `implements`
+	 */
 	public void lireHeritImple(String ligne)
 	{
 		String[] mots = this.decomposerLigne.decomposerLigne(ligne);

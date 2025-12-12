@@ -1,13 +1,15 @@
 package src.membres;
 
-/*-------------------------------------------------------------------*/
-/*- Classe Association : Représente une association entre deux       */
-/*- classes UML avec leur multiplicité.                              */
-/*- Etape 4                                                          */
-/*- Groupe 6                                                         */
-/*- Date de création : 10/12/2025 13:30                              */
-/*-------------------------------------------------------------------*/
-
+/**
+ * Représente une association entre deux classes UML.
+ *
+ * Encapsule une relation directionnelle ou bidirectionnelle entre deux classes
+ * avec leurs multiplicités respectives, pour la restitution graphique ou textuelle
+ * du diagramme UML.
+ *
+ * @author Groupe 6
+ * @version Etape 4 - 10/12/2025
+ */
 public class Association 
 {
 	/*--------------------------------------------------------------*/
@@ -21,6 +23,14 @@ public class Association
 	/*--------------------------------------------------------------*/
 	/* Constructeur : initialise une association                   */
 	/*--------------------------------------------------------------*/
+	/**
+	 * Construit une association entre deux classes.
+	 *
+	 * @param nomClasseA nom de la première classe
+	 * @param nomClasseB nom de la deuxième classe
+	 * @param multiplicityA multiplicité du côté de la classe A
+	 * @param multiplicityB multiplicité du côté de la classe B
+	 */
 	public Association(String nomClasseA, String nomClasseB, String multiplicityA, String multiplicityB)
 	{
 		this.nomClasseA    = nomClasseA;
@@ -32,15 +42,39 @@ public class Association
 	/*--------------------------------------------------------------*/
 	/* Accesseurs : retourne les attributs de la classe            */
 	/*--------------------------------------------------------------*/
+	/**
+	 * Retourne le nom de la première classe de l'association.
+	 * @return nom de la classe A
+	 */
 	public String getNomClasseA()    { return this.nomClasseA; }
+	/**
+	 * Retourne le nom de la deuxième classe de l'association.
+	 * @return nom de la classe B
+	 */
 	public String getNomClasseB()    { return this.nomClasseB; }
 
+	/**
+	 * Retourne la multiplicité du côté de la classe A.
+	 * @return multiplicité au format UML (ex: `0..*`, `1..1`)
+	 */
 	public String getMultiplicityA() { return this.multiplicityA; }
+	/**
+	 * Retourne la multiplicité du côté de la classe B.
+	 * @return multiplicité au format UML (ex: `0..*`, `1..1`)
+	 */
 	public String getMultiplicityB() { return this.multiplicityB; }
 
 	/*--------------------------------------------------------------*/
 	/* Retourne une chaîne décrivant l'association                 */
 	/*--------------------------------------------------------------*/
+	/**
+	 * Retourne la représentation textuelle de cette association.
+	 *
+	 * Indique si l'association est unidirectionnelle ou bidirectionnelle
+	 * et affiche les classes impliquées avec leurs multiplicités.
+	 *
+	 * @return chaîne formatée décrivant l'association
+	 */
 	public String toString() 
 	{
 		String sRet = "";

@@ -6,15 +6,17 @@ import src.ihm.Vue;
 import src.membres.Attribut;
 import src.membres.Methode;
 
-
-/*-------------------------------------------------------------------*/
-/*- Classe LireFichier : Lit un fichier Java et extrait les classes, */
-/*- méthodes, attributs, héritages et interfaces                     */
-/*- Etape 4                                                          */
-/*- Groupe 6                                                         */
-/*- Date de création : 08/12/2025 9:30                               */
-/*-------------------------------------------------------------------*/
-
+/**
+ * Lecture et analyse d'un fichier source Java.
+ *
+ * Lit un fichier Java ligne par ligne et délègue la décomposition
+ * et l'extraction des éléments (attributs, méthodes, héritage,
+ * interfaces) à des utilitaires dédiés. Sert de parser pour construire
+ * une représentation UML minimale d'une classe Java.
+ *
+ * @author Groupe 6
+ * @version Etape 4 - 08/12/2025
+ */
 public class LireFichier
 {
     /*--------------------------------------------------------------*/
@@ -58,6 +60,11 @@ public class LireFichier
     /*--------------------------------------------------------------*/
     /* Retourne le nom de la classe lue                             */
     /*--------------------------------------------------------------*/
+    /**
+     * Retourne le nom de la classe analysée dans le fichier.
+     *
+     * @return le nom de la classe
+     */
     public String getNomClasse()
     {
         return this.nomClasse;
@@ -66,6 +73,11 @@ public class LireFichier
     /*--------------------------------------------------------------*/
     /* Retourne le mot clé de la classe lue (class, interface, etc)*/
     /*--------------------------------------------------------------*/
+    /**
+     * Retourne le mot-clé de déclaration de la classe.
+     *
+     * @return `"class"`, `"interface"`, `"enum"`, `"record"` ou `"abstract"`
+     */
     public String getMotCle()
     {
         return this.motCle;
@@ -74,6 +86,12 @@ public class LireFichier
     /*--------------------------------------------------------------*/
     /* Vérifie si une classe existe dans le répertoire              */
     /*--------------------------------------------------------------*/
+    /**
+     * Vérifie si une classe avec le nom donné existe dans le dossier analysé.
+     *
+     * @param nomClasse le nom de la classe à rechercher
+     * @return `true` si la classe a été trouvée
+     */
     public boolean nomEstDansRepertoire(String nomClasse)
     {
         return this.lectureDossier.nomEstDansRepertoire(nomClasse);
@@ -82,12 +100,32 @@ public class LireFichier
     /*---------------------------------------------------------------*/
     /*  Accesseur : retourne les attributs de la classe              */
     /*---------------------------------------------------------------*/
+    /**
+     * Retourne la liste des attributs de la classe.
+     *
+     * @return liste des {@link Attribut} analysés
+     */
     public ArrayList<Attribut>     getListeAttributs() { return this.lireAttribut.getListeAttributs();}
 
+    /**
+     * Retourne la liste des méthodes de la classe.
+     *
+     * @return liste des {@link Methode} analysées
+     */
     public ArrayList<Methode>      getListeMethodes () { return this.lireMethode .getListeMethodes ();}
 
+    /**
+     * Retourne la classe mère (héritage) de cette classe.
+     *
+     * @return map `nomClasse` → `nomClasseMère`
+     */
     public HashMap<String, String> getMapHerit      () { return this.lireHeritImplements.getMapExtends   ();}
 
+    /**
+     * Retourne les interfaces implémentées par cette classe.
+     *
+     * @return map `nomClasse` → `nomInterface`
+     */
     public HashMap<String, String> getMapImple      () { return this.lireHeritImplements.getMapImplements();}
 
     /*--------------------------------------------------------------*/
@@ -161,6 +199,11 @@ public class LireFichier
     /*--------------------------------------------------------------*/
     /* Affiche l'héritage de la classe                              */
     /*--------------------------------------------------------------*/
+    /**
+     * Retourne la représentation textuelle de l'héritage.
+     *
+     * @return chaîne formatée affichant la classe mère si elle existe
+     */
     public String afficherHeritage()
     {
         return this.vue.afficherHeritage();
@@ -169,6 +212,11 @@ public class LireFichier
     /*--------------------------------------------------------------*/
     /* Affiche les interfaces implémentées par la classe            */
     /*--------------------------------------------------------------*/
+    /**
+     * Retourne la représentation textuelle des interfaces implémentées.
+     *
+     * @return chaîne formatée listant les interfaces
+     */
     public String afficherInterface()
     {
         return this.vue.afficherInterface();
@@ -177,6 +225,11 @@ public class LireFichier
     /*--------------------------------------------------------------*/
     /* Affichage textuel complet de la classe                       */
     /*--------------------------------------------------------------*/
+    /**
+     * Retourne la représentation UML complète de la classe.
+     *
+     * @return chaîne formatée contenant la classe, attributs et méthodes
+     */
     public String toString()
     {
         return this.vue.afficher();

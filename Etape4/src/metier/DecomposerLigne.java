@@ -2,19 +2,30 @@ package src.metier;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-/*-------------------------------------------------------------------*/
-/*- Classe DecomposerLigne : Décompose une ligne de code pour        */
-/*- extraction des mots utiles.                                      */
-/*- Etape 1                                                          */
-/*- Groupe 6                                                         */
-/*- Date de création : 08/12/2025 10:30                              */
-/*-------------------------------------------------------------------*/
-
+/**
+ * Décompose une ligne de code source en mots utiles pour analyse.
+ *
+ * Supprime les caractères spéciaux (parenthèses, accolades, virgules)
+ * et fragmente la ligne selon les espaces pour faciliter l'extraction
+ * des tokens significatifs.
+ *
+ * @author Groupe 6
+ * @version Etape 4 - 08/12/2025
+ */
 public class DecomposerLigne
 {
 	/*--------------------------------------------------------------*/
 	/* Méthode : décomposer une ligne de code en mots utiles        */
 	/*--------------------------------------------------------------*/
+	/**
+	 * Décompose une ligne de code en un tableau de tokens significatifs.
+	 *
+	 * Supprime les caractères spéciaux et filtre les commentaires et
+	 * les chaînes de caractères pour isoler les mots-clés et identificateurs.
+	 *
+	 * @param ligne la ligne de code à décomposer
+	 * @return tableau de mots extraits de la ligne
+	 */
 	public String[] decomposerLigne(String ligne)
 	{
 		// création d'une liste pour stocker chaque mot et un string temporaire

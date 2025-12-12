@@ -1,12 +1,15 @@
 package src.membres;
 
-/*-------------------------------------------------------------------*/
-/*- Classe Attribut : Représente un attribut d'une classe UML       */
-/*- Etape 1                                                           */
-/*- Groupe 6                                                          */
-/*- Date de création : 08/12/2025 10:30                               */
-/*-------------------------------------------------------------------*/
-
+/**
+ * Représente un attribut (champ) d'une classe UML.
+ *
+ * Encapsule les propriétés d'un attribut : identifiant, nom, type,
+ * visibilité et modificateurs (static, final) pour la restitution
+ * d'une représentation UML texuelle.
+ *
+ * @author Groupe 6
+ * @version Etape 4 - 08/12/2025
+ */
 public class Attribut 
 {
     /*--------------------------------------------------------------*/
@@ -22,6 +25,16 @@ public class Attribut
     /*--------------------------------------------------------------*/
     /* Constructeur : initialise un attribut UML                   */
     /*--------------------------------------------------------------*/
+    /**
+     * Construit un attribut avec toutes ses propriétés UML.
+     *
+     * @param attributId identifiant unique de l'attribut
+     * @param nom nom de l'attribut
+     * @param type type de l'attribut (ex: `int`, `String`, etc.)
+     * @param visibilite visibilité (`public`, `private`, `protected`, `default`)
+     * @param estStatic `true` si l'attribut est statique
+     * @param estFinal `true` si l'attribut est final
+     */
     public Attribut(int attributId, String nom, String type, String visibilite, boolean estStatic, boolean estFinal) 
     {
         this.attributId = attributId;
@@ -35,16 +48,45 @@ public class Attribut
     /*--------------------------------------------------------------*/
     /* Accesseurs : retourne les attributs de la classe            */
     /*--------------------------------------------------------------*/
+    /**
+     * Retourne l'identifiant unique de cet attribut.
+     * @return l'ID de l'attribut
+     */
     public int     getAttributId()    { return this.attributId ;}
+    /**
+     * Retourne le nom de cet attribut.
+     * @return le nom
+     */
     public String  getNom()           { return this.nom        ;}
+    /**
+     * Retourne le type de cet attribut.
+     * @return le type (ex: `int`, `String`)
+     */
     public String  getType()          { return this.type       ;}
+    /**
+     * Retourne la visibilité de cet attribut.
+     * @return la visibilité (`public`, `private`, `protected`, `default`)
+     */
     public String  getVisibilite()    { return this.visibilite ;}
+    /**
+     * Indique si cet attribut est statique.
+     * @return `true` si statique, `false` sinon
+     */
     public boolean isStatic()         { return this.estStatic  ;}
+    /**
+     * Indique si cet attribut est final.
+     * @return `true` si final, `false` sinon
+     */
     public boolean isFinal()          { return this.estFinal   ;}
 
     /*--------------------------------------------------------------*/
     /* Retourne une chaîne décrivant l'objet Attribut              */
     /*--------------------------------------------------------------*/
+    /**
+     * Retourne la représentation texuelle de cet attribut.
+     *
+     * @return chaîne formatée avec tous les détails de l'attribut
+     */
     public String toString() 
     {
         String sRet = "";

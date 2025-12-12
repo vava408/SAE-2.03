@@ -4,14 +4,17 @@ import java.util.ArrayList;
 import src.membres.Methode;
 import src.membres.Parametre;
 
-/*-----------------------------------------------------------------------*/
-/*- Classe LireMethode : analyse et extraction des méthodes d’une classe */
-/*- Etape 4                                                              */
-/*- Groupe 6                                                             */
-/*- Date de création : 09/12/2025 11:40                                  */
-/*-----------------------------------------------------------------------*/
-
-public class LireMethode 
+/**
+ * Analyse et extraction des méthodes d'une classe Java.
+ *
+ * Fournit la lecture des signatures de méthode (visibilité, nom,
+ * type de retour, paramètres, modificateurs) et construit des
+ * instances de {@link src.membres.Methode}.
+ *
+ * @author Groupe 6
+ * @version Etape 4 - 09/12/2025
+ */
+public class LireMethode
 {
 	/*--------------------------------------------------------------*/
 	/* Attributs                                                    */
@@ -30,11 +33,25 @@ public class LireMethode
 	/*--------------------------------------------------------------*/
 	/* Accesseur : retourne la liste des méthodes                   */
 	/*--------------------------------------------------------------*/
+	/**
+	 * Retourne la liste complète des méthodes extraites de la classe.
+	 *
+	 * @return liste des {@link Methode} analysées
+	 */
 	public ArrayList<Methode> getListeMethodes() { return this.listeMethodes ;}
 
 	/*--------------------------------------------------------------*/
-	/* Lecture et construction d’une méthode                        */
+	/* Lecture et construction d'une méthode                        */
 	/*--------------------------------------------------------------*/
+	/**
+	 * Analyse une ligne décomposée et crée un objet {@link Methode}.
+	 *
+	 * Extrait la visibilité, le nom, le type de retour, les paramètres,
+	 * et les modificateurs (static, final) de la signature de méthode.
+	 * Détecte également les constructeurs.
+	 *
+	 * @param mots tableau de tokens provenant de {@link DecomposerLigne}
+	 */
 	public void lireMethode(String[] mots)
 	{
 		int     nbParametre   = 0;

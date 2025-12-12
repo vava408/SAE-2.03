@@ -193,68 +193,6 @@ public class LireFichier
 		catch (Exception e) { e.printStackTrace();}
 	}
 
-	//méthode pour traiter les records
-	public void traiterRecord(String[] tabMots)
-	{
-		//récupération de chaque valeur de la création du record pour créer des attributs
-		String[] tabAttributs = new String[tabMots.length-3];
-
-		//on créé tout les nouveaux attributs en final static
-		for(int i = 3; i <tabMots.length;i+=2)
-		{
-			tabAttributs[0] = "static";
-			tabAttributs[1] = "final";
-			tabAttributs[2] = tabMots[i];
-			tabAttributs[3] = tabMots[i+1];
-
-			//on créé un nouveau attribut
-			this.lireAttribut.lireAttribut(tabAttributs);
-
-
-			//pour chaque attributs, on créé un get et un set
-
-			String[] tabTemporaireGet = new String[3];
-
-			//création des getter pour le records
-			tabTemporaireGet[0] = "public";
-			tabTemporaireGet[1] = tabAttributs[2];                        //type de retour
-			tabTemporaireGet[2] = "get" + tabAttributs[3];                //nom du get
-			this.lireMethode.lireMethode(tabTemporaireGet);
-
-
-			String[] tabTemporaireSet = new String[5];
-
-			//création des setter pour le record
-			tabTemporaireSet[0] = "public";
-			tabTemporaireSet[1] = tabAttributs[2];                        //type de retour
-			tabTemporaireSet[2] = "set" + tabAttributs[3];                //nom du set
-			tabTemporaireSet[3] = tabAttributs[2];                        //type du paramètre
-			tabTemporaireSet[4] = tabAttributs[2].substring(0,3);         //nom  du paramètre
-			this.lireMethode.lireMethode(tabTemporaireSet);
-		}
-
-		String[] tabTemporaireToString = new String[3];
-
-		//création du toString pour le record
-		tabTemporaireToString[0] = "public";
-		tabTemporaireToString[1] = "String";
-		tabTemporaireToString[2] = "toString";
-		this.lireMethode.lireMethode(tabTemporaireToString);
-
-
-		String[] tabTemporaireConstructeur = new String[tabMots.length];
-
-		//création du constructeur
-		tabTemporaireConstructeur[0] = "public";
-		tabTemporaireConstructeur[1] = this.nomClasse;
-
-		//on récupère chaque attributs dans le tableau d'attributs
-		for(int i = 2; i < tabAttributs.length+2; i++)
-			tabTemporaireConstructeur[i] = tabAttributs[i-2];
-
-		this.lireMethode.lireMethode(tabTemporaireConstructeur);
-	}
-
 	/*--------------------------------------------------------------*/
 	/* Vérifie si le mot passé est un mot clé de déclaration       */
 	/*--------------------------------------------------------------*/

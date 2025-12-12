@@ -4,6 +4,6 @@
 set -e
 
 # Compile tous les .java dans src/
-javac @compile.list
+javac @compile.list -d ./class
 
-java src.Controleur
+java -cp class src.Controleur

@@ -107,6 +107,14 @@ public class LireFichier
 						this.lireHeritImplements.lireHeritImple(ligne);
 					}
 
+					//rajout d'un appel vers la méthode pour traiter les records
+                    if(ligne.contains("record"))
+                    {
+                        this.nomClasse = tabMots[2];
+                        this.motCle    = tabMots[1];
+                        traiterRecord(tabMots);
+                    }
+
 					if ( this.estLaPremiereLigne( tabMots[1] ) )
 					{
 						this.motCle = tabMots[ 1 ];
@@ -134,6 +142,56 @@ public class LireFichier
 		catch (Exception e){ e.printStackTrace(); }
 	}
 
+	//méthode pour traiter les records
+    public void traiterRecord(String[] tabMots)
+    {
+
+        //récupération de chaque valeur de la création du record pour créer des attributs
+        String[] tabAttributs = new String[tabMots.length-3];
+        for(int i = 3; i <tabMots.length;i++)
+            tabAttributs[i-3] = tabMots[i];
+
+        this.lireAttribut.lireAttribut(tabAttributs);
+
+
+        String[] tabTemporaire = new String[tabMots.length];
+
+        //pour chaque attributs, on créé un get et un set
+        for(int i = 0; i < tabAttributs.length; i+=2)
+        {
+            //création des getter pour le records
+            tabTemporaire[0] = "public";
+            tabTemporaire[1] = tabAttributs[i];
+            tabTemporaire[2] = "get" + tabAttributs[i+1];
+            this.lireMethode.lireMethode(tabTemporaire);
+
+            //création des setter pour le record
+            tabTemporaire[0] = "public";
+            tabTemporaire[1] = tabAttributs[i];
+            tabTemporaire[2] = "set" + tabAttributs[i+1];
+            tabTemporaire[3] = tabAttributs[i];
+            tabTemporaire[4] = tabAttributs[i].substring(0,3);
+            this.lireMethode.lireMethode(tabTemporaire);
+
+        }
+
+        //création du toString pour le record
+        tabTemporaire[0] = "public";
+        tabTemporaire[1] = "String";
+        tabTemporaire[2] = "toString";
+        this.lireMethode.lireMethode(tabTemporaire);
+
+
+        //création du constructeur
+        tabTemporaire[0] = "public";
+        tabTemporaire[1] = this.nomClasse;
+
+        //on récupère chaque attributs dans le tableau d'attributs
+        for(int i = 2; i < tabAttributs.length+2; i++)
+            tabTemporaire[i] = tabAttributs[i-2];
+
+        this.lireMethode.lireMethode(tabTemporaire);
+    }
 
 	//vérifie si le mot passé en paramètre est un mot clé de déclaration de classe
 	private boolean estLaPremiereLigne( String mot )

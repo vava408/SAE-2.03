@@ -1,5 +1,5 @@
 # SAE-2.03 – Étape 4
-### Présentation :
+## Présentation :
 
 Ce répertoire contient l’étape 4 du projet SAE‑2.03.
 Il inclut le code source ainsi que les ressources nécessaires pour exécuter et tester le projet.

@@ -79,7 +79,6 @@ public class LireAttribut
 				if (s.contains(m)) 
 				{
 					visibilite = m; 
-					continue;
 				}
 			}
 
@@ -87,14 +86,12 @@ public class LireAttribut
 			if (m.equals("static")) 
 			{
 				isStatic = true; 
-				continue;
 			}
 
 			// final
 			if (m.equals("final"))
 			{
 				isFinal = true;
-				continue;
 			}
 		}
 

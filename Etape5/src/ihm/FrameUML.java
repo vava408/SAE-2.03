@@ -28,7 +28,7 @@ public class FrameUML extends JFrame
 		this.menuBar           = new Menu             ( this );
 		this.panelPrincipal    = new PanelPrincipal   ( this );
 		this.panelListeFichier = new PanelListeFichier( this );
-		
+
 		/*-------------------------------*/
 		/* positionnement des composants */
 		/*-------------------------------*/
@@ -47,6 +47,8 @@ public class FrameUML extends JFrame
 	public void lireDossier( String chemin )
 	{
 		this.ctrl.lireDossier( chemin );
+		
+		this.panelPrincipal   .instancierPanel();
 		this.panelListeFichier.instancierPanel();
 	}
 

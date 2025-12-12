@@ -3,7 +3,7 @@
 /*-------------------------------------------------------------------*/
 public interface Forme
 {
-	double calculerAire();
+	public double calculerAire();
 
-	double calculerPerimetre();
+	public double calculerPerimetre();
 }

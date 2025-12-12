@@ -1,7 +1,6 @@
 package src.ihm;
 
 import java.util.ArrayList;
-
 import src.membres.Attribut;
 import src.membres.Methode;
 import src.membres.Parametre;
@@ -232,4 +231,113 @@ public class Vue
 
 		return sRet;
 	}
+
+	/*--------------------------------------------------------------*/
+	/* Affiche les Attributs                                        */
+	/*--------------------------------------------------------------*/
+	public String afficherAttribut(Attribut a)
+	{
+		String sRet = "";
+		String sVisibilite;
+
+		String sModifier = ""; // pour final ou autres annotations
+
+			
+			if (a.getVisibilite().equals("public"))
+			{
+				sVisibilite = "+ ";
+			}
+			else if (a.getVisibilite().equals("private"))
+			{
+				sVisibilite = "- "; 
+			}
+			else
+			{
+				sVisibilite = "# ";
+			}
+
+			// Déterminer la visibilité
+			if (a.isFinal())
+			{
+				sModifier = " {geler}";
+			}
+
+			
+			sRet += String.format("%s%-25s: %s%s\n", sVisibilite, a.getNom(), a.getType(), sModifier);
+			
+		return sRet;
+	}
+
+	/*--------------------------------------------------------------*/
+	/* Affiche les Méthodes                                        */
+	/*--------------------------------------------------------------*/
+	public String afficherMethode(Methode m)
+	{
+		String sRet = "";
+		String sVisibilite;
+
+		String sModifier = ""; // pour final ou autres annotations
+
+			// Déterminer la visibilité
+			if (m.getVisibilite().equals("public"))
+			{
+				sVisibilite = "+ ";
+			}
+			else if (m.getVisibilite().equals("private"))
+			{
+				sVisibilite = "- "; 
+			}
+			else
+			{
+				sVisibilite = "# ";
+			}
+
+			
+		String signature = sVisibilite + m.getNom() + " (";
+
+			if (m.getParametre().isEmpty())
+			{
+				signature += ")";
+			}
+
+			for (int cpt = 0; cpt < m.getParametre().size(); cpt++)
+			{
+				Parametre parametre = m.getParametre().get(cpt);
+
+				signature += " " + parametre.getNom() + " : " + parametre.getType();
+
+				if (cpt < m.getParametre().size() - 1)
+				{
+					signature += ",";
+				}
+				else
+				{
+					signature += " )";
+				}
+			}
+
+			if (m.getRetour() != null && !m.getRetour().equals("void"))
+			{
+				sRet += String.format("%-37s: %s\n", signature, m.getRetour());
+			}
+			else
+			{
+				sRet += signature + "\n";
+			}
+		return sRet;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

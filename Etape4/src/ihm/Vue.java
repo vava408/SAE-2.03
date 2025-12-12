@@ -1,7 +1,6 @@
 package src.ihm;
 
 import java.util.ArrayList;
-
 import src.membres.Attribut;
 import src.membres.Methode;
 import src.membres.Parametre;
@@ -81,8 +80,6 @@ public class Vue
 	 */
 	public String afficherClass(String typeClasse)
 	{
-		final String ANSI_UNDERLINE = "\033[4m";
-		final String ANSI_RESET = "\033[0m";
 		String sRet         = "";
 		String ligne        = "------------------------------------------------";
 		String sVisibilite;

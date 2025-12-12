@@ -97,9 +97,10 @@ public class LireFichier
 
 				tabMots = this.decomposerLigne.decomposerLigne( ligne );
 				
-				if ( ! ligne.startsWith( "import" ) && !ligne.isBlank() && ligne.startsWith( "private"    ) ||
-				                                                                   ligne.startsWith( "public"    )  ||
-																				   ligne.startsWith( "protected" ) )
+				if ( ! ligne.startsWith( "import"    )   && !ligne.isBlank() && 
+				       ligne.startsWith( "private"   )   ||
+				       ligne.startsWith( "public"    )   ||
+					   ligne.startsWith( "protected" ) )
 				{
 					if (ligne.contains("implements") || ligne.contains("extends"))
 					{
@@ -108,8 +109,10 @@ public class LireFichier
 
 					if ( this.estLaPremiereLigne( tabMots[1] ) )
 					{
-						this.motCle    = tabMots[ 1 ];
-						this.nomClasse = tabMots[ 2 ];
+						this.motCle = tabMots[ 1 ];
+
+						if   ( this.motCle.equals( "abstract" ) ) { this.nomClasse = tabMots[3]; }
+                        else                                      { this.nomClasse = tabMots[2]; }
 					}
 					else
 					{

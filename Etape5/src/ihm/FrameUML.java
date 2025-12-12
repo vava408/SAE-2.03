@@ -1,8 +1,10 @@
 package src.ihm;
 
 import src.Controleur;
+import src.metier.LireFichier;
 
 import java.awt.BorderLayout;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
@@ -25,15 +27,12 @@ public class FrameUML extends JFrame
 
 		this.menuBar           = new Menu             ( this );
 		this.panelPrincipal    = new PanelPrincipal   ( this );
-		this.panelListeFichier = new PanelListeFichier( this );
-
 		/*-------------------------------*/
 		/* positionnement des composants */
 		/*-------------------------------*/
 
 		this.add( this.menuBar          , BorderLayout.NORTH  );
 		this.add( this.panelPrincipal   , BorderLayout.CENTER );
-		this.add( this.panelListeFichier, BorderLayout.EAST   );
 
 		/*-------------------------------*/
 		/* Finalisation                  */
@@ -45,8 +44,25 @@ public class FrameUML extends JFrame
 	public void lireDossier( String chemin )
 	{
 		this.ctrl.lireDossier( chemin );
+
+		this.panelListeFichier = new PanelListeFichier( this );
+		this.add( this.panelListeFichier, BorderLayout.EAST   );
 	}
 
-	// Déclenche la méthode paintComponent du PanelPrincipal
-	public void maj() { this.panelPrincipal.repaint(); }
+	public int getNbClasses()
+	{
+		return this.ctrl.getNbClasses();
+	}
+
+	public ArrayList<LireFichier> getListeFichiers()
+	{
+		return this.ctrl.getListeFichiers();
+	}
+
+	// Déclenche la méthode paintComponent
+	public void maj()
+	{
+		this.panelPrincipal   .repaint();
+		this.panelListeFichier.repaint();
+	}
 }

@@ -41,6 +41,16 @@ public class LireDossier
 		}
 	}
 
+	public int getNbClasses()
+	{
+		return this.lstLireFichiers.size();
+	}
+
+	public ArrayList<LireFichier> getListeFichiers()
+	{
+		return this.lstLireFichiers;
+	}
+	
 	private void creerAssociation()
 	{
 		for ( LireFichier lF1 : this.lstLireFichiers )

@@ -189,8 +189,6 @@ public class LireFichier
     //méthode pour traiter les records
     public void traiterRecord(String[] tabMots)
     {
-        String[] tabTemporaire = new String[tabMots.length];
-
         //récupération de chaque valeur de la création du record pour créer des attributs
         String[] tabAttributs = new String[tabMots.length-3];
 
@@ -207,37 +205,47 @@ public class LireFichier
 
 
             //pour chaque attributs, on créé un get et un set
+
+            String[] tabTemporaireGet = new String[3];
+
             //création des getter pour le records
-            tabTemporaire[0] = "public";
-            tabTemporaire[1] = tabAttributs[2];                        //type de retour
-            tabTemporaire[2] = "get" + tabAttributs[3];                //nom du get
-            this.lireMethode.lireMethode(tabTemporaire);
+            tabTemporaireGet[0] = "public";
+            tabTemporaireGet[1] = tabAttributs[2];                        //type de retour
+            tabTemporaireGet[2] = "get" + tabAttributs[3];                //nom du get
+            this.lireMethode.lireMethode(tabTemporaireGet);
+
+
+            String[] tabTemporaireSet = new String[5];
 
             //création des setter pour le record
-            tabTemporaire[0] = "public";
-            tabTemporaire[1] = tabAttributs[2];                        //type de retour
-            tabTemporaire[2] = "set" + tabAttributs[3];                //nom du set
-            tabTemporaire[3] = tabAttributs[2];                        //type du paramètre
-            tabTemporaire[4] = tabAttributs[2].substring(0,3);         //nom  du paramètre
-            this.lireMethode.lireMethode(tabTemporaire);
+            tabTemporaireSet[0] = "public";
+            tabTemporaireSet[1] = tabAttributs[2];                        //type de retour
+            tabTemporaireSet[2] = "set" + tabAttributs[3];                //nom du set
+            tabTemporaireSet[3] = tabAttributs[2];                        //type du paramètre
+            tabTemporaireSet[4] = tabAttributs[2].substring(0,3);         //nom  du paramètre
+            this.lireMethode.lireMethode(tabTemporaireSet);
         }
 
-        //création du toString pour le record
-        tabTemporaire[0] = "public";
-        tabTemporaire[1] = "String";
-        tabTemporaire[2] = "toString";
-        this.lireMethode.lireMethode(tabTemporaire);
+        String[] tabTemporaireToString = new String[3];
 
+        //création du toString pour le record
+        tabTemporaireToString[0] = "public";
+        tabTemporaireToString[1] = "String";
+        tabTemporaireToString[2] = "toString";
+        this.lireMethode.lireMethode(tabTemporaireToString);
+
+
+        String[] tabTemporaireConstructeur = new String[tabMots.length];
 
         //création du constructeur
-        tabTemporaire[0] = "public";
-        tabTemporaire[1] = this.nomClasse;
+        tabTemporaireConstructeur[0] = "public";
+        tabTemporaireConstructeur[1] = this.nomClasse;
 
         //on récupère chaque attributs dans le tableau d'attributs
         for(int i = 2; i < tabAttributs.length+2; i++)
-            tabTemporaire[i] = tabAttributs[i-2];
+            tabTemporaireConstructeur[i] = tabAttributs[i-2];
 
-        this.lireMethode.lireMethode(tabTemporaire);
+        this.lireMethode.lireMethode(tabTemporaireConstructeur);
     }
 
     /*--------------------------------------------------------------*/

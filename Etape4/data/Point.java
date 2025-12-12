@@ -1,8 +1,8 @@
 /*-------------------------------------------------------------------*/
 /*- Classe Point : Représente un point dans un plan (coord. x, y).   */
-/*- Etape 4                                                           */
-/*- Groupe 6                                                          */
-/*- Date de création : 10/12/2025 08:30                               */
+/*- Etape 4                                                          */
+/*- Groupe 6                                                         */
+/*- Date de création : 10/12/2025 08:30                              */
 /*-------------------------------------------------------------------*/
 
 public class Point
@@ -25,7 +25,7 @@ public class Point
 	}
 
 	/*--------------------------------------------------------------*/
-	/* Accesseur : retourne le nom, la coordonnée X et Y                    */
+	/* Accesseur : retourne le nom, la coordonnée X et Y            */
 	/*--------------------------------------------------------------*/
 	public String getNom() { return this.nom ;}
 	
@@ -34,18 +34,9 @@ public class Point
 	public int    getY()   { return this.y   ;}
 
 	/*--------------------------------------------------------------*/
-	/* Modifie la coordonnée X                                      */
+	/* Modifieurs : la coordonnée X et Y                            */
 	/*--------------------------------------------------------------*/
-	public void setX(int x)
-	{
-		this.x = x;
-	}
+	public void setX(int x) { this.x = x ;}
 
-	/*--------------------------------------------------------------*/
-	/* Modifie la coordonnée Y                                      */
-	/*--------------------------------------------------------------*/
-	public void setY(int y)
-	{
-		this.y = y;
-	}
+	public void setY(int y) { this.y = y ;}
 }

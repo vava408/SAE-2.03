@@ -43,8 +43,8 @@ public class DecomposerLigne
 		// on retire les virgules
 		ligne = ligne.replace(",", " ");
 
-		// on retire les égaux
-		ligne = ligne.replace("=", " ");
+		// on met des espaces autour les égaux
+		ligne = ligne.replace("=", " = ");
 
 		// on supprime tous les doubles espaces pour faciliter le traitement
 		ligne = ligne.replaceAll("\\s+", " ").trim();
@@ -75,6 +75,12 @@ public class DecomposerLigne
 				
 				// quitte la boucle si on rencontre throws (toujours à la fin d'une méthode)
 				if(s.startsWith("throws"))
+				{
+					break;
+				}
+
+				// quitte la boucle si on rencontre un espace
+				if(s.startsWith("="))
 				{
 					break;
 				}

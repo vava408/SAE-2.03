@@ -30,5 +30,10 @@ public class Controleur
 		Controleur ctrl = new Controleur ( args[0] );
 		
 		System.out.println( ctrl.getVue().afficher() );
+        
+        for ( var a : ctrl.lireDossier.getListAssociations() )
+        {
+            System.out.println( a );
+        }
 	}
 }

@@ -42,6 +42,16 @@ public class LireDossier
 		this.creerAssociation();
 	}
 
+	public ArrayList<Association> getListAssociations()
+	{
+		return this.lstAssociations;
+	}
+	
+	public ArrayList<LireFichier> getListeFichiers()
+	{
+		return this.lstLireFichiers;
+	}
+
 	/*--------------------------------------------------------------*/
 	/* Lit tous les fichiers Java dans le dossier                  */
 	/*--------------------------------------------------------------*/
@@ -64,10 +74,6 @@ public class LireDossier
 		}
 	}
 
-	public ArrayList<LireFichier> getListeFichiers()
-	{
-		return this.lstLireFichiers;
-	}
 
 	/*--------------------------------------------------------------*/
 	/* Crée les associations entre classes à partir des attributs  */

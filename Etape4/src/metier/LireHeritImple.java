@@ -69,13 +69,19 @@ public class LireHeritImple
 		String nomClasse = mots[2];
 		String motCle = mots[4];
 
+		if (mots[3].equals("extends"))
+		{
+			// System.out.println(this.lireFichier.getNomClasse());
+			this.mapExtends.put(nomClasse, motCle);
+		}
+
 		if (mots[3].equals("implements"))
 		{
 			int index = 0;
 			for (String stringMot : mots)
 			{
 				index++;
-				if (this.lireFichier.nomEstDansRepertoire(stringMot) || index > 4)
+				if (this.lireFichier.nomEstDansRepertoire(stringMot) && index > 4)
 				{
 					this.listeImplements.add(stringMot);
 				}
@@ -89,19 +95,13 @@ public class LireHeritImple
 			for (String stringMot : mots)
 			{
 				index++;
-				if (this.lireFichier.nomEstDansRepertoire(stringMot) || index > 6)
+				if (this.lireFichier.nomEstDansRepertoire(stringMot) && index > 6)
 				{
 					this.listeImplements.add(stringMot);
 				}
 			}
 			this.mapImplements.put(nomClasse, this.listeImplements);
 
-		}
-
-		if (mots[3].equals("extends"))
-		{
-			// System.out.println(this.lireFichier.getNomClasse());
-			this.mapExtends.put(nomClasse, motCle);
 		}
 	}
 }

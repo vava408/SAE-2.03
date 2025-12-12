@@ -153,7 +153,6 @@ public class LireDossier
 			System.out.println(lF.toString());
 		}
 
-		System.out.println();
 
 		for (Association a : this.lstAssociations)
 		{
@@ -163,8 +162,9 @@ public class LireDossier
 		for (LireFichier lF : this.lstLireFichiers)
 		{
 			System.out.println(lF.afficherHeritage());
-			System.out.println(lF.afficherInterface());
+			System.out.print(lF.afficherInterface());
 		}
+
 	}
 
 	/*--------------------------------------------------------------*/

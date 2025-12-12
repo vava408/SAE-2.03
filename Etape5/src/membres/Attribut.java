@@ -42,34 +42,15 @@ public class Attribut {
 	// affichage textuel de l'attribut
 	public String toString() 
 	{
-		String sRet = "";
-		String sVisibilite;
+        String sRet = "";
 
-		String sModifier = ""; // pour final ou autres annotations
+        sRet += "Attribut ID   : " + this.attributId + "\n";
+        sRet += "Nom           : " + this.nom        + "\n";
+        sRet += "Type          : " + this.type       + "\n";
+        sRet += "Visibilité    : " + this.visibilite + "\n";
+        sRet += "Est static    : " + this.estStatic  + "\n";
+        sRet += "Est final     : " + this.estFinal   + "\n";
 
-			
-			if (this.getVisibilite().equals("public"))
-			{
-				sVisibilite = "+ ";
-			}
-			else if (this.getVisibilite().equals("private"))
-			{
-				sVisibilite = "- "; 
-			}
-			else
-			{
-				sVisibilite = "# ";
-			}
-
-			// Déterminer la visibilité
-			if (this.isFinal())
-			{
-				sModifier = " {geler}";
-			}
-
-			
-			sRet += String.format("%s%-25s: %s%s\n", sVisibilite, this.getNom(), this.getType(), sModifier);
-			
-		return sRet;
+        return sRet;
 	}
 }

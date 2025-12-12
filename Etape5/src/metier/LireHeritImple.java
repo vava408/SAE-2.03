@@ -1,12 +1,14 @@
 package src.metier;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class LireHeritImple
 {
 	private LireFichier lireFichier;
-	private DecomposerLigne decomposerLigne;;
-	private HashMap<String, String> mapImplements;
+	private DecomposerLigne decomposerLigne;
+	private ArrayList<String> listeImplements;
+	private HashMap<String, ArrayList<String> > mapImplements;
 	private HashMap<String, String> mapExtends;
 	private String[] mot;
 
@@ -17,6 +19,7 @@ public class LireHeritImple
 		this.decomposerLigne = new DecomposerLigne();
 		this.mapImplements = new HashMap<>();
 		this.mapExtends = new HashMap<>();
+		this.listeImplements = new ArrayList<>();
 	}
 
 	public void lireHeritImple(String ligne)
@@ -29,10 +32,31 @@ public class LireHeritImple
 
 		if (mots[3].equals("implements"))
 		{
-			if (this.lireFichier.nomEstDansRepertoire(motCle) )
+			int index = 0;
+			for (String stringMot : mots)
 			{
-				this.mapImplements.put(nomClasse, motCle);
+				index++;
+				if (this.lireFichier.nomEstDansRepertoire(stringMot) || index > 4)
+				{
+					this.listeImplements.add(stringMot);
+				}
 			}
+			this.mapImplements.put(nomClasse, this.listeImplements);
+		}
+
+		if (mots.length > 6 && mots[5].equals("implements"))
+		{
+			int index = 0;
+			for (String stringMot : mots)
+			{
+				index++;
+				if (this.lireFichier.nomEstDansRepertoire(stringMot) || index > 6)
+				{
+					this.listeImplements.add(stringMot);
+				}
+			}
+			this.mapImplements.put(nomClasse, this.listeImplements);
+
 		}
 
 		if (mots[3].equals("extends"))
@@ -42,7 +66,7 @@ public class LireHeritImple
 		}
 	}
 
-	public HashMap<String,String> getMapImplements()
+	public HashMap<String, ArrayList<String> > getMapImplements()
 	{
 		return this.mapImplements;
 	}

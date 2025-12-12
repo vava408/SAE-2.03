@@ -5,7 +5,7 @@
 /*- Date de création : 10/12/2025 08:30                               */
 /*-------------------------------------------------------------------*/
 
-public class Point
+public class Point implements Figure , Forme
 {
 	/*--------------------------------------------------------------*/
 	/* Déclaration des attributs                                    */

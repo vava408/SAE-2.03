@@ -74,7 +74,7 @@ public class LireFichier
 	}
 
 
-	public HashMap<String, String> getMapImple()
+	public HashMap<String, ArrayList<String> > getMapImple()
 	{
 		return this.lireHeritImplements.getMapImplements();
 	}

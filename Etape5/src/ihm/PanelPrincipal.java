@@ -1,6 +1,7 @@
 package src.ihm;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -87,10 +88,10 @@ public class PanelPrincipal extends JPanel
         this.repaint();
     }
 
-		public void exportToImage(String path)
+	public void exportToImage(String path)
 	{
 
-		BufferedImage img = new BufferedImage(5000, 5000, BufferedImage.TYPE_INT_ARGB);
+		BufferedImage img = new BufferedImage(this.getWidth(),  this.getHeight() , BufferedImage.TYPE_INT_ARGB);
 
 		// Récupération du Graphics2D de l'image
 		Graphics2D g2d = img.createGraphics();

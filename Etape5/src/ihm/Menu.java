@@ -21,6 +21,8 @@ public class Menu extends JMenuBar implements ActionListener
     private Consumer<String> onExporter;
     private Runnable onActualiser;
 
+	private Bloc bloc;
+
     public Menu(FrameUML frameUML) 
     {
         this.frameUML = frameUML;
@@ -118,23 +120,27 @@ public class Menu extends JMenuBar implements ActionListener
         catch ( Exception e ) {}
     }
 
-    public void exporter() 
-    {
-        try 
-        {
-            JFileChooser fileChooser = new JFileChooser();
-            int returnValue = fileChooser.showSaveDialog(null);
-            if (returnValue == JFileChooser.APPROVE_OPTION) 
-            {
-                String selectedPath = fileChooser.getSelectedFile().getAbsolutePath();
-                if (onExporter != null) 
-                {
-                    onExporter.accept(selectedPath);
-                } 
-            }
-        } 
-        catch (Exception ex) {}
-    }
+	public void exporter()
+	{
+		try
+		{
+			JFileChooser fileChooser = new JFileChooser();
+			int returnValue = fileChooser.showSaveDialog(null);
+			
+			if (returnValue == JFileChooser.APPROVE_OPTION)
+			{
+				String selectedPath = fileChooser.getSelectedFile().getAbsolutePath();
+				// if (onExporter != null)
+				// {
+				System.out.println("Exporting to: " + selectedPath);
+				this.frameUML.exportToImage(selectedPath);
+				// onExporter.accept(selectedPath);
+				// }
+			}
+		} catch (Exception ex)
+		{
+		}
+	}
 
     public void refresh() 
     {

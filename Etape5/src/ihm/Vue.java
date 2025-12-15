@@ -221,14 +221,22 @@ public class Vue
 		String sVisibilite = "";
 		String sFinal      = "";
 
-		if ( a.getVisibilite().equals("private") ) sVisibilite = "- "; else sVisibilite = "+ ";
+		if ( a.getVisibilite().equals("private") ) 
+		{		
+			sVisibilite = "- ";
+		}
+		else if ( a.getVisibilite().equals( "public" ) )
+		{
+			sVisibilite = "+ ";
+		}
+		else
+		{
+			sVisibilite = "# ";
+		}
 
 		if ( a.isFinal() ) sFinal = " {gelé}";
 
-		if ( a.isStatic() )
-		{
-			sRet += String.format( "%s%-35s: %s%s\n", sVisibilite, a.getNom(), a.getType(), sFinal );
-		}
+		sRet += String.format( "%s%-35s: %s%s\n", sVisibilite, a.getNom(), a.getType(), sFinal );
 
 		return sRet;
 	}
@@ -243,9 +251,13 @@ public class Vue
 		{
 			sVisibilite = "- "; 
 		}
-		else
+		else if ( m.getVisibilite().equals( "public" ) )
 		{
 			sVisibilite = "+ ";
+		}
+		else
+		{
+			sVisibilite = "# ";
 		}
 
 		if ( m.getParametre().isEmpty() )
@@ -263,9 +275,13 @@ public class Vue
 		}
 
 		if ( m.getRetour() != null && ! m.getRetour().equals("void") )
+		{
 			sRet += String.format("%-37s: %s\n", sSignature, m.getRetour());
+		}
 		else
+		{
 			sRet += sSignature + "\n";
+		}
 
 		return sRet;
 	}

@@ -13,6 +13,7 @@ public class Point implements Figure , Forme
 	private String nom;
 	private int    x;
 	private int    y;
+	public static char lettre = 'a';
 
 	/*--------------------------------------------------------------*/
 	/* Constructeur : initialise un point                           */

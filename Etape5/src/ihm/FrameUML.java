@@ -66,6 +66,11 @@ public class FrameUML extends JFrame
 		return this.ctrl.getListeFichiers();
 	}
 
+	public void setPosition( LireFichier lF, int x, int y )
+	{
+		this.ctrl.setPosition( lF, x, y );
+	}
+
 	public String afficherAttribut( Attribut a )
 	{
 		return this.ctrl.afficherAttribut( a );

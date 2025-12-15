@@ -54,6 +54,14 @@ public class LireDossier
 	{
 		return this.lstLireFichiers;
 	}
+
+	public void setPosition( LireFichier lF, int x, int y )
+	{
+		for ( LireFichier classe : this.lstLireFichiers )
+		{
+			if ( classe == lF ) { classe.setPosition(x, y); }
+		}
+	}
 	
 	private void creerAssociation()
 	{

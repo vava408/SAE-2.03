@@ -53,6 +53,11 @@ public class Controleur
 		return this.lireDossier.getListeFichiers();
 	}
 
+	public void setPosition( LireFichier lF, int x, int y )
+	{
+		this.lireDossier.setPosition( lF, x, y );
+	}
+
 	public String afficherAttribut( Attribut a )
 	{
 		return this.vue.afficherAttribut( a );

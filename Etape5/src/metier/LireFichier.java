@@ -3,7 +3,6 @@ package src.metier;
 import java.io.FileInputStream;
 import java.util.*;
 
-import src.ihm.Vue;
 import src.membres.Attribut;
 import src.membres.Methode;
 
@@ -24,6 +23,9 @@ public class LireFichier
 	
 	private String                    motCle         ;
 	private String                    nomClasse      ;
+
+	private int                       posX;
+	private int                       posY;
 
 	// constructeur  prend en paramètre la classe LireDossier et le nom du fichier à lire
 	public LireFichier( LireDossier lectureDossier, String fileName) 
@@ -75,6 +77,22 @@ public class LireFichier
 	public HashMap<String, ArrayList<String> > getMapImple()
 	{
 		return this.lireHeritImplements.getMapImplements();
+	}
+
+	public int getPosX()
+	{
+		return this.posX;
+	}
+
+	public int getPosY()
+	{
+		return this.posY;
+	}
+
+	public void setPosition ( int x, int y )
+	{
+		this.posX = x;
+		this.posY = y;
 	}
 
 	//lit le fichier passé en paramètre 

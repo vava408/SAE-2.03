@@ -44,6 +44,8 @@ public class PanelPrincipal extends JPanel
 				this.hMBlocs.put( bloc, lF );
 			}
 
+			bloc.setLocation ( lF.getPosX(), lF.getPosY() );
+
 			this.add( bloc );
 			bloc.maj();
 		}
@@ -79,6 +81,11 @@ public class PanelPrincipal extends JPanel
 	public String afficherMethode ( Methode m )
 	{
 		return this.frameUML.afficherMethode( m );
+	}
+
+	public void setPosition( Bloc b, int x, int y )
+	{
+		this.frameUML.setPosition( this.hMBlocs.get( b ), x, y );
 	}
 
     public void maj ()

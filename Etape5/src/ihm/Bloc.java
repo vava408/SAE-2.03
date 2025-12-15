@@ -120,27 +120,27 @@ public class Bloc extends JPanel
 
 		String nomClasse   = this.panelPrincipal.getNomClasse( this );
 		int    xNomClasse  = ( largeur - fm.stringWidth( nomClasse ) ) / 2;
-		g2.drawString(nomClasse, xNomClasse, yTexte);
+		g2.drawString( nomClasse, xNomClasse, yTexte );
 
 		// Ligne séparatrice nom/attributs
 		yCourant = hauteurNom;
 		g2.drawLine(0, yCourant, largeur, yCourant);
 
 		// Attributs
-		g2.setFont(new Font("Arial", Font.PLAIN, 11));
+		g2.setFont( new Font( "Arial", Font.PLAIN, 11 ) );
 		
 		yTexte = yCourant + hauteurLigneAttribut;
 		for ( Attribut a : this.panelPrincipal.getListeAttributs( this ) )
 		{
 			String affichage = this.panelPrincipal.afficherAttribut( a );
 
-			g2.drawString( affichage, margeHorizontale / 2, yTexte);
+			g2.drawString( this.panelPrincipal.afficherAttribut( a ), margeHorizontale / 2, yTexte);
 			
 			if ( a.isStatic() )
 			{
 				int largeurTexte = g2.getFontMetrics().stringWidth( affichage );
 
-				g2.drawLine(margeHorizontale / 2, yTexte + 1, margeHorizontale / 2 + largeurTexte, yTexte + 1);
+				g2.drawLine( margeHorizontale / 2, yTexte + 1, margeHorizontale / 2 + largeurTexte, yTexte + 1 );
 			}
 				
 			yTexte += hauteurLigneAttribut;
@@ -190,6 +190,11 @@ public class Bloc extends JPanel
         {
             int dx = e.getX ( ) - coordonneePoint.x;
             int dy = e.getY ( ) - coordonneePoint.y;
+
+			int nouveauX = e.getX() + dx;
+			int nouveauY = e.getY() + dy;
+
+			Bloc.this.panelPrincipal.setPosition( Bloc.this, nouveauX, nouveauY );
 
             setLocation ( getX ( ) + dx, getY ( ) + dy );
             getParent ( ).repaint ( );

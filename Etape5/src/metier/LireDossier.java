@@ -55,6 +55,11 @@ public class LireDossier
 		return this.lstLireFichiers;
 	}
 
+	public ArrayList<Association> getListeAssociation()
+	{
+		return this.lstAssociations;
+	}
+
 	public void setPosition( LireFichier lF, int x, int y )
 	{
 		for ( LireFichier classe : this.lstLireFichiers )

@@ -27,6 +27,9 @@ public class LireFichier
 	private int                       posX;
 	private int                       posY;
 
+	private int                       hauteurMax;
+	private int                       largeurMax;
+
 	// constructeur  prend en paramètre la classe LireDossier et le nom du fichier à lire
 	public LireFichier( LireDossier lectureDossier, String fileName) 
 	{
@@ -93,6 +96,23 @@ public class LireFichier
 	{
 		this.posX = x;
 		this.posY = y;
+	}
+
+
+	public int getHauteur()
+	{
+		return this.posX;
+	}
+
+	public int getLargeur()
+	{
+		return this.posY;
+	}
+
+	public void setTaille ( int h, int l )
+	{
+		this.hauteurMax = h;
+		this.largeurMax = l;
 	}
 
 	//lit le fichier passé en paramètre 
@@ -239,5 +259,49 @@ public class LireFichier
 			}
 		}
 		return false;
+	}
+
+
+	//méthode pour gérer la taille des classes
+	public int calculTaille()
+	{
+		// constante pour le calcul des tailles
+		int margeVerticalNom       = 40;
+		int margeVerticalAttributs = 20;
+		int margeVerticalMethodes  = 20;
+		int hauteurLigneAttribut   = 18;
+		int hauteurLigneMethode    = 18;
+
+		int hauteurTotale = margeVerticalNom       + getListeAttributs().size() * hauteurLigneAttribut +
+                            margeVerticalAttributs + getListeMethodes ().size() * hauteurLigneMethode  +
+							margeVerticalMethodes;
+
+		return hauteurTotale;
+	}
+
+	//méthode pour calculer la largeur maximale afin d'adapter la taille des blocs
+	public int caulculLargeurMax()
+	{
+		int largeurMax = 100;
+
+		if ( ! this.motCle.equals("class"))
+		{
+			String stereotype = "<< " + this.motCle + " >>";
+			largeurMax = Math.max(largeurMax, stereotype.length() *10 + 30);
+		}
+
+		largeurMax = Math.max( largeurMax, this.nomClasse.length() *10 + 30);
+
+		for ( Attribut a : getListeAttributs() )
+		{
+			largeurMax = Math.max( largeurMax, a.toString().length() *3 + 30);
+		}
+
+		for ( Methode m : getListeMethodes() )
+		{
+			largeurMax = Math.max( largeurMax, m.toString().length() + 30);
+		}
+
+		return largeurMax;
 	}
 }

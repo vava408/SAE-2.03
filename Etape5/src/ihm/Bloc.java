@@ -30,7 +30,7 @@ public class Bloc extends JPanel
 
     public void maj()
 	{
-		// Calcul de la hauteur
+		/*// Calcul de la hauteur
 		int margeVerticalNom       = 40;
 		int margeVerticalAttributs = 20;
 		int margeVerticalMethodes  = 20;
@@ -65,7 +65,11 @@ public class Bloc extends JPanel
 		for ( Methode m : this.panelPrincipal.getListeMethodes( this ) )
 		{
 			largeurMax = Math.max( largeurMax, fmTexte.stringWidth( m.toString() ) + 30);
-		}
+		}*/
+
+		//on récupère la taille et la largeur des blocs
+		int largeurMax    = this.panelPrincipal.getLargeurMax(this);
+		int hauteurTotale = this.panelPrincipal.getTaille    (this);
 
 		// Appliquer taille
 		this.setSize( largeurMax, hauteurTotale );
@@ -95,10 +99,7 @@ public class Bloc extends JPanel
 		int hauteurAttributs = this.panelPrincipal.getListeAttributs( this ).size() * 
 		                       hauteurLigneAttribut + margeVerticalAttributs;
 
-		int hauteurMethodes  = this.panelPrincipal.getListeMethodes ( this ).size() * 
-		                       hauteurLigneMethode + margeVerticalMethodes;
-
-		int hauteurTotale    = hauteurNom + hauteurAttributs + hauteurMethodes;
+		int hauteurTotale    = this.panelPrincipal.getTaille(this);
 
 		// Contour global
 		g2.setColor(Color.BLACK);
@@ -110,6 +111,7 @@ public class Bloc extends JPanel
 		FontMetrics fm = g2.getFontMetrics();
 		int yTexte = 20;
 
+		//on dessine les noms des classes
 		if (! this.panelPrincipal.getMotCle( this ).equals("class"))
 		{
 			String stereotype = "<< " + this.panelPrincipal.getMotCle( this ) + " >>";
@@ -128,21 +130,21 @@ public class Bloc extends JPanel
 
 		// Attributs
 		g2.setFont( new Font( "Arial", Font.PLAIN, 11 ) );
-		
+
 		yTexte = yCourant + hauteurLigneAttribut;
 		for ( Attribut a : this.panelPrincipal.getListeAttributs( this ) )
 		{
 			String affichage = this.panelPrincipal.afficherAttribut( a );
 
 			g2.drawString( this.panelPrincipal.afficherAttribut( a ), margeHorizontale / 2, yTexte);
-			
+
 			if ( a.isStatic() )
 			{
 				int largeurTexte = g2.getFontMetrics().stringWidth( affichage );
 
 				g2.drawLine( margeHorizontale / 2, yTexte + 1, margeHorizontale / 2 + largeurTexte, yTexte + 1 );
 			}
-				
+
 			yTexte += hauteurLigneAttribut;
 		}
 

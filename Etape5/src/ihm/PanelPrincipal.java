@@ -65,6 +65,10 @@ public class PanelPrincipal extends JPanel
 		return this.hMBlocs.get( b ).getListeMethodes();
 	}
 
+	public int getTaille(Bloc b) { return this.hMBlocs.get(b).calculTaille(); }
+
+	public int getLargeurMax(Bloc b) { return this.hMBlocs.get(b).caulculLargeurMax(); }
+
 	public String getMotCle( Bloc b )
 	{
 		return this.hMBlocs.get( b ).getMotCle();

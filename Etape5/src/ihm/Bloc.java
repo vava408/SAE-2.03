@@ -1,28 +1,26 @@
 package src.ihm;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JPanel;
 
-import src.metier.LireFichier;
+import src.membres.Attribut;
+import src.membres.Methode;
 
 public class Bloc extends JPanel
 {
-    private LireFichier lireFichier;
+	private PanelPrincipal panelPrincipal;
 
-    public Bloc ( LireFichier lireFichier )
+    public Bloc ( PanelPrincipal panelPrincipal )
     {
-        this.lireFichier = lireFichier;
+        this.panelPrincipal = panelPrincipal;
         this.setBackground ( new Color ( 250, 250, 250 ) );
-        this.maj ( );
 
         GereSouris gs = new GereSouris ( );
         this.addMouseListener ( gs );
@@ -38,9 +36,10 @@ public class Bloc extends JPanel
 		int hauteurLigneAttribut   = 18;
 		int hauteurLigneMethode    = 18;
 
-		int hauteurTotale = margeVerticalNom
-						+ lireFichier.getListeAttributs().size() * hauteurLigneAttribut + margeVerticalAttributs
-						+ lireFichier.getListeMethodes().size()  * hauteurLigneMethode + margeVerticalMethodes;
+		int hauteurTotale = margeVerticalNom + this.panelPrincipal.getListeAttributs( this ).size() * 
+		                                       hauteurLigneAttribut + margeVerticalAttributs + 
+											   this.panelPrincipal.getListeMethodes( this ).size()  * 
+											   hauteurLigneMethode + margeVerticalMethodes;
 
 		// Calcul largeur maximale en fonction des textes
 		int         largeurMax = 100; // largeur minimum
@@ -49,30 +48,30 @@ public class Bloc extends JPanel
 		FontMetrics fmNom      = getFontMetrics( fontNom                     );
 		FontMetrics fmTexte    = getFontMetrics( fontTexte                   );
 
-		if (!lireFichier.getMotCle().equals("class"))
+		if ( ! this.panelPrincipal.getMotCle( this ).equals("class"))
 		{
-			String stereotype = "<< " + lireFichier.getMotCle() + " >>";
+			String stereotype = "<< " + this.panelPrincipal.getMotCle( this ) + " >>";
 			largeurMax = Math.max(largeurMax, fmNom.stringWidth(stereotype) + 30);
 		}
 
-		largeurMax = Math.max(largeurMax, fmNom.stringWidth(lireFichier.getNomClasse()) + 30);
+		largeurMax = Math.max( largeurMax, fmNom.stringWidth( this.panelPrincipal.getNomClasse( this ) ) + 30);
 
-		for (var att : lireFichier.getListeAttributs())
+		for ( Attribut a : this.panelPrincipal.getListeAttributs( this ) )
 		{
-			largeurMax = Math.max(largeurMax, fmTexte.stringWidth(att.toString()) + 30);
+			largeurMax = Math.max( largeurMax, fmTexte.stringWidth( a.toString() ) + 30);
 		}
 
-		for (var m : lireFichier.getListeMethodes())
+		for ( Methode m : this.panelPrincipal.getListeMethodes( this ) )
 		{
-			largeurMax = Math.max(largeurMax, fmTexte.stringWidth(m.toString()) + 30);
+			largeurMax = Math.max( largeurMax, fmTexte.stringWidth( m.toString() ) + 30);
 		}
 
 		// Appliquer taille
-		this.setSize(largeurMax, hauteurTotale);
-		this.setPreferredSize(getSize());
+		this.setSize( largeurMax, hauteurTotale );
+		this.setPreferredSize( getSize() );
 		this.repaint();
 	}
-	@Override
+
 	protected void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
@@ -91,8 +90,13 @@ public class Bloc extends JPanel
 		int hauteurLigneMethode    = 18;
 
 		int hauteurNom       = margeVerticalNom;
-		int hauteurAttributs = lireFichier.getListeAttributs().size() * hauteurLigneAttribut + margeVerticalAttributs;
-		int hauteurMethodes  = lireFichier.getListeMethodes().size() * hauteurLigneMethode + margeVerticalMethodes;
+
+		int hauteurAttributs = this.panelPrincipal.getListeAttributs( this ).size() * 
+		                       hauteurLigneAttribut + margeVerticalAttributs;
+
+		int hauteurMethodes  = this.panelPrincipal.getListeMethodes ( this ).size() * 
+		                       hauteurLigneMethode + margeVerticalMethodes;
+
 		int hauteurTotale    = hauteurNom + hauteurAttributs + hauteurMethodes;
 
 		// Contour global
@@ -105,16 +109,16 @@ public class Bloc extends JPanel
 		FontMetrics fm = g2.getFontMetrics();
 		int yTexte = 20;
 
-		if (!lireFichier.getMotCle().equals("class"))
+		if (! this.panelPrincipal.getMotCle( this ).equals("class"))
 		{
-			String stereotype = "<< " + lireFichier.getMotCle() + " >>";
+			String stereotype = "<< " + this.panelPrincipal.getMotCle( this ) + " >>";
 			int xStereotype   = (largeur - fm.stringWidth(stereotype)) / 2;
 			g2.drawString(stereotype, xStereotype, yTexte);
 			yTexte += 18;
 		}
 
-		String nomClasse   = lireFichier.getNomClasse();
-		int xNomClasse     = (largeur - fm.stringWidth(nomClasse)) / 2;
+		String nomClasse   = this.panelPrincipal.getNomClasse( this );
+		int    xNomClasse  = ( largeur - fm.stringWidth( nomClasse ) ) / 2;
 		g2.drawString(nomClasse, xNomClasse, yTexte);
 
 		// Ligne séparatrice nom/attributs
@@ -125,13 +129,16 @@ public class Bloc extends JPanel
 		g2.setFont(new Font("Arial", Font.PLAIN, 11));
 		
 		yTexte = yCourant + hauteurLigneAttribut;
-		for (var att : lireFichier.getListeAttributs())
+		for ( Attribut a : this.panelPrincipal.getListeAttributs( this ) )
 		{
-			g2.drawString(att.toString(), margeHorizontale / 2, yTexte);
+			String affichage = this.panelPrincipal.afficherAttribut( a );
+
+			g2.drawString( affichage, margeHorizontale / 2, yTexte);
 			
-			if (att.isStatic())
+			if ( a.isStatic() )
 			{
-				int largeurTexte = g2.getFontMetrics().stringWidth(att.toString());
+				int largeurTexte = g2.getFontMetrics().stringWidth( affichage );
+
 				g2.drawLine(margeHorizontale / 2, yTexte + 1, margeHorizontale / 2 + largeurTexte, yTexte + 1);
 			}
 				
@@ -146,14 +153,17 @@ public class Bloc extends JPanel
 		yTexte = yCourant + 16;
 		int yBasMethodes = yTexte;
 
-		for (var m : lireFichier.getListeMethodes())
+		for ( Methode m : this.panelPrincipal.getListeMethodes( this ) )
 		{
-			g2.drawString(m.toString(), margeHorizontale / 2, yTexte);
+			String affichage = this.panelPrincipal.afficherMethode( m );
 
-			if (m.isStatic())
+			g2.drawString( affichage, margeHorizontale / 2, yTexte );
+
+			if ( m.isStatic() )
 			{
-				int largeurTexte = g2.getFontMetrics().stringWidth(m.toString());
-				g2.drawLine(margeHorizontale / 2, yTexte + 1, margeHorizontale / 2 + largeurTexte, yTexte + 1);
+				int largeurTexte = g2.getFontMetrics().stringWidth( affichage );
+
+				g2.drawLine( margeHorizontale / 2, yTexte + 1, margeHorizontale / 2 + largeurTexte, yTexte + 1 );
 			}
 
 			yTexte += hauteurLigneMethode;
@@ -170,13 +180,11 @@ public class Bloc extends JPanel
     {
         private Point coordonneePoint;
 
-        @Override
         public void mousePressed ( MouseEvent e )
         {
             coordonneePoint = e.getPoint ( );
         }
 
-        @Override
         public void mouseDragged ( MouseEvent e )
         {
             int dx = e.getX ( ) - coordonneePoint.x;

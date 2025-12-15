@@ -20,7 +20,6 @@ public class LireFichier
 	private DecomposerLigne           decomposerLigne;
 	private LireMethode               lireMethode    ;
 	private LireAttribut              lireAttribut   ;
-	private Vue                       vue            ;
 	
 	
 	private String                    motCle         ;
@@ -35,7 +34,6 @@ public class LireFichier
 		this.lireHeritImplements = new LireHeritImple( this);
 		this.lireMethode     = new LireMethode    ( this );
 		this.lireAttribut    = new LireAttribut   ( this );
-		this.vue             = new Vue            ( this );
 
         lireFichier( fileName );
     }
@@ -223,21 +221,5 @@ public class LireFichier
 			}
 		}
 		return false;
-	}
-
-	public String afficherHeritage()
-	{
-		return this.vue.afficherHeritage();
-	}
-
-	public String afficherInterface()
-	{
-		return this.vue.afficherInterface();
-	}
-
-	//affichage de la classe lue sous forme textuelle
-	public String toString()
-	{
-		return this.vue.afficher();
 	}
 }

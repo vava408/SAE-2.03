@@ -3,7 +3,8 @@ package src.metier;
 import java.io.File;
 import java.util.ArrayList;
 
-import src.ihm.Vue;
+import src.Controleur;
+
 import src.membres.Association;
 import src.membres.Attribut;
 
@@ -11,9 +12,12 @@ public class LireDossier
 {
 	private ArrayList<Association> lstAssociations;
 	private ArrayList<LireFichier> lstLireFichiers;
+	private Controleur             ctrl;
 
-	public LireDossier( String cheminDossier )
+	public LireDossier( Controleur ctrl, String cheminDossier )
 	{
+		this.ctrl = ctrl;
+
 		this.lstAssociations = new ArrayList<Association>();
 		this.lstLireFichiers = new ArrayList<LireFichier>();
 		
@@ -132,10 +136,7 @@ public class LireDossier
 
 	public void afficherClasses()
 	{
-		for( LireFichier lF : this.lstLireFichiers )
-		{
-			System.out.println( lF.toString() );
-		}
+		System.out.println( this.ctrl.getVue().afficher() );
 
 		System.out.println();
 		
@@ -146,16 +147,8 @@ public class LireDossier
 
 		for ( LireFichier lF : this.lstLireFichiers )
 		{
-			System.out.println( lF.afficherHeritage () );
-			System.out.println( lF.afficherInterface() );
+			System.out.println( this.ctrl.getVue().afficherHeritage ( lF ) );
+			System.out.println( this.ctrl.getVue().afficherInterface( lF ) );
 		}
-	}
-
-	public static void main( String[] args ) 
-	{
-		LireDossier lectureDossier = new LireDossier( args[0] );
-
-		lectureDossier.afficherClasses();
-
 	}
 }

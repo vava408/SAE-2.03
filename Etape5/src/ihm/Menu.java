@@ -88,22 +88,22 @@ public class Menu extends JMenuBar implements ActionListener
 
 
     public void ouvrirDossier() 
-{
-    JFileChooser fileChooser = new JFileChooser();
-    fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-
-    // Ouvre directement le dossier courant (où se trouve le programme)
-    String userDir = System.getProperty("user.dir");
-    fileChooser.setCurrentDirectory(new File(userDir + "/src/data"));
-
-    int returnValue = fileChooser.showOpenDialog(this);
-
-    if (returnValue == JFileChooser.APPROVE_OPTION) 
     {
-        String chemin = fileChooser.getSelectedFile().getAbsolutePath();
-        this.frameUML.lireDossier(chemin);
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+        // Ouvre directement le dossier courant (où se trouve le programme)
+        String userDir = System.getProperty("user.dir");
+        fileChooser.setCurrentDirectory(new File(userDir + "/src/data"));
+
+        int returnValue = fileChooser.showOpenDialog(this);
+
+        if (returnValue == JFileChooser.APPROVE_OPTION) 
+        {
+            String chemin = fileChooser.getSelectedFile().getAbsolutePath();
+            this.frameUML.lireDossier( chemin );
+        }
     }
-}
 
 
     public void sauvegarder() 

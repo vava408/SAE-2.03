@@ -1,6 +1,10 @@
 package src.ihm;
 
 import src.Controleur;
+
+import src.membres.Attribut;
+import src.membres.Methode;
+
 import src.metier.LireFichier;
 
 import java.awt.BorderLayout;
@@ -60,6 +64,16 @@ public class FrameUML extends JFrame
 	public ArrayList<LireFichier> getListeFichiers()
 	{
 		return this.ctrl.getListeFichiers();
+	}
+
+	public String afficherAttribut( Attribut a )
+	{
+		return this.ctrl.afficherAttribut( a );
+	}
+
+	public String afficherMethode( Methode m )
+	{
+		return this.ctrl.afficherMethode( m );
 	}
 
 	// Déclenche la méthode paintComponent

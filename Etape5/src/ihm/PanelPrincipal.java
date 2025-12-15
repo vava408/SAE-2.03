@@ -2,6 +2,8 @@ package src.ihm;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -16,10 +18,12 @@ public class PanelPrincipal extends JPanel
 {
     private FrameUML frameUML;
 	private HashMap<Bloc, LireFichier> hMBlocs;
+	private CreerImage creerImage;
 
     public PanelPrincipal ( FrameUML frameUML )
     {
         this.frameUML   = frameUML;
+		this.creerImage = new CreerImage();
 		this.hMBlocs = new HashMap<>();
 
         this.setBackground( new Color( 245, 245, 245 ) );
@@ -82,4 +86,24 @@ public class PanelPrincipal extends JPanel
 		this.revalidate();
         this.repaint();
     }
+
+		public void exportToImage(String path)
+	{
+
+		BufferedImage img = new BufferedImage(5000, 5000, BufferedImage.TYPE_INT_ARGB);
+
+		// Récupération du Graphics2D de l'image
+		Graphics2D g2d = img.createGraphics();
+
+		// Dessiner le panel dans le BufferedImage
+		this.paint(g2d);
+
+		// Libération des ressources graphiques
+		g2d.dispose();
+
+		System.out.println("Export de l'image vers : " + path);
+
+		System.out.println(this.creerImage.exportToImage(img, path));
+
+	}
 }

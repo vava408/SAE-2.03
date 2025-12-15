@@ -76,6 +76,11 @@ public class FrameUML extends JFrame
 		return this.ctrl.afficherMethode( m );
 	}
 
+	public void exportToImage( String path )
+	{
+		this.panelPrincipal.exportToImage(path);
+	}
+
 	// Déclenche la méthode paintComponent
 	public void maj()
 	{

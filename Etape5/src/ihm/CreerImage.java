@@ -15,7 +15,7 @@ public class CreerImage
 
 	}
 
-	public boolean saveImg(BufferedImage img, String path)
+	public boolean exportToImage(BufferedImage img, String path)
 	{
 		System.out.println("Exportation de l'image vers : " + path);
 		try

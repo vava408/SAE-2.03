@@ -133,7 +133,7 @@ public class Menu extends JMenuBar implements ActionListener
 				// if (onExporter != null)
 				// {
 				System.out.println("Exporting to: " + selectedPath);
-				//this.frameUML.exportToImage(selectedPath);
+				this.frameUML.exportToImage(selectedPath);
 				// onExporter.accept(selectedPath);
 				// }
 			}

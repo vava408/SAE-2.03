@@ -82,10 +82,4 @@ public class FrameUML extends JFrame
 		this.panelPrincipal   .repaint();
 		this.panelListeFichier.maj();
 	}
-
-	public void exportToImage(String selectedPath)
-	{
-		System.out.println("Exporting de frame to: " + selectedPath);
-		this.panelPrincipal.exportToImage(selectedPath);
-	}
 }

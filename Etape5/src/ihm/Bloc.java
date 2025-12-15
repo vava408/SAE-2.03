@@ -8,7 +8,6 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
@@ -17,21 +16,11 @@ import src.membres.Methode;
 
 public class Bloc extends JPanel
 {
-<<<<<<< HEAD
 	private PanelPrincipal panelPrincipal;
-=======
-    private LireFichier lireFichier;
-	private CreerImage   creerImage;
->>>>>>> 32871d97c1064388a7510bbc7751415aa51b071d
 
     public Bloc ( PanelPrincipal panelPrincipal )
     {
-<<<<<<< HEAD
         this.panelPrincipal = panelPrincipal;
-=======
-        this.lireFichier = lireFichier;
-		this.creerImage  = new CreerImage();
->>>>>>> 32871d97c1064388a7510bbc7751415aa51b071d
         this.setBackground ( new Color ( 250, 250, 250 ) );
 
         GereSouris gs = new GereSouris ( );
@@ -206,24 +195,4 @@ public class Bloc extends JPanel
             getParent ( ).repaint ( );
         }
     }
-
-	public void exportToImage(String path)
-	{
-
-		BufferedImage img = new BufferedImage(5000, 5000, BufferedImage.TYPE_INT_ARGB);
-		
-		// Récupération du Graphics2D de l'image
-		Graphics2D g2d = img.createGraphics();
-
-		// Dessiner le panel dans le BufferedImage
-		this.paint(g2d);
-
-		// Libération des ressources graphiques
-		g2d.dispose();
-
-		System.out.println("Export de l'image vers : " + path);
-
-		System.out.println(this.creerImage.saveImg(img, path));
-
-	}
 }

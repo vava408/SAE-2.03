@@ -14,13 +14,8 @@ import src.membres.Methode;
 
 public class PanelPrincipal extends JPanel
 {
-<<<<<<< HEAD
     private FrameUML frameUML;
 	private HashMap<Bloc, LireFichier> hMBlocs;
-=======
-    private FrameUML frame;
-	private Bloc     bloc;
->>>>>>> 32871d97c1064388a7510bbc7751415aa51b071d
 
     public PanelPrincipal ( FrameUML frameUML )
     {
@@ -87,10 +82,4 @@ public class PanelPrincipal extends JPanel
 		this.revalidate();
         this.repaint();
     }
-
-	public void exportToImage(String selectedPath)
-	{
-		System.out.println("Exporting de Panel to: " + selectedPath);
-		this.bloc.exportToImage(selectedPath);
-	}
 }

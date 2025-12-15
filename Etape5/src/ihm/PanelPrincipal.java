@@ -1,19 +1,16 @@
 package src.ihm;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import javax.swing.JPanel;
-
-import src.metier.LireFichier;
-
+import src.membres.Association;
 import src.membres.Attribut;
 import src.membres.Methode;
+import src.metier.LireFichier;
 
 public class PanelPrincipal extends JPanel
 {
@@ -48,6 +45,11 @@ public class PanelPrincipal extends JPanel
 
 			this.add( bloc );
 			bloc.maj();
+		}
+
+		for ( Association a : this.frameUML.getListeAssociation() )
+		{
+			
 		}
 
 		this.maj();

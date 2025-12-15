@@ -7,7 +7,7 @@ import src.ihm.Vue;
 
 import src.metier.LireDossier;
 import src.metier.LireFichier;
-
+import src.membres.Association;
 import src.membres.Attribut;
 import src.membres.Methode;
 
@@ -51,6 +51,11 @@ public class Controleur
 	public ArrayList<LireFichier> getListeFichiers()
 	{
 		return this.lireDossier.getListeFichiers();
+	}
+
+	public ArrayList<Association> getListeAssociation()
+	{
+		return this.lireDossier.getListeAssociation();
 	}
 
 	public void setPosition( LireFichier lF, int x, int y )

@@ -1,7 +1,7 @@
 package src.ihm;
 
 import src.Controleur;
-
+import src.membres.Association;
 import src.membres.Attribut;
 import src.membres.Methode;
 
@@ -64,6 +64,11 @@ public class FrameUML extends JFrame
 	public ArrayList<LireFichier> getListeFichiers()
 	{
 		return this.ctrl.getListeFichiers();
+	}
+
+	public ArrayList<Association> getListeAssociation()
+	{
+		return this.ctrl.getListeAssociation();
 	}
 
 	public void setPosition( LireFichier lF, int x, int y )

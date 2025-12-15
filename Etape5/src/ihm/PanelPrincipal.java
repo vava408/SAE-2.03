@@ -31,11 +31,11 @@ public class PanelPrincipal extends JPanel
 	public void instancierPanel()
 	{
 		this.removeAll();
-	
+
 		for ( LireFichier lF : this.frameUML.getListeFichiers() )
 		{
 			Bloc bloc = new Bloc( this );
-			
+
 			if ( ! this.hMBlocs.containsKey( bloc ) )
 			{
 				this.hMBlocs.put( bloc, lF );
@@ -49,7 +49,7 @@ public class PanelPrincipal extends JPanel
 
 		for ( Association a : this.frameUML.getListeAssociation() )
 		{
-			
+
 		}
 
 		this.maj();

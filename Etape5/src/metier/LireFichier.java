@@ -15,12 +15,12 @@ public class LireFichier
 
 	private LireDossier               lectureDossier     ;
 	private LireHeritImple            lireHeritImplements;
-	
+
 	private DecomposerLigne           decomposerLigne;
 	private LireMethode               lireMethode    ;
 	private LireAttribut              lireAttribut   ;
-	
-	
+
+
 	private String                    motCle         ;
 	private String                    nomClasse      ;
 

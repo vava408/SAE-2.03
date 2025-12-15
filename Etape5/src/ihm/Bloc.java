@@ -30,44 +30,7 @@ public class Bloc extends JPanel
 
     public void maj()
 	{
-		/*// Calcul de la hauteur
-		int margeVerticalNom       = 40;
-		int margeVerticalAttributs = 20;
-		int margeVerticalMethodes  = 20;
-		int hauteurLigneAttribut   = 18;
-		int hauteurLigneMethode    = 18;
-
-		int hauteurTotale = margeVerticalNom + this.panelPrincipal.getListeAttributs( this ).size() * 
-		                                       hauteurLigneAttribut + margeVerticalAttributs + 
-											   this.panelPrincipal.getListeMethodes( this ).size()  * 
-											   hauteurLigneMethode + margeVerticalMethodes;
-
-		// Calcul largeur maximale en fonction des textes
-		int         largeurMax = 100; // largeur minimum
-		Font        fontNom    = new Font( "Arial", Font.BOLD, 12 );
-		Font        fontTexte  = new Font( "Arial", Font.PLAIN, 11);
-		FontMetrics fmNom      = getFontMetrics( fontNom                     );
-		FontMetrics fmTexte    = getFontMetrics( fontTexte                   );
-
-		if ( ! this.panelPrincipal.getMotCle( this ).equals("class"))
-		{
-			String stereotype = "<< " + this.panelPrincipal.getMotCle( this ) + " >>";
-			largeurMax = Math.max(largeurMax, fmNom.stringWidth(stereotype) + 30);
-		}
-
-		largeurMax = Math.max( largeurMax, fmNom.stringWidth( this.panelPrincipal.getNomClasse( this ) ) + 30);
-
-		for ( Attribut a : this.panelPrincipal.getListeAttributs( this ) )
-		{
-			largeurMax = Math.max( largeurMax, fmTexte.stringWidth( a.toString() ) + 30);
-		}
-
-		for ( Methode m : this.panelPrincipal.getListeMethodes( this ) )
-		{
-			largeurMax = Math.max( largeurMax, fmTexte.stringWidth( m.toString() ) + 30);
-		}*/
-
-		//on récupère la taille et la largeur des blocs
+		//on récupère la hauteur et la largeur des blocs
 		int largeurMax    = this.panelPrincipal.getLargeurMax(this);
 		int hauteurTotale = this.panelPrincipal.getTaille    (this);
 

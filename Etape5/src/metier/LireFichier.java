@@ -1,12 +1,13 @@
 package src.metier;
 
 import java.io.FileInputStream;
+import java.io.Serializable;
 import java.util.*;
 
 import src.membres.Attribut;
 import src.membres.Methode;
 
-public class LireFichier
+public class LireFichier implements Serializable
 {
 	public final String[]             TAB_VISIBILITE = { "public", "private", "protected"                   };
 	public final String[]             TAB_MOTCLE     = { "class", "interface", "enum", "record", "abstract" };
@@ -16,7 +17,7 @@ public class LireFichier
 	private LireDossier               lectureDossier     ;
 	private LireHeritImple            lireHeritImplements;
 
-	private DecomposerLigne           decomposerLigne;
+	private transient DecomposerLigne           decomposerLigne;
 	private LireMethode               lireMethode    ;
 	private LireAttribut              lireAttribut   ;
 

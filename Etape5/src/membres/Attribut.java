@@ -1,6 +1,9 @@
 package src.membres;
 
-public class Attribut {
+import java.io.Serializable;
+
+public class Attribut implements Serializable
+{
 
 	private int     attributId;
 	private String  nom;

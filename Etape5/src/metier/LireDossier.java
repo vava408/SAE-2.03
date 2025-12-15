@@ -1,6 +1,7 @@
 package src.metier;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import src.Controleur;
@@ -8,11 +9,11 @@ import src.Controleur;
 import src.membres.Association;
 import src.membres.Attribut;
 
-public class LireDossier
+public class LireDossier implements Serializable
 {
-	private ArrayList<Association> lstAssociations;
+	private transient ArrayList<Association> lstAssociations;
 	private ArrayList<LireFichier> lstLireFichiers;
-	private Controleur             ctrl;
+	private transient Controleur             ctrl;
 
 	public LireDossier( Controleur ctrl, String cheminDossier )
 	{
@@ -164,4 +165,7 @@ public class LireDossier
 			System.out.println( this.ctrl.getVue().afficherInterface( lF ) );
 		}
 	}
+
+
+
 }

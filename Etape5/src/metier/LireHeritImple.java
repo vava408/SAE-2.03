@@ -1,12 +1,13 @@
 package src.metier;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class LireHeritImple
+public class LireHeritImple implements Serializable
 {
 	private LireFichier lireFichier;
-	private DecomposerLigne decomposerLigne;
+	private transient DecomposerLigne decomposerLigne;
 	private ArrayList<String> listeImplements;
 	private HashMap<String, ArrayList<String> > mapImplements;
 	private HashMap<String, String> mapExtends;

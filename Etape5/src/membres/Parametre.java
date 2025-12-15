@@ -1,5 +1,8 @@
 package src.membres;
-public class Parametre 
+
+import java.io.Serializable;
+
+public class Parametre implements Serializable
 {
 	private int        id;
 	private String     nom;

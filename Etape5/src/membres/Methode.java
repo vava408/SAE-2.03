@@ -1,9 +1,11 @@
 package src.membres;
+
+import java.io.Serializable;
 import java.util.*;
 
 
 
-public class Methode
+public class Methode implements Serializable
 {
 	private String               nom         ;
 	private String               visibilite  ;

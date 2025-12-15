@@ -97,4 +97,9 @@ public class FrameUML extends JFrame
 		this.panelPrincipal   .repaint();
 		this.panelListeFichier.maj();
 	}
+
+	public void sauvegarder()
+	{
+		this.ctrl.sauvegarder();
+	}
 }

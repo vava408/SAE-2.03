@@ -11,6 +11,7 @@ src/metier/DecomposerLigne.java
 src/metier/LireAttribut.java
 src/metier/LireMethode.java
 src/metier/LireHeritImple.java
+src/metier/Sauvegarder.java
 
 src/ihm/FrameUML.java
 src/ihm/Menu.java

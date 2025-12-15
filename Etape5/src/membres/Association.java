@@ -1,5 +1,8 @@
 package src.membres;
-public class Association 
+
+import java.io.Serializable;
+
+public class Association implements Serializable
 {
 	private String nomClasseA   ;
 	private String nomClasseB   ;

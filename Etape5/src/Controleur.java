@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 import src.ihm.FrameUML;
 import src.ihm.Vue;
-
 import src.metier.LireDossier;
 import src.metier.LireFichier;
+import src.metier.Sauvegarder;
 import src.membres.Association;
 import src.membres.Attribut;
 import src.membres.Methode;
@@ -16,11 +16,15 @@ public class Controleur
 	LireDossier lireDossier;
 	FrameUML    frameUML   ;
 	Vue         vue        ;
+	Sauvegarder sauvegarder;
+
 	
 	public Controleur()
 	{
 		this.frameUML    = new FrameUML( this );
 		this.vue         = new Vue     ( this );
+		this.sauvegarder = new Sauvegarder();
+
 	}
 
 	public void lireDossier( String chemin )
@@ -72,9 +76,17 @@ public class Controleur
 	{
 		return this.vue.afficherMethode( m );
 	}
+
+	public void sauvegarder()
+	{
+		this.sauvegarder.sauvegarder(lireDossier);
+	}
 	
+
 	public static void main ( String[] args )
 	{
 		new Controleur();
 	}
+
+
 }

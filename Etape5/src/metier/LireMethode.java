@@ -1,14 +1,15 @@
 package src.metier;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import src.membres.Methode;
 import src.membres.Parametre;
 
-public class LireMethode 
+public class LireMethode implements Serializable
 {
 	LireFichier                   lireFichier;
 
-	private ArrayList<Methode>    listeMethodes  = new ArrayList<Methode>();
+	private  ArrayList<Methode>    listeMethodes  = new ArrayList<Methode>();
 	
 	public LireMethode ( LireFichier lireFichier )
 	{

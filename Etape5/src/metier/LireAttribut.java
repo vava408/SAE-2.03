@@ -1,10 +1,11 @@
 package src.metier;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import src.membres.Attribut;
 
-public class LireAttribut 
+public class LireAttribut implements Serializable
 {
 	LireFichier lireFichier;
 

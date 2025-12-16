@@ -13,6 +13,9 @@ import src.metier.LireFichier;
 
 public class PanelPrincipal extends JLayeredPane 
 {
+	private static final int MARGE_GAUCHE = 100;
+	private static final int MARGE_HAUT   = 100;
+
 	private FrameUML frameUML;
 	private HashMap<Bloc, LireFichier> hMBlocs;
 	private HashMap<Fleche, Association> hMFleches;
@@ -28,6 +31,49 @@ public class PanelPrincipal extends JLayeredPane
 		this.setBackground(new Color(245, 245, 245));
 		this.setOpaque(true);
 	}
+	
+	
+	// --- Méthodes pour accéder aux informations des blocs ---
+	public ArrayList<Attribut> getListeAttributs(Bloc b) { return hMBlocs.get(b).getListeAttributs();}
+	public ArrayList<Methode>  getListeMethodes (Bloc b) { return hMBlocs.get(b).getListeMethodes ();}
+	
+	public String getMotCle   (Bloc b) { return hMBlocs.get(b).getMotCle   ();}
+	public String getNomClasse(Bloc b) { return hMBlocs.get(b).getNomClasse();}
+	
+	public Bloc getBloc(String nomClasse)
+	{
+		for (Bloc b : hMBlocs.keySet())
+		{
+			if (hMBlocs.get(b).getNomClasse().equals(nomClasse))
+				{
+				return b;
+			}
+		}
+		return null;
+	}
+
+	public int getTaille(Bloc b, boolean complet)
+	{
+		if ( complet )
+		{
+			return this.hMBlocs.get(b).calculTailleComplet();
+		}
+		else
+			{
+			return this.hMBlocs.get(b).calculTaille();
+		}
+	}
+
+	public int getLargeurMax(Bloc b)
+	{
+		return this.hMBlocs.get(b).caulculLargeurMax(); 
+	}
+	
+	public void setPosition(Bloc b, int x, int y)
+	{
+		this.frameUML.setPosition( hMBlocs.get( b ), x - PanelPrincipal.MARGE_GAUCHE, y - PanelPrincipal.MARGE_HAUT);
+		maj(); // mettre à jour les flèches
+	}
 
 	public void instancierPanel() 
 	{
@@ -40,7 +86,8 @@ public class PanelPrincipal extends JLayeredPane
 
 			hMBlocs.put(bloc, lF);
 
-			bloc.setBounds(lF.getPosX(), lF.getPosY(), lF.getLargeur(), lF.getHauteur()); // taille provisoire
+			bloc.setBounds( lF.getPosX() + PanelPrincipal.MARGE_GAUCHE, lF.getPosY() + PanelPrincipal.MARGE_HAUT, 
+			                lF.getLargeur(), lF.getHauteur()); // taille provisoire
 
 			this.add(bloc, JLayeredPane.DEFAULT_LAYER);
 			bloc.maj();
@@ -64,7 +111,7 @@ public class PanelPrincipal extends JLayeredPane
 		this.revalidate();
 		this.repaint();
 	}
-
+	
 	public void placerBlocs() 
 	{
 		int margeHorizontale = 50;
@@ -90,64 +137,41 @@ public class PanelPrincipal extends JLayeredPane
 			}
 		}
 	}
-    
-
-
-	public void maj() {
-		// Mettre à jour les blocs et les flèches
-		for (Bloc b   : hMBlocs  .keySet()){b.maj();}
-		for (Fleche f : hMFleches.keySet()){f.maj();}
-		this.revalidate();
-		this.repaint();
-	}
-
-	// --- Méthodes pour accéder aux informations des blocs ---
-	public ArrayList<Attribut> getListeAttributs(Bloc b) { return hMBlocs.get(b).getListeAttributs();}
-	public ArrayList<Methode>  getListeMethodes (Bloc b) { return hMBlocs.get(b).getListeMethodes ();}
-
-	public String getMotCle   (Bloc b) { return hMBlocs.get(b).getMotCle   ();}
-	public String getNomClasse(Bloc b) { return hMBlocs.get(b).getNomClasse();}
-
-	public Bloc getBloc(String nomClasse)
-	{
-		for (Bloc b : hMBlocs.keySet())
-		{
-			if (hMBlocs.get(b).getNomClasse().equals(nomClasse))
-			{
-				return b;
-			}
-		}
-		return null;
-	}
-
-	public int getTaille(Bloc b, boolean complet)
-	{
-		if ( complet )
-		{
-			return this.hMBlocs.get(b).calculTailleComplet();
-		}
-		else
-		{
-			return this.hMBlocs.get(b).calculTaille();
-		}
-	}
-
-	public int getLargeurMax(Bloc b)
-	{
-		return this.hMBlocs.get(b).caulculLargeurMax(); 
-	}
 	
-	public void setPosition(Bloc b, int x, int y)
+	private void recalculerTaille()
 	{
-		this.frameUML.setPosition(hMBlocs.get(b), x, y);
-		maj(); // mettre à jour les flèches
+		int maxX = 0;
+		int maxY = 0;
+
+		for ( Bloc b : hMBlocs.keySet() )
+		{
+			maxX = Math.max( maxX, b.getX() + b.getWidth()  );
+			maxY = Math.max( maxY, b.getY() + b.getHeight() );
+		}
+
+		// marge de confort
+		maxX += 100;
+		maxY += 100;
+
+		this.setPreferredSize( new Dimension( maxX, maxY ) );
+	}
+
+	public void maj() 
+	{
+		// Mettre à jour les blocs et les flèches
+		for ( Bloc   b : hMBlocs  .keySet() ) { b.maj() ;}
+		for ( Fleche f : hMFleches.keySet() ) { f.maj() ;}
+
+		this.recalculerTaille();
+		this.revalidate      ();
+		this.repaint         ();
 	}
 
 	public void exportToImage(String path)
 	{
 		BufferedImage img = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
 		Graphics2D    g2d = img.createGraphics();
-
+		
 		this.paint(g2d);
 		g2d.dispose();
 
@@ -159,7 +183,7 @@ public class PanelPrincipal extends JLayeredPane
 	{
 		return this.frameUML.afficherAttribut(a);
 	}
-
+	
 	public String afficherMethode(Methode m) 
 	{
 		return this.frameUML.afficherMethode(m);

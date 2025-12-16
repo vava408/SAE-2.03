@@ -266,7 +266,7 @@ public class Bloc extends JPanel
             coordonneePoint = e.getPoint ( );
 
 			//partie pour gérer le clic droit
-			if(e.getButton() == 3)
+			if ( e.getButton() == 3 )
 			{
 				estClique = true;
 				repaint();
@@ -274,21 +274,28 @@ public class Bloc extends JPanel
         }
 
         public void mouseDragged ( MouseEvent e )
-        {
-			if(estClique)
-				return;
+		{
+			if ( estClique ) { return; }
 
-            int dx = e.getX ( ) - coordonneePoint.x;
-            int dy = e.getY ( ) - coordonneePoint.y;
+			int dx = e.getX() - coordonneePoint.x;
+			int dy = e.getY() - coordonneePoint.y;
 
-			int nouveauX = e.getX() + dx;
-			int nouveauY = e.getY() + dy;
+			int nouveauX = getX() + dx;
+			int nouveauY = getY() + dy;
 
+			// blocage des coordonnées négatives
+			if ( nouveauX < 0 ) nouveauX = 0;
+			if ( nouveauY < 0 ) nouveauY = 0;
+
+			// déplacement visuel
+			setLocation( nouveauX, nouveauY );
+
+			// sauvegarde côté modèle
 			Bloc.this.panelPrincipal.setPosition( Bloc.this, nouveauX, nouveauY );
 
-            setLocation ( getX ( ) + dx, getY ( ) + dy );
-            getParent ( ).repaint ( );
-        }
+			// mise à jour flèches
+			getParent().repaint();
+		}
 
 		public void mouseReleased(MouseEvent e)
 		{

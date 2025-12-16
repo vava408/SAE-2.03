@@ -11,7 +11,7 @@ import src.membres.Methode;
 
 import src.metier.LireFichier;
 import src.metier.Sauvegarder;
-import src.metier.Charger;
+import src.metier.LireSauvegarde;
 import src.metier.LireDossier;
 
 public class Controleur
@@ -20,7 +20,7 @@ public class Controleur
     FrameUML    frameUML   ;
     Vue         vue        ;
     Sauvegarder sauvegarder;
-    Charger     charger    ;
+    LireSauvegarde     charger    ;
 
 
     public Controleur()
@@ -28,7 +28,7 @@ public class Controleur
         this.frameUML    = new FrameUML( this );
         this.vue         = new Vue     ( this );
         this.sauvegarder = new Sauvegarder();
-        this.charger     = new Charger();
+        this.charger     = new LireSauvegarde();
 
     }
 
@@ -87,10 +87,15 @@ public class Controleur
         this.sauvegarder.sauvegarder( lireDossier );
     }
 
-    public void charger()
+    public void charger(String path)
     {
-        this.charger.charger();
+        this.charger.charger(this, path);
     }
+
+	public void setLireDossier(LireDossier dossier)
+	{
+		this.lireDossier = dossier;
+	}
 
     public static void main ( String[] args )
     {

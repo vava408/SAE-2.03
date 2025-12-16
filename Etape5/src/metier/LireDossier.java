@@ -11,7 +11,7 @@ import src.membres.Attribut;
 
 public class LireDossier implements Serializable
 {
-	private transient ArrayList<Association> lstAssociations;
+	private ArrayList<Association> lstAssociations;
 	private ArrayList<LireFichier> lstLireFichiers;
 	private transient Controleur             ctrl;
 

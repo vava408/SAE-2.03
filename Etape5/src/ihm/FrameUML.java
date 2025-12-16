@@ -3,6 +3,8 @@ package src.ihm;
 import java.awt.BorderLayout;
 import java.util.ArrayList;
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+
 import src.Controleur;
 import src.membres.Association;
 import src.membres.Attribut;
@@ -16,7 +18,8 @@ public class FrameUML extends JFrame
 	private Menu              menuBar;
 	private PanelPrincipal    panelPrincipal;
 	private PanelListeFichier panelListeFichier;
-	
+	private JScrollPane       scrollPanelPrincipal;
+
 	public FrameUML( Controleur ctrl )
 	{
 		this.ctrl = ctrl;
@@ -30,13 +33,18 @@ public class FrameUML extends JFrame
 		this.panelPrincipal    = new PanelPrincipal   ( this );
 		this.panelListeFichier = new PanelListeFichier( this );
 
+		// --- ScrollPane ---
+		this.scrollPanelPrincipal = new JScrollPane( this.panelPrincipal );
+		this.scrollPanelPrincipal.setHorizontalScrollBarPolicy( JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
+		this.scrollPanelPrincipal.setVerticalScrollBarPolicy  ( JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED   );
+
 		/*-------------------------------*/
 		/* positionnement des composants */
 		/*-------------------------------*/
 
-		this.add( this.menuBar          , BorderLayout.NORTH  );
-		this.add( this.panelPrincipal   , BorderLayout.CENTER );
-		this.add( this.panelListeFichier, BorderLayout.EAST   );
+		this.add( this.menuBar              , BorderLayout.NORTH  );
+		this.add( this.scrollPanelPrincipal , BorderLayout.CENTER );
+		this.add( this.panelListeFichier    , BorderLayout.EAST   );
 
 		/*-------------------------------*/
 		/* Finalisation                  */
@@ -48,7 +56,7 @@ public class FrameUML extends JFrame
 	public void lireDossier( String chemin )
 	{
 		this.ctrl.lireDossier( chemin );
-		
+
 		this.panelPrincipal   .instancierPanel();
 		this.panelListeFichier.instancierPanel();
 	}
@@ -85,10 +93,9 @@ public class FrameUML extends JFrame
 
 	public void exportToImage( String path )
 	{
-		this.panelPrincipal.exportToImage(path);
+		this.panelPrincipal.exportToImage( path );
 	}
 
-	// Déclenche la méthode paintComponent
 	public void maj()
 	{
 		this.panelPrincipal   .repaint();
@@ -102,8 +109,8 @@ public class FrameUML extends JFrame
 
 	public void charger( String path )
 	{
-		this.ctrl.charger( path );
-		
+		//this.ctrl.charger( path );
+
 		this.panelPrincipal   .instancierPanel();
 		this.panelListeFichier.instancierPanel();
 	}

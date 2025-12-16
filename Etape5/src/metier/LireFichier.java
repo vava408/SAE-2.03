@@ -99,7 +99,6 @@ public class LireFichier implements Serializable
 		this.posY = y;
 	}
 
-
 	public int getHauteur()
 	{
 		return this.posX;

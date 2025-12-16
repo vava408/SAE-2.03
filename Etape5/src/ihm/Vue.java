@@ -245,7 +245,7 @@ public class Vue
 	{
 		String sRet        = "";
 		String sVisibilite = "";
-		String sSignature  = sVisibilite + m.getNom() + " (";
+		String sSignature  = "";
 
 		if ( m.getVisibilite().equals("private") )
 		{
@@ -259,6 +259,8 @@ public class Vue
 		{
 			sVisibilite = "# ";
 		}
+
+		sSignature = sVisibilite + m.getNom() + " (";
 
 		if ( m.getParametre().isEmpty() )
 		{

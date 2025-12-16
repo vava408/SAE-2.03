@@ -1,16 +1,13 @@
 package src.ihm;
 
+import java.awt.BorderLayout;
+import java.util.ArrayList;
+import javax.swing.JFrame;
 import src.Controleur;
 import src.membres.Association;
 import src.membres.Attribut;
 import src.membres.Methode;
-
 import src.metier.LireFichier;
-
-import java.awt.BorderLayout;
-import java.util.ArrayList;
-
-import javax.swing.JFrame;
 
 public class FrameUML extends JFrame
 {
@@ -106,5 +103,8 @@ public class FrameUML extends JFrame
 	public void charger( String path )
 	{
 		this.ctrl.charger( path );
+		
+		this.panelPrincipal   .instancierPanel();
+		this.panelListeFichier.instancierPanel();
 	}
 }

@@ -14,7 +14,7 @@ public class Sauvegarder
 	{
 		try
 		{
-			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("employee.ser"));
+			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("src/sauvegarde/save.ser"));
 			out.writeObject(dossier);
 			out.close();
 		} catch (Exception e)

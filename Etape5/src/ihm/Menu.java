@@ -34,7 +34,7 @@ public class Menu extends JMenuBar implements ActionListener
         // Items du menu
         this.itemSauvegarde    = new JMenuItem("Sauvegarder"   );
         this.itemOuvrirDossier = new JMenuItem("Ouvrir dossier");
-  		this.itemOuvrirData = new JMenuItem("Ouvrir dossier");
+  		this.itemOuvrirData    = new JMenuItem("Ouvrir data");
         this.itemExporter      = new JMenuItem("Exporter"      );
         this.itemRefresh       = new JMenuItem("Rafraîchir"    );
         this.itemQuitter       = new JMenuItem("Quitter"       );
@@ -76,7 +76,7 @@ public class Menu extends JMenuBar implements ActionListener
         {
             case "ouvrirDossier" -> ouvrirDossier();
             case "sauvegarder"   -> sauvegarder();
-			case "ouvrirData"   -> ouvrirData();
+			case "ouvrirData"    -> ouvrirData();
             case "exporter"      -> exporter();
             case "refresh"       -> refresh();
             case "quitter"       -> System.exit(0);
@@ -90,12 +90,13 @@ public class Menu extends JMenuBar implements ActionListener
     private void ouvrirData()
 	{
 		System.out.println("Ouverture du fichier data... depuis menue");
-		this.frameUML.charger("employee.ser");
+		this.frameUML.charger("src/sauvegarde/save.ser");
 	}
 
 	// Getters si besoin de récupérer les actions
     public JMenuItem getItemSauvegarde()    { return itemSauvegarde;   }
     public JMenuItem getItemOuvrirDossier() { return itemOuvrirDossier;}
+    public JMenuItem getItemOuvrirData()    { return itemOuvrirData;   }
     public JMenuItem getItemExporter()      { return itemExporter;     }
     public JMenuItem getItemRefresh()       { return itemRefresh;      }
     public JMenuItem getItemQuitter()       { return itemQuitter;      }

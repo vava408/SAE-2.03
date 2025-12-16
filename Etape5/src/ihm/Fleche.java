@@ -69,8 +69,8 @@ public class Fleche extends JPanel
         drawArrowHead(g2, p1, p2);
 
         // Dessiner les multiplicités
-        dessinerMultiplicite(g2, multipliciteA, p1);
-        dessinerMultiplicite(g2, multipliciteB, p2);
+        dessinerMultiplicite(g2, multipliciteA, p1, a);
+        dessinerMultiplicite(g2, multipliciteB, p2, b);
     }
 
     private Point[] getAnchors(Bloc b) 
@@ -85,13 +85,40 @@ public class Fleche extends JPanel
 			};
     }
 
-    private void dessinerMultiplicite(Graphics2D g2, String texte, Point p)
+    private void dessinerMultiplicite(Graphics2D g2, String texte, Point p, Bloc b)
     {
         if (texte == null || texte.isEmpty()) { return; }
 
-        int decalage = 5;
-        
-        g2.drawString(texte, p.x + decalage, p.y - decalage);
+        int d = 10;
+        int x = p.x;
+        int y = p.y;
+
+        // Haut
+        if (p.y == b.getY())
+        {
+            x += d;
+            y -= d;
+        }
+        // Bas
+        else if (p.y == b.getY() + b.getHeight())
+        {
+            x += d;
+            y += d + 10;
+        }
+        // Gauche
+        else if (p.x == b.getX())
+        {
+            x -= d + 20;
+            y -= d;
+        }
+        // Droite
+        else if (p.x == b.getX() + b.getWidth())
+        {
+            x += d;
+            y -= d;
+        }
+
+        g2.drawString(texte, x, y);
     }
 
 

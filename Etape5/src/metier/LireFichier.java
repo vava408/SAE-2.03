@@ -261,9 +261,7 @@ public class LireFichier implements Serializable
 		return false;
 	}
 
-
-	//méthode pour gérer la taille des classes
-	public int calculTaille()
+	public int calculTailleComplet()
 	{
 		// constante pour le calcul des tailles
 		int margeVerticalNom       = 40;
@@ -275,6 +273,34 @@ public class LireFichier implements Serializable
 		int hauteurTotale = margeVerticalNom       + getListeAttributs().size() * hauteurLigneAttribut +
                             margeVerticalAttributs + getListeMethodes ().size() * hauteurLigneMethode  +
 							margeVerticalMethodes;
+
+		return hauteurTotale;
+	}
+
+
+	//méthode pour gérer la taille des classes
+	public int calculTaille()
+	{
+		// constante pour le calcul des tailles
+		int margeVerticalNom       = 40;
+		int margeVerticalAttributs = 20;
+		int margeVerticalMethodes  = 20;
+		int hauteurLigneAttribut   = 18;
+		int hauteurLigneMethode    = 18;
+
+		//on ajuste la taille des marges en fonction du nombre d'attributs et de méthodes
+		margeVerticalNom       += getListeAttributs().size() * hauteurLigneAttribut;
+		margeVerticalAttributs += getListeMethodes ().size() * hauteurLigneMethode;
+
+		//on réduit la taille si ils dépassent le nombre maximum
+		if(getListeAttributs().size() > 3)
+			margeVerticalNom       = 40 + 3 * hauteurLigneAttribut;
+
+		if(getListeMethodes().size() > 3 )
+			margeVerticalAttributs = 40 + 3 * hauteurLigneMethode;
+
+
+		int hauteurTotale = margeVerticalNom + margeVerticalAttributs + margeVerticalMethodes;
 
 		return hauteurTotale;
 	}

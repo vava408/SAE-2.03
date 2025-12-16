@@ -67,10 +67,14 @@ public class PanelPrincipal extends JPanel
 
 	public int getTaille(Bloc b, boolean complet)
 	{
-		if(complet)
+		if ( complet )
+		{
 			return this.hMBlocs.get(b).calculTailleComplet();
+		}
 		else
+		{
 			return this.hMBlocs.get(b).calculTaille();
+		}
 	}
 
 	public int getLargeurMax(Bloc b) { return this.hMBlocs.get(b).caulculLargeurMax(); }

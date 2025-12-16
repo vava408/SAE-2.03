@@ -52,7 +52,7 @@ public class PanelPrincipal extends JLayeredPane
 			Fleche fleche = new Fleche(this, a.getNomClasseA(), a.getNomClasseB(),
 										a.getMultiplicityA(), a.getMultiplicityB());
 
-			hMFleches.put(fleche, a);
+			hMFleches.put(fleche, a);	
 
 			fleche.setBounds(0, 0, getWidth(), getHeight());
 
@@ -120,6 +120,23 @@ public class PanelPrincipal extends JLayeredPane
 		return null;
 	}
 
+	public int getTaille(Bloc b, boolean complet)
+	{
+		if ( complet )
+		{
+			return this.hMBlocs.get(b).calculTailleComplet();
+		}
+		else
+		{
+			return this.hMBlocs.get(b).calculTaille();
+		}
+	}
+
+	public int getLargeurMax(Bloc b)
+	{
+		return this.hMBlocs.get(b).caulculLargeurMax(); 
+	}
+	
 	public void setPosition(Bloc b, int x, int y)
 	{
 		this.frameUML.setPosition(hMBlocs.get(b), x, y);

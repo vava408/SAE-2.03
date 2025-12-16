@@ -67,6 +67,10 @@ public class Fleche extends JPanel
 
         // Dessiner la pointe
         drawArrowHead(g2, p1, p2);
+
+        // Dessiner les multiplicités
+        dessinerMultiplicite(g2, multipliciteA, p1);
+        dessinerMultiplicite(g2, multipliciteB, p2);
     }
 
     private Point[] getAnchors(Bloc b) 
@@ -80,6 +84,16 @@ public class Fleche extends JPanel
             new Point(x + w, y + h / 2)      // droite
 			};
     }
+
+    private void dessinerMultiplicite(Graphics2D g2, String texte, Point p)
+    {
+        if (texte == null || texte.isEmpty()) { return; }
+
+        int decalage = 5;
+        
+        g2.drawString(texte, p.x + decalage, p.y - decalage);
+    }
+
 
     private void drawArrowHead(Graphics2D g2, Point start, Point end) 
 	{

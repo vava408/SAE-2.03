@@ -66,7 +66,7 @@ public class Fleche extends JPanel
         g2.drawLine(p1.x, p1.y, p2.x, p2.y);
 
         // Dessiner la pointe
-        drawArrowHead(g2, p1, p2);
+        dessinerLigneAvecPointes(g2, p1, p2);
 
         // Dessiner les multiplicités
         dessinerMultiplicite(g2, multipliciteA, p1, a);
@@ -121,8 +121,32 @@ public class Fleche extends JPanel
         g2.drawString(texte, x, y);
     }
 
+    private void dessinerLigneAvecPointes(Graphics2D g2, Point p1, Point p2)
+    {
+        // Dessiner la ligne
+        g2.drawLine(p1.x, p1.y, p2.x, p2.y);
 
-    private void drawArrowHead(Graphics2D g2, Point start, Point end) 
+        if (this.panelPrincipal.getAssociation(this).estUnidirectionnelle())
+        {
+            // Flèche vers le côté "1..1"
+            if (multipliciteB.equals("1..1"))
+            {
+                dessinerPointe(g2, p1, p2); // flèche vers B
+            }
+            else
+            {
+                dessinerPointe(g2, p2, p1); // flèche vers A
+            }
+        } 
+        else
+        {
+            // Bidirectionnelle : flèches aux deux extrémités
+            dessinerPointe(g2, p1, p2);
+            dessinerPointe(g2, p2, p1);
+        }
+    }
+
+    private void dessinerPointe(Graphics2D g2, Point start, Point end) 
 	{
         double angle       = Math.atan2(end.y - start.y, end.x - start.x);
         int    longueur    = 12;

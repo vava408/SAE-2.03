@@ -3,15 +3,14 @@ package src.metier;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
-
 import src.Controleur;
-
 import src.membres.Association;
 import src.membres.Attribut;
 
 public class LireDossier implements Serializable
 {
 	private ArrayList<Association> lstAssociations;
+	private ArrayList<String>      lstAttributsAssociations;
 	private ArrayList<LireFichier> lstLireFichiers;
 	private transient Controleur             ctrl;
 
@@ -19,8 +18,9 @@ public class LireDossier implements Serializable
 	{
 		this.ctrl = ctrl;
 
-		this.lstAssociations = new ArrayList<Association>();
-		this.lstLireFichiers = new ArrayList<LireFichier>();
+		this.lstAssociations          = new ArrayList<Association>();
+		this.lstAttributsAssociations = new ArrayList<String     >();
+		this.lstLireFichiers          = new ArrayList<LireFichier>();
 		
 		this.lireDossier( cheminDossier );
 		
@@ -61,6 +61,11 @@ public class LireDossier implements Serializable
 		return this.lstAssociations;
 	}
 
+	public ArrayList<String> getListeAttributsAssociations()
+	{
+		return this.lstAttributsAssociations;
+	}
+
 	public void setPosition( LireFichier lF, int x, int y )
 	{
 		for ( LireFichier classe : this.lstLireFichiers )
@@ -96,6 +101,8 @@ public class LireDossier implements Serializable
 								multipliciteB = this.calculMultiplicite( a2.getType(), lF2.getNomClasse() );
 								
 								this.ajoutAssociation( lF1 , a1.getType(), multipliciteA, multipliciteB );
+
+								this.lstAttributsAssociations.add( lF2.getListeAttributs().get( cpt2 ).getNom() );
 								
 								lF2.getListeAttributs().remove( cpt2 );
 								cpt2--;

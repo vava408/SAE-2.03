@@ -56,6 +56,30 @@ public class PanelPrincipal extends JLayeredPane
 		return this.hMFleches.get(f);
 	}
 
+	public String getHerit(Bloc b)
+	{
+		for (LireFichier lF : this.frameUML.getListeFichiers()) 
+		{
+			if (lF.getMapHerit().containsKey(this.getNomClasse(b)))
+			{
+				return lF.getMapHerit().get(this.getNomClasse(b));
+			}
+		}
+		return null; // pas d'héritage
+	}
+
+	public ArrayList<String> getImple(Bloc b)
+	{
+		for (LireFichier lF : this.frameUML.getListeFichiers()) 
+		{
+			if (lF.getMapImple().containsKey(this.getNomClasse(b)))
+			{
+				return lF.getMapImple().get(this.getNomClasse(b));
+			}
+		}
+		return null; // pas d'implementaion
+	}
+
 	public int getTaille(Bloc b, boolean complet)
 	{
 		if ( complet )
@@ -94,7 +118,7 @@ public class PanelPrincipal extends JLayeredPane
 			hMBlocs.put(bloc, lF);
 
 			bloc.setBounds( lF.getPosX() + PanelPrincipal.MARGE_GAUCHE, lF.getPosY() + PanelPrincipal.MARGE_HAUT, 
-			                lF.getLargeur(), lF.getHauteur()); // taille provisoire
+							lF.getLargeur(), lF.getHauteur()); // taille provisoire
 
 			this.add(bloc, JLayeredPane.DEFAULT_LAYER);
 			bloc.maj();
@@ -112,6 +136,30 @@ public class PanelPrincipal extends JLayeredPane
 
 			this.add(fleche, JLayeredPane.PALETTE_LAYER); // toujours au-dessus
 			fleche.maj();
+		}
+
+		// --- Ajouter les flèches implements ---
+		for (Bloc b : hMBlocs.keySet())
+		{
+			String nomClasse = getNomClasse(b);
+			ArrayList<String> interfaces = getImple(b);
+
+			if (interfaces != null)
+			{
+				for (String nomInterface : interfaces)
+				{
+					Fleche fleche = new Fleche(
+						this,
+						nomClasse,
+						nomInterface,
+						"", ""   // pas de multiplicités
+					);
+
+					hMFleches.put(fleche, null); // pas une Association
+					this.add(fleche, JLayeredPane.PALETTE_LAYER);
+					fleche.maj();
+				}
+			}
 		}
 		
 		this.placerBlocs();

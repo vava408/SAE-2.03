@@ -107,11 +107,18 @@ public class FrameUML extends JFrame
 		this.ctrl.sauvegarder();
 	}
 
-	public void charger( String path )
+	public void charger(String path)
 	{
-		this.ctrl.charger( path );
+		this.ctrl.charger(path);
 
-		this.panelPrincipal   .instancierPanel();
-		this.panelListeFichier.instancierPanel();
+		if (this.ctrl.getLireDossier() != null)
+		{
+			this.panelPrincipal.instancierPanel();
+			this.panelListeFichier.instancierPanel();
+		}
+		else
+		{
+			System.out.println("Erreur lors du chargement de la sauvegarde.");
+		}
 	}
 }

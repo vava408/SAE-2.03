@@ -102,4 +102,9 @@ public class FrameUML extends JFrame
 	{
 		this.ctrl.sauvegarder();
 	}
+
+	public void charger( String path )
+	{
+		this.ctrl.charger( path );
+	}
 }

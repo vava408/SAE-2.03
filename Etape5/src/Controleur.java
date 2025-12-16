@@ -10,6 +10,7 @@ import src.metier.Sauvegarder;
 import src.membres.Association;
 import src.membres.Attribut;
 import src.membres.Methode;
+import src.metier.LireSauvegarde;
 
 public class Controleur
 {
@@ -17,14 +18,21 @@ public class Controleur
 	FrameUML    frameUML   ;
 	Vue         vue        ;
 	Sauvegarder sauvegarder;
+	private LireSauvegarde lireSauvegarde;
 
 	
 	public Controleur()
 	{
 		this.frameUML    = new FrameUML( this );
 		this.vue         = new Vue     ( this );
+		this.lireSauvegarde = new LireSauvegarde();
 		this.sauvegarder = new Sauvegarder();
 
+	}
+
+	public void setLireDossier(LireDossier dossier)
+	{
+		this.lireDossier = dossier;
 	}
 
 	public void lireDossier( String chemin )
@@ -80,6 +88,11 @@ public class Controleur
 	public void sauvegarder()
 	{
 		this.sauvegarder.sauvegarder(lireDossier);
+	}
+	public void charger( String path )
+	{
+		this.lireSauvegarde.charger(this, path);
+		this.frameUML.maj();
 	}
 	
 

@@ -54,12 +54,14 @@ public class Menu extends JMenuBar implements ActionListener
         // Définir des action commands et enregistrer ce menu comme listener
         itemOuvrirDossier.setActionCommand("ouvrirDossier");
         itemSauvegarde   .setActionCommand("sauvegarder");
+		itemOuvrirData   .setActionCommand("ouvrirData");
         itemExporter     .setActionCommand("exporter");
         itemRefresh      .setActionCommand("refresh");
         itemQuitter      .setActionCommand("quitter");
 
         itemOuvrirDossier.addActionListener(this);
         itemSauvegarde   .addActionListener(this);
+		itemOuvrirData   .addActionListener(this);
         itemExporter     .addActionListener(this);
         itemRefresh      .addActionListener(this);
         itemQuitter      .addActionListener(this);
@@ -88,7 +90,7 @@ public class Menu extends JMenuBar implements ActionListener
     private void ouvrirData()
 	{
 		System.out.println("Ouverture du fichier data... depuis menue");
-		this.frameUML.lireDossier("src/employee.data");
+		this.frameUML.charger("employee.ser");
 	}
 
 	// Getters si besoin de récupérer les actions
@@ -116,7 +118,6 @@ public class Menu extends JMenuBar implements ActionListener
             this.frameUML.lireDossier( chemin );
         }
     }
-
 
     public void sauvegarder() 
     {

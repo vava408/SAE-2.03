@@ -51,19 +51,20 @@ public class Fleche extends JPanel
         // Trouver la paire la plus proche
         Point p1 = pointsA[0], p2 = pointsB[0];
         double minDist = p1.distance(p2);
-        for (Point pa : pointsA) {
-            for (Point pb : pointsB) {
+        for (Point pa : pointsA) 
+        {
+            for (Point pb : pointsB)
+            {
                 double dist = pa.distance(pb);
-                if (dist < minDist) {
+
+                if (dist < minDist)
+                {
                     minDist = dist;
                     p1 = pa;
                     p2 = pb;
                 }
             }
         }
-
-        // Dessiner la ligne
-        g2.drawLine(p1.x, p1.y, p2.x, p2.y);
 
         // Dessiner la pointe
         dessinerLigneAvecPointes(g2, p1, p2);
@@ -125,6 +126,7 @@ public class Fleche extends JPanel
     {
         // Dessiner la ligne
         g2.drawLine(p1.x, p1.y, p2.x, p2.y);
+        dessinerLigne(p1.x, p1.y, p2.x, p2.y);
 
         if (this.panelPrincipal.getAssociation(this).estUnidirectionnelle())
         {
@@ -159,6 +161,12 @@ public class Fleche extends JPanel
 
         g2.drawLine(end.x, end.y, xA, yA);
         g2.drawLine(end.x, end.y, xB, yB);
+    }
+
+    private void dessinerLigne(int p1X, int p1Y, int p2X, int p2Y) 
+	{
+        
+        
     }
 }
 

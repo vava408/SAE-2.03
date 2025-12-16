@@ -11,6 +11,7 @@ public class Point implements Figure , Forme
 	/* Déclaration des attributs                                    */
 	/*--------------------------------------------------------------*/
 	private String nom;
+	public  Disque disque;
 	private int    x;
 	private int    y;
 	public static char lettre = 'a';

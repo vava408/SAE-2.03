@@ -72,7 +72,7 @@ public class LireHeritImple implements Serializable
 		return this.mapImplements;
 	}
 
-	public HashMap<String, String> getMapExtends()
+	public HashMap<String, String> getMapExtends() //heritage
 	{
 		return this.mapExtends;
 	}

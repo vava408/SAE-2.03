@@ -12,6 +12,7 @@ public class Disque extends Figure implements Forme
 	/*--------------------------------------------------------------*/
 	private Point  centre;
 	private double rayon;
+	private Figure f;
 	private static int entierTest = 2;
 	public final String coucou = "test";
 

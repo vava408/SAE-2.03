@@ -3,24 +3,26 @@ package src.metier;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import src.Controleur;
 import src.membres.Association;
 import src.membres.Attribut;
 
 public class LireDossier implements Serializable
 {
-	private ArrayList<Association> lstAssociations;
-	private ArrayList<String>      lstAttributsAssociations;
-	private ArrayList<LireFichier> lstLireFichiers;
-	private transient Controleur             ctrl;
+	private transient Controleur                     ctrl;
+
+	private ArrayList<Association>                   lstAssociations;
+	private ArrayList<LireFichier>                   lstLireFichiers;
+	private HashMap<Association, ArrayList<String>>  hMAttrAsso;
 
 	public LireDossier( Controleur ctrl, String cheminDossier )
 	{
 		this.ctrl = ctrl;
 
-		this.lstAssociations          = new ArrayList<Association>();
-		this.lstAttributsAssociations = new ArrayList<String     >();
-		this.lstLireFichiers          = new ArrayList<LireFichier>();
+		this.lstAssociations = new ArrayList<Association>();
+		this.lstLireFichiers = new ArrayList<LireFichier>();
+		this.hMAttrAsso      = new HashMap<>();
 		
 		this.lireDossier( cheminDossier );
 		
@@ -61,9 +63,9 @@ public class LireDossier implements Serializable
 		return this.lstAssociations;
 	}
 
-	public ArrayList<String> getListeAttributsAssociations()
+	public HashMap<Association, ArrayList<String>> getListeAttributsAssociations()
 	{
-		return this.lstAttributsAssociations;
+		return this.hMAttrAsso;
 	}
 
 	public void setPosition( LireFichier lF, int x, int y )
@@ -102,7 +104,14 @@ public class LireDossier implements Serializable
 								
 								this.ajoutAssociation( lF1 , a1.getType(), multipliciteA, multipliciteB );
 
-								this.lstAttributsAssociations.add( lF2.getListeAttributs().get( cpt2 ).getNom() );
+								Association a = this.lstAssociations.get( this.lstAssociations.size() - 1 );
+
+								if ( ! this.hMAttrAsso.containsKey( a ) )
+								{
+									this.hMAttrAsso.put( a, new ArrayList<>() );
+								}
+
+								this.hMAttrAsso.get( a ).add( lF2.getListeAttributs().get( cpt2 ).getNom() );
 								
 								lF2.getListeAttributs().remove( cpt2 );
 								cpt2--;

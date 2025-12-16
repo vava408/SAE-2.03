@@ -109,7 +109,7 @@ public class FrameUML extends JFrame
 
 	public void charger( String path )
 	{
-		//this.ctrl.charger( path );
+		this.ctrl.charger( path );
 
 		this.panelPrincipal   .instancierPanel();
 		this.panelListeFichier.instancierPanel();

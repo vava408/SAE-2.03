@@ -1,15 +1,20 @@
 package src;
 
 import java.util.ArrayList;
+
+import src.ihm.FrameUML;
+import src.ihm.Vue;
+
 import src.membres.Association;
-import src.metier.LireFichier;
+import src.membres.Attribut;
+import src.membres.Methode;
+
 import src.metier.LireFichier;
 import src.metier.Sauvegarder;
-public class Controleur
 import src.metier.LireDossier;
-import src.metier.LireFichier;
+
+public class Controleur
 {
-import src.metier.Sauvegarder;
     LireDossier lireDossier;
     FrameUML    frameUML   ;
     Vue         vue        ;

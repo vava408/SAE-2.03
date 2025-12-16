@@ -5,7 +5,6 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.*;
-
 import src.membres.Association;
 import src.membres.Attribut;
 import src.membres.Methode;
@@ -52,6 +51,11 @@ public class PanelPrincipal extends JLayeredPane
 		return null;
 	}
 
+	public Association getAssociation(Fleche f)
+	{
+		return this.hMFleches.get(f);
+	}
+
 	public int getTaille(Bloc b, boolean complet)
 	{
 		if ( complet )
@@ -74,6 +78,7 @@ public class PanelPrincipal extends JLayeredPane
 		this.frameUML.setPosition( hMBlocs.get( b ), x - PanelPrincipal.MARGE_GAUCHE, y - PanelPrincipal.MARGE_HAUT);
 		maj(); // mettre à jour les flèches
 	}
+	
 
 	public void instancierPanel() 
 	{

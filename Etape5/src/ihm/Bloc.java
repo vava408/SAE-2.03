@@ -275,6 +275,9 @@ public class Bloc extends JPanel
 
         public void mouseDragged ( MouseEvent e )
         {
+			if(estClique)
+				return;
+
             int dx = e.getX ( ) - coordonneePoint.x;
             int dy = e.getY ( ) - coordonneePoint.y;
 

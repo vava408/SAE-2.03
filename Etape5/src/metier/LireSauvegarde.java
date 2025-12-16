@@ -18,16 +18,25 @@ public class LireSauvegarde
 
 			dossier = (LireDossier) in.readObject();
 			in.close();
-			dossier.reinitialiser(ctrl);
-			ctrl.setLireDossier(dossier); 
 
-			// Réinitialisation des champs transient
-			dossier.reinitialiser(ctrl);
-			System.out.println("Lecture de la sauvegarde terminée.");
+			if (dossier != null)
+			{
+				dossier.reinitialiser(ctrl);
+				ctrl.setLireDossier(dossier); 
+
+				// Réinitialisation des champs transient
+				dossier.reinitialiser(ctrl);
+				System.out.println("Lecture de la sauvegarde terminée.");
+			}
+			else
+			{
+				System.out.println("Erreur : la sauvegarde est vide ou corrompue.");
+			}
 
 		} catch (Exception e)
 		{
 			e.printStackTrace();
+			dossier = null;
 		}
 
 		return dossier;

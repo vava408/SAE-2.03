@@ -50,12 +50,12 @@ public class CreeData
 					writer.write("    - " + m.toString());
 					writer.newLine();
 				}
-
 				writer.newLine();
 			}
 
 			writer.close();
 			System.out.println("✔ Fichier save.data créé avec succès");
+			
 		}
 		catch (IOException e)
 		{

@@ -169,7 +169,6 @@ public class LireDossier implements Serializable
 	public void reinitialiser(Controleur ctrl)
 	{
 		this.ctrl = ctrl;
-		this.lstAssociations = new ArrayList<>();
 		this.creerAssociation();
 	}
 

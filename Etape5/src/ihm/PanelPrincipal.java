@@ -83,6 +83,8 @@ public class PanelPrincipal extends JLayeredPane
 	public void instancierPanel() 
 	{
 		this.removeAll();
+		this.hMBlocs   .clear();
+		this.hMFleches .clear();
 
 		// --- Ajouter les blocs ---
 		for (LireFichier lF : this.frameUML.getListeFichiers()) 
@@ -127,6 +129,7 @@ public class PanelPrincipal extends JLayeredPane
 		int ligneMax = 3; // nombre de blocs par ligne avant de passer à la ligne suivante
 		int compteur = 0;
 
+
 		for (Bloc b : hMBlocs.keySet()) 
 		{
 			b.setBounds(x, y, b.getWidth(), b.getHeight());
@@ -140,6 +143,7 @@ public class PanelPrincipal extends JLayeredPane
 				x = margeHorizontale;
 				y += 300; // hauteur approximative d'un bloc + marge verticale
 			}
+			System.out.println("Placement du bloc " + hMBlocs.get(b).getNomClasse() + " en (" + b.getX() + ", " + b.getY() + ")");
 		}
 	}
 	

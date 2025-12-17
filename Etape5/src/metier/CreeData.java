@@ -53,6 +53,47 @@ public class CreeData
 				writer.newLine();
 			}
 
+
+			writer.newLine();
+
+			writer.write("===== ASSOCIATIONS =====");
+			writer.newLine();
+
+			for (Association a : dossier.getListeAssociation())
+			{
+				writer.write("Association : " + a.toString());
+				writer.newLine();
+			}
+
+			writer.newLine();
+
+			writer.write("===== extends =====");
+			writer.newLine();
+			for (LireFichier lf : dossier.getListeFichiers())
+			{
+				for (String ext : lf.getMapHerit().keySet())
+				{
+					writer.write("Classe " + lf.getNomClasse() + " étend " + lf.getMapHerit().get(ext));
+					writer.newLine();
+				}
+			}
+
+			writer.newLine();
+
+			writer.write("===== implements =====");
+			writer.newLine();
+			for (LireFichier lf : dossier.getListeFichiers())
+			{
+				for (String key : lf.getMapImple().keySet())
+				{
+					for (String impl : lf.getMapImple().get(key))
+					{
+						writer.write("Classe " + lf.getNomClasse() + " implémente " + impl);
+						writer.newLine();
+					}
+				}
+			}
+
 			writer.close();
 			System.out.println("✔ Fichier save.data créé avec succès");
 			

@@ -300,24 +300,25 @@ public class LireFichier implements Serializable
 	//méthode pour calculer la largeur maximale afin d'adapter la taille des blocs
 	public int caulculLargeurMax()
 	{
-		int largeurMax = 100;
+		this.largeurMax = 100;
 
 		if ( ! this.motCle.equals("class"))
 		{
 			String stereotype = "<< " + this.motCle + " >>";
-			largeurMax = Math.max(largeurMax, stereotype.length() *10 + 30);
+			this.largeurMax = Math.max( this.largeurMax, stereotype.length() *10 + 30 );
 		}
 
-		largeurMax = Math.max( largeurMax, this.nomClasse.length() *10 + 30);
+		this.largeurMax = Math.max( this.largeurMax, this.nomClasse.length() *10 + 30 );
 
 		for ( Attribut a : getListeAttributs() )
 		{
-			largeurMax = Math.max( largeurMax, a.toString().length() *3 + 30);
+			//on rajoute *6 à la fin pour la taille en pixel d'un caractère
+			this.largeurMax = Math.max( this.largeurMax, this.lectureDossier.getVueAttributs(a).length() *6 + 30 );
 		}
 
 		for ( Methode m : getListeMethodes() )
 		{
-			largeurMax = Math.max( largeurMax, m.toString().length() + 30);
+			this.largeurMax = Math.max( this.largeurMax, this.lectureDossier.getVueMethode(m).length() *6 + 30 );
 		}
 
 		return largeurMax;

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import src.Controleur;
 import src.membres.Association;
 import src.membres.Attribut;
+import src.membres.Methode;
 
 public class LireDossier implements Serializable
 {
@@ -63,7 +64,17 @@ public class LireDossier implements Serializable
 		return this.lstAssociations;
 	}
 
-	public HashMap<Association, ArrayList<String>> getListeAttributsAssociations()
+	public String getVueMethode(Methode m)
+	{
+		return this.ctrl.afficherMethode(m, true);
+	}
+
+	public String getVueAttributs(Attribut a)
+	{
+		return this.ctrl.afficherAttribut(a);
+	}
+
+	public HashMap<Association, ArrayList<String>> gethMAttributsAssociations()
 	{
 		return this.hMAttrAsso;
 	}
@@ -121,8 +132,18 @@ public class LireDossier implements Serializable
 						if ( unidirectionnel )
 						{
 							this.ajoutAssociation( lF1, a1.getType(), multipliciteA, multipliciteB);
+
 						}
-						
+
+						Association a = this.lstAssociations.get( this.lstAssociations.size() - 1 );
+
+						if ( ! this.hMAttrAsso.containsKey( a ) )
+						{
+							this.hMAttrAsso.put( a, new ArrayList<>() );
+						}
+
+						this.hMAttrAsso.get( a ).add( lF1.getListeAttributs().get( cpt1 ).getNom() );
+							
 						lF1.getListeAttributs().remove( cpt1 );
 						cpt1--;
 					}

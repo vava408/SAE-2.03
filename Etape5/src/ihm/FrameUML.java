@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -75,9 +74,9 @@ public class FrameUML extends JFrame
 		return this.ctrl.getListeAssociation();
 	}
 	
-	public HashMap<Association, ArrayList<String>> getListeAttributsAssociations()
+	public HashMap<Association, ArrayList<String>> gethMAttributsAssociations()
 	{
-		return this.ctrl.getListeAttributsAssociations();
+		return this.ctrl.gethMAttributsAssociations();
 	}
 	
 	public void setPosition( LireFichier lF, int x, int y )
@@ -186,16 +185,29 @@ public class FrameUML extends JFrame
 
 	public void charger(String path)
 	{
-
-		if (this.ctrl.getLireDossier() != null)
-		{
+		String result = "";
 			this.ctrl.charger(path);
-			this.panelPrincipal.instancierPanel();
-			this.panelListeFichier.instancierPanel();
-		}
-		else
-		{
-			System.out.println("Erreur lors du chargement de la sauvegarde.");
-		}
+			if (this.ctrl.getLireDossier() != null)
+			{
+				result = "Chargement terminé.";
+				this.panelPrincipal.instancierPanel();
+				this.panelListeFichier.instancierPanel();
+			}
+			else
+			{
+				result = "Erreur lors du chargement.";
+			}
+
+		JOptionPane.showOptionDialog(
+			this,
+			result,
+			"Ouverture",
+			JOptionPane.DEFAULT_OPTION,
+			JOptionPane.QUESTION_MESSAGE,
+			null,
+			new String[] { "OK" },
+			"OK"
+		);
+
 	}
 }

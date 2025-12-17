@@ -47,6 +47,20 @@ public class Attribut implements Serializable
     {
         String sRet = "";
 
-        return sRet += this.visibilite + " " + this.type + " " + this.nom;
+		sRet += this.visibilite + " ";
+
+		if (this.estFinal) 
+		{
+			sRet += "final ";
+		}
+
+		if (this.estStatic) 
+		{
+			sRet += "static ";
+		}
+
+		sRet += this.type + " " + this.nom;
+
+        return sRet;
     }
 }

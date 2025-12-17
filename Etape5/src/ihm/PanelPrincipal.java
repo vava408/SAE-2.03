@@ -141,22 +141,23 @@ public class PanelPrincipal extends JLayeredPane
 		// --- Ajouter les flèches implements ---
 		for (Bloc b : hMBlocs.keySet())
 		{
-			String nomClasse = getNomClasse(b);
-			ArrayList<String> interfaces = getImple(b);
+			String            nomClasse  = this.getNomClasse( b );
+			ArrayList<String> interfaces = this.getImple    ( b );
 
-			if (interfaces != null)
+			if ( interfaces != null )
 			{
-				for (String nomInterface : interfaces)
+				for ( String nomInterface : interfaces )
 				{
-					Fleche fleche = new Fleche(
+					Fleche fleche = new Fleche
+					(
 						this,
 						nomClasse,
 						nomInterface,
 						"", ""   // pas de multiplicités
 					);
 
-					hMFleches.put(fleche, null); // pas une Association
-					this.add(fleche, JLayeredPane.PALETTE_LAYER);
+					hMFleches.put( fleche, null ); // pas une Association
+					this.add( fleche, JLayeredPane.PALETTE_LAYER );
 					fleche.maj();
 				}
 			}

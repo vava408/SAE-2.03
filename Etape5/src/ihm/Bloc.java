@@ -1,5 +1,6 @@
 package src.ihm;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -75,27 +76,31 @@ public class Bloc extends JPanel
 
 
 		//change la taille du bloc en fonction de si on veut afficher toutes les informations
-		if(this.estClique)
-			hauteurTotale = this.panelPrincipal.getTaille(this, true);
+		if( this.estClique )
+		{
+			hauteurTotale = this.panelPrincipal.getTaille( this, true );
+		}
 		else
-			hauteurTotale = this.panelPrincipal.getTaille(this, false);
+		{
+			hauteurTotale = this.panelPrincipal.getTaille( this, false );
+		}
 
 		// Contour global
-		g2.setColor(Color.BLACK);
-		g2.setStroke(new java.awt.BasicStroke(1.0f));
-		g2.drawRect(0, 0, largeur - 1, hauteurTotale - 1);
+		g2.setColor ( Color.BLACK );
+		g2.setStroke( new BasicStroke( 1.0f ) );
+		g2.drawRect  ( 0, 0, largeur - 1, hauteurTotale - 1 );
 
 		// Nom de la classe
-		g2.setFont(new Font("Arial", Font.BOLD, 12));
-		FontMetrics fm = g2.getFontMetrics();
-		int yTexte = 20;
+		g2.setFont( new Font( "Arial", Font.BOLD, 12 ) );
+		FontMetrics fm     = g2.getFontMetrics();
+		int         yTexte = 20;
 
 
 		/*-------------------------------*/
 		/*on dessine les noms des classes*/
 		/*-------------------------------*/
 
-		if (! this.panelPrincipal.getMotCle( this ).equals("class"))
+		if ( ! this.panelPrincipal.getMotCle( this ).equals( "class" ) )
 		{
 			String stereotype = "<< " + this.panelPrincipal.getMotCle( this ) + " >>";
 			int xStereotype   = (largeur - fm.stringWidth(stereotype)) / 2;

@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -75,9 +74,9 @@ public class FrameUML extends JFrame
 		return this.ctrl.getListeAssociation();
 	}
 	
-	public HashMap<Association, ArrayList<String>> getListeAttributsAssociations()
+	public HashMap<Association, ArrayList<String>> gethMAttributsAssociations()
 	{
-		return this.ctrl.getListeAttributsAssociations();
+		return this.ctrl.gethMAttributsAssociations();
 	}
 	
 	public void setPosition( LireFichier lF, int x, int y )

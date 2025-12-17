@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import src.membres.Association;
 import src.membres.Attribut;
 import src.membres.Methode;
 

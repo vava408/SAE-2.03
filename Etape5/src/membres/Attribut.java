@@ -45,7 +45,7 @@ public class Attribut implements Serializable
 	// affichage textuel de l'attribut
 	public String toString() 
     {
-        String sRet = "    ";
+        String sRet = "";
 
         return sRet += this.visibilite + " " + this.type + " " + this.nom;
     }

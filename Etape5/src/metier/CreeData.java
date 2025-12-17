@@ -31,14 +31,14 @@ public class CreeData
 				writer.newLine();
 				for (Attribut a : lf.getListeAttributs())
 				{
-					writer.write("    - " + a.toString());
+					writer.write("+ " + a.toString());
 					writer.newLine();
 				}
 
 				writer.newLine();
 				for (Methode m : lf.getListeMethodes())
 				{
-					writer.write("    - " + m.toString());
+					writer.write("- " + m.toString());
 					writer.newLine();
 				}
 				writer.newLine();

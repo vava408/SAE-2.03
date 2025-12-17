@@ -99,7 +99,7 @@ public class PanelPrincipal extends JLayeredPane
 
 	public HashMap<Association, ArrayList<String>> getListeAttributsAssociations()
 	{
-		return this.frameUML.getListeAttributsAssociations();
+		return this.frameUML.gethMAttributsAssociations();
 	}
 	
 	public void setPosition(Bloc b, int x, int y)

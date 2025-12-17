@@ -2,9 +2,9 @@ package src.ihm;
 
 import java.awt.BorderLayout;
 import java.util.ArrayList;
+import java.util.HashMap;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
-
 import src.Controleur;
 import src.membres.Association;
 import src.membres.Attribut;
@@ -74,6 +74,11 @@ public class FrameUML extends JFrame
 	public ArrayList<Association> getListeAssociation()
 	{
 		return this.ctrl.getListeAssociation();
+	}
+
+	public HashMap<Association, ArrayList<String>> getListeAttributsAssociations()
+	{
+		return this.ctrl.getListeAttributsAssociations();
 	}
 
 	public void setPosition( LireFichier lF, int x, int y )

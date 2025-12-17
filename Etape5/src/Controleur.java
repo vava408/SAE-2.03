@@ -1,18 +1,16 @@
 package src;
 
 import java.util.ArrayList;
-
+import java.util.HashMap;
 import src.ihm.FrameUML;
 import src.ihm.Vue;
-
 import src.membres.Association;
 import src.membres.Attribut;
 import src.membres.Methode;
-
-import src.metier.LireFichier;
-import src.metier.Sauvegarder;
-import src.metier.LireSauvegarde;
 import src.metier.LireDossier;
+import src.metier.LireFichier;
+import src.metier.LireSauvegarde;
+import src.metier.Sauvegarder;
 
 public class Controleur
 {
@@ -66,6 +64,11 @@ public class Controleur
     {
         return this.lireDossier.getListeAssociation();
     }
+
+	public HashMap<Association, ArrayList<String>> getListeAttributsAssociations()
+	{
+		return this.lireDossier.getListeAttributsAssociations();
+	}
 
     public void setPosition( LireFichier lF, int x, int y )
     {

@@ -96,6 +96,11 @@ public class PanelPrincipal extends JLayeredPane
 	{
 		return this.hMBlocs.get(b).caulculLargeurMax(); 
 	}
+
+	public HashMap<Association, ArrayList<String>> getListeAttributsAssociations()
+	{
+		return this.frameUML.getListeAttributsAssociations();
+	}
 	
 	public void setPosition(Bloc b, int x, int y)
 	{

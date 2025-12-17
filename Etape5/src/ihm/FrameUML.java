@@ -125,7 +125,7 @@ public class FrameUML extends JFrame
 	private void ouvrirDossier()
 	{
 		JFileChooser file = new JFileChooser();
-		file.setCurrentDirectory( new File( "." ) );
+		file.setCurrentDirectory( new File( "./src/data" ) );
 		file.setFileSelectionMode( JFileChooser.DIRECTORIES_ONLY );
 
 		int retour = file.showOpenDialog( this );
@@ -143,10 +143,8 @@ public class FrameUML extends JFrame
 	private void ouvrirFichierData()
 	{
 		JFileChooser chooser = new JFileChooser();
-		chooser.setCurrentDirectory( new File( "." ) );
-		chooser.setFileFilter(
-			new javax.swing.filechooser.FileNameExtensionFilter( "Fichier .data", "data" )
-		);
+		chooser.setCurrentDirectory( new File( "./src/sauvegarde" ) );
+		chooser.setFileFilter( new javax.swing.filechooser.FileNameExtensionFilter( "Fichier .data", "data" ) );
 
 		int retour = chooser.showOpenDialog( this );
 

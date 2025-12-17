@@ -35,8 +35,8 @@ public class LireSauvegarde
 
 		} catch (Exception e)
 		{
-			e.printStackTrace();
-			dossier = null;
+			System.out.println("Erreur lors de la lecture de la sauvegarde : Fichier introuvable ou corrompu."); 
+			//e.printStackTrace();
 		}
 
 		return dossier;

@@ -15,31 +15,31 @@ public class LireFichier implements Serializable
 	                                                     "native", "strictfp", "synchronized" };
 
 	private LireDossier               lectureDossier     ;
+	
+	private transient DecomposerLigne decomposerLigne    ;
+
+	private LireMethode               lireMethode        ;
+	private LireAttribut              lireAttribut       ;
 	private LireHeritImple            lireHeritImplements;
 
-	private transient DecomposerLigne           decomposerLigne;
-	private LireMethode               lireMethode    ;
-	private LireAttribut              lireAttribut   ;
+	private String                    motCle             ;
+	private String                    nomClasse          ;
 
+	private int                       posX               ;
+	private int                       posY               ;
 
-	private String                    motCle         ;
-	private String                    nomClasse      ;
-
-	private int                       posX;
-	private int                       posY;
-
-	private int                       hauteurMax;
-	private int                       largeurMax;
+	private int                       hauteurMax         ;
+	private int                       largeurMax         ;
 
 	// constructeur  prend en paramètre la classe LireDossier et le nom du fichier à lire
 	public LireFichier( LireDossier lectureDossier, String fileName) 
 	{
-		this.lectureDossier  = lectureDossier;
+		this.lectureDossier      = lectureDossier;
 
-		this.decomposerLigne = new DecomposerLigne();
-		this.lireHeritImplements = new LireHeritImple( this);
-		this.lireMethode     = new LireMethode    ( this );
-		this.lireAttribut    = new LireAttribut   ( this );
+		this.decomposerLigne     = new DecomposerLigne();
+		this.lireMethode         = new LireMethode    ( this );
+		this.lireAttribut        = new LireAttribut   ( this );
+		this.lireHeritImplements = new LireHeritImple ( this );
 
         lireFichier( fileName );
     }

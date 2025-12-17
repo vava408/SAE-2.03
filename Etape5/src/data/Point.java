@@ -1,53 +1,37 @@
-/*-------------------------------------------------------------------*/
-/*- Classe Point : Représente un point dans un plan (coord. x, y).   */
-/*- Etape 4                                                           */
-/*- Groupe 6                                                          */
-/*- Date de création : 10/12/2025 08:30                               */
-/*-------------------------------------------------------------------*/
-
-public class Point implements Figure , Forme
+public class Point
 {
-	/*--------------------------------------------------------------*/
-	/* Déclaration des attributs                                    */
-	/*--------------------------------------------------------------*/
-	private String nom;
-	public  Disque disque;
-	private int    x;
-	private int    y;
-	public static char lettre = 'a';
+	private int x;
+	private int y;
 
-	/*--------------------------------------------------------------*/
-	/* Constructeur : initialise un point                           */
-	/*--------------------------------------------------------------*/
-	public Point(String nom, int x, int y)
+	public Point( int x, int y )
 	{
-		this.nom = nom;
-		this.x   = x;
-		this.y   = y;
+		this.x = x;
+		this.y = y;
 	}
 
-	/*--------------------------------------------------------------*/
-	/* Accesseur : retourne le nom, la coordonnée X et Y                    */
-	/*--------------------------------------------------------------*/
-	public String getNom() { return this.nom ;}
-	
-	public int    getX()   { return this.x   ;}
+	public int getX()
+	{
+		return x;
+	}
 
-	public int    getY()   { return this.y   ;}
+	public int getY()
+	{
+		return y;
+	}
 
-	/*--------------------------------------------------------------*/
-	/* Modifie la coordonnée X                                      */
-	/*--------------------------------------------------------------*/
-	public void setX(int x)
+	public void setX( int x )
 	{
 		this.x = x;
 	}
 
-	/*--------------------------------------------------------------*/
-	/* Modifie la coordonnée Y                                      */
-	/*--------------------------------------------------------------*/
-	public void setY(int y)
+	public void setY( int y )
 	{
 		this.y = y;
+	}
+
+	public void deplacer( int dx, int dy )
+	{
+		this.x += dx;
+		this.y += dy;
 	}
 }

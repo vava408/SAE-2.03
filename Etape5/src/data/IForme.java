@@ -9,9 +9,8 @@
 /*- Interface Forme : définit le comportement d'une forme géométrique */
 /*--------------------------------------------------------------------*/
 
-public interface Forme
+public interface IForme
 {
-	public double calculerAire();
-
-	public double calculerPerimetre();
+	public double aire();
+	public double perimetre();
 }

@@ -151,14 +151,6 @@ public class LireFichier implements Serializable
                         traiterRecord(tabMots);
                     }
 
-					//rajout d'un appel vers la méthode pour traiter les records
-                    if(ligne.contains("record"))
-                    {
-                        this.nomClasse = tabMots[2];
-                        this.motCle    = tabMots[1];
-                        traiterRecord( tabMots );
-                    }
-
 					if ( this.estLaPremiereLigne( tabMots[1] ) )
 					{
 						this.motCle = tabMots[ 1 ];

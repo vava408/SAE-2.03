@@ -45,7 +45,10 @@ public class LireMethode implements Serializable
         for (int i = 0; i < mots.length; i++)
         {
 			String m = mots[i];
-			
+
+			if(m == null)
+				break;
+
             // static ?
             if (m.equals("static")) 
             {

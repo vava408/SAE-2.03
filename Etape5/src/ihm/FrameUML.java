@@ -86,9 +86,9 @@ public class FrameUML extends JFrame
 		return this.ctrl.afficherAttribut( a );
 	}
 
-	public String afficherMethode( Methode m )
+	public String afficherMethode( Methode m, boolean complet )
 	{
-		return this.ctrl.afficherMethode( m );
+		return this.ctrl.afficherMethode( m, complet );
 	}
 
 	public void exportToImage( String path )

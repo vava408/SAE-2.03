@@ -242,9 +242,9 @@ public class PanelPrincipal extends JLayeredPane
 		return this.frameUML.afficherAttribut(a);
 	}
 	
-	public String afficherMethode(Methode m) 
+	public String afficherMethode(Methode m, boolean complet )
 	{
-		return this.frameUML.afficherMethode(m);
+		return this.frameUML.afficherMethode(m, complet);
 	}
 
 }

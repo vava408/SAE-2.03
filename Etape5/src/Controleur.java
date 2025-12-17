@@ -77,9 +77,9 @@ public class Controleur
         return this.vue.afficherAttribut( a );
     }
 
-    public String afficherMethode( Methode m )
+    public String afficherMethode( Methode m, boolean complet )
     {
-        return this.vue.afficherMethode( m );
+        return this.vue.afficherMethode( m, complet );
     }
 
     public void sauvegarder()

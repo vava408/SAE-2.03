@@ -195,7 +195,7 @@ public class Bloc extends JPanel
 		{
 			for ( Methode m : this.panelPrincipal.getListeMethodes( this ) )
 			{
-				String affichage = this.panelPrincipal.afficherMethode( m );
+				String affichage = this.panelPrincipal.afficherMethode( m, true );
 
 				g2.drawString( affichage, margeHorizontale / 2, yTexte );
 
@@ -221,7 +221,7 @@ public class Bloc extends JPanel
 
 				cpt++;
 
-				String affichage = this.panelPrincipal.afficherMethode( m );
+				String affichage = this.panelPrincipal.afficherMethode( m, false );
 
 				g2.drawString( affichage, margeHorizontale / 2, yTexte );
 

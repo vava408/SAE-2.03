@@ -124,7 +124,7 @@ public class Vue
 		// --- Méthodes ---
 		for ( Methode methode : lF.getListeMethodes() )
 		{
-			this.afficherMethode( methode );
+			this.afficherMethode( methode, true );
 		}
 
 		sRet += ligne + "\n";
@@ -241,7 +241,7 @@ public class Vue
 		return sRet;
 	}
 
-	public String afficherMethode( Methode m )
+	public String afficherMethode( Methode m, boolean complet )
 	{
 		String sRet        = "";
 		String sVisibilite = "";
@@ -266,11 +266,17 @@ public class Vue
 		{
 			sSignature += ")";
 		}
-		
+
 		for ( int cpt = 0; cpt < m.getParametre().size(); cpt++ )
 		{
+			if( !complet && cpt >= 2 )
+			{
+				sSignature += " ... )";
+				break;
+			}
+
 			Parametre parametre = m.getParametre().get( cpt );
-			
+
 			sSignature += " " + parametre.getNom() + " : " + parametre.getType();
 			if ( cpt < m.getParametre().size() - 1 ) sSignature += ",";
 			else sSignature += " )";

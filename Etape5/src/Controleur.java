@@ -23,8 +23,8 @@ public class Controleur
 
     public Controleur()
     {
-        this.frameUML    = new FrameUML( this );
         this.vue         = new Vue     ( this );
+        this.frameUML    = new FrameUML( this );
         this.sauvegarder = new Sauvegarder();
         this.charger     = new LireSauvegarde();
 

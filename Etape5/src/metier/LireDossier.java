@@ -7,6 +7,7 @@ import java.util.HashMap;
 import src.Controleur;
 import src.membres.Association;
 import src.membres.Attribut;
+import src.membres.Methode;
 
 public class LireDossier implements Serializable
 {
@@ -61,6 +62,16 @@ public class LireDossier implements Serializable
 	public ArrayList<Association> getListeAssociation()
 	{
 		return this.lstAssociations;
+	}
+
+	public String getVueMethode(Methode m)
+	{
+		return this.ctrl.afficherMethode(m, true);
+	}
+
+	public String getVueAttributs(Attribut a)
+	{
+		return this.ctrl.afficherAttribut(a);
 	}
 
 	public HashMap<Association, ArrayList<String>> getListeAttributsAssociations()

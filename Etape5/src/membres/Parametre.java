@@ -54,11 +54,10 @@ public class Parametre implements Serializable
 
 	//affichage textuel du paramètre
 	public String toString() 
-	{
-		String sb = "";
-		sb += "p" + getId() + " :" + getNom();
-		sb += " type : " + getType();
-		return sb;
-	}
+    {
+        String sb = "";
+        sb += getType() + " " + getNom();
+        return sb;
+    }
 
 }

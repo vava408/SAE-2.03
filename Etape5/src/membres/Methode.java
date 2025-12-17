@@ -70,28 +70,27 @@ public class Methode implements Serializable
 
 	// affichage textuel de la méthode
 	public String toString() 
-	{
-				String sRet = "";
+    {
+        String sRet = "";
 
-		sRet += "méthode : " + this.nom;
-		sRet += " visibilité : " + this.visibilite;
+        sRet += this.visibilite + " " ;
 
-		if(this.retour != null)
-			sRet += " type de retour : " + this.retour;
+        if(this.retour != null)
+            sRet += this.retour + " " ;
 
-		sRet += "\nparamètres : ";
+        sRet += this.nom + " " ;
 
-		if(this.tabParametre.isEmpty())
-			sRet += "aucun";
-		else
-			for ( Parametre p : this.tabParametre )
-			{
-				sRet += "\n" + String.format( "%14s", p.toString() );
-			}
+        if(this.tabParametre.isEmpty())
+            sRet += " ";
+        else
+            for ( Parametre p : this.tabParametre )
+            {
+                sRet += String.format( "%14s", p.toString() );
+            }
 
-		sRet += "\n";
+        sRet += "\n";
 
-		return sRet;
-	}
+        return sRet;
+    }
 
 }

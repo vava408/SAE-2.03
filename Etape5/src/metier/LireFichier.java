@@ -78,7 +78,7 @@ public class LireFichier implements Serializable
 	}
 
 
-	public HashMap<String, ArrayList<String> > getMapImple()
+	public HashMap<String, ArrayList<String>> getMapImple()
 	{
 		return this.lireHeritImplements.getMapImplements();
 	}
@@ -140,7 +140,7 @@ public class LireFichier implements Serializable
 				{
 					if (ligne.contains("implements") || ligne.contains("extends"))
 					{
-						this.lireHeritImplements.lireHeritImple(ligne);
+						this.lireHeritImplements.lireHeritImple( tabMots );
 					}
 					
                     //rajout d'un appel vers la méthode pour traiter les records
@@ -156,7 +156,7 @@ public class LireFichier implements Serializable
                     {
                         this.nomClasse = tabMots[2];
                         this.motCle    = tabMots[1];
-                        traiterRecord(tabMots);
+                        traiterRecord( tabMots );
                     }
 
 					if ( this.estLaPremiereLigne( tabMots[1] ) )

@@ -125,48 +125,60 @@ public class PanelPrincipal extends JLayeredPane
 		}
 
 		// --- Ajouter les flèches ---
-		for (Association a : this.frameUML.getListeAssociation())
+		for ( Association a : this.frameUML.getListeAssociation() )
 		{
-			Fleche fleche = new Fleche(this, a.getNomClasseA(), a.getNomClasseB(),
-										a.getMultiplicityA(), a.getMultiplicityB());
+			Fleche fleche = new Fleche( this, a.getNomClasseA(), a.getNomClasseB(),
+										a.getMultiplicityA(), a.getMultiplicityB() );
 
-			hMFleches.put(fleche, a);	
+			hMFleches.put( fleche, a );	
 
 			fleche.setBounds(0, 0, getWidth(), getHeight());
 
 			this.add(fleche, JLayeredPane.PALETTE_LAYER); // toujours au-dessus
 			fleche.maj();
 		}
-
-		// --- Ajouter les flèches implements ---
-		for (Bloc b : hMBlocs.keySet())
+		// --- Ajouter les flèches implements et héritage ---
+		for ( Bloc b : hMBlocs.keySet() )
 		{
-			String            nomClasse  = this.getNomClasse( b );
-			ArrayList<String> interfaces = this.getImple    ( b );
+			String nomClasse = this.getNomClasse( b );
+			String heritage = this.getHerit( b );
+			ArrayList<String> implement = this.getImple( b );
 
-			if ( interfaces != null )
+			if ( heritage != null )
 			{
-				for ( String nomInterface : interfaces )
+				ajouterFleche( nomClasse, heritage );
+			}
+			
+			if ( implement != null )
+			{
+				for ( String nomImplement : implement )
 				{
-					Fleche fleche = new Fleche
-					(
-						this,
-						nomClasse,
-						nomInterface,
-						"", ""   // pas de multiplicités
-					);
-
-					hMFleches.put( fleche, null ); // pas une Association
-					this.add( fleche, JLayeredPane.PALETTE_LAYER );
-					fleche.maj();
+					ajouterFleche( nomClasse, nomImplement );
 				}
 			}
 		}
-		
+
 		this.placerBlocs();
 		this.revalidate();
 		this.repaint();
 	}
+
+
+	private void ajouterFleche(String source, String cible)
+	{
+		Fleche fleche = new Fleche(
+			this,
+			source,
+			cible,
+			"", "" // pas de multiplicités
+		);
+
+		hMFleches.put(fleche, null);
+		this.add(fleche, JLayeredPane.PALETTE_LAYER);
+		fleche.maj();
+	}
+
+
 	
 	public void placerBlocs() 
 	{

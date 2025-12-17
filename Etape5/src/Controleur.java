@@ -65,9 +65,9 @@ public class Controleur
         return this.lireDossier.getListeAssociation();
     }
 
-	public HashMap<Association, ArrayList<String>> getListeAttributsAssociations()
+	public HashMap<Association, ArrayList<String>> gethMAttributsAssociations()
 	{
-		return this.lireDossier.getListeAttributsAssociations();
+		return this.lireDossier.gethMAttributsAssociations();
 	}
 
     public void setPosition( LireFichier lF, int x, int y )

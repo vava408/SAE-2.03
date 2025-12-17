@@ -74,7 +74,7 @@ public class LireDossier implements Serializable
 		return this.ctrl.afficherAttribut(a);
 	}
 
-	public HashMap<Association, ArrayList<String>> getListeAttributsAssociations()
+	public HashMap<Association, ArrayList<String>> gethMAttributsAssociations()
 	{
 		return this.hMAttrAsso;
 	}
@@ -132,8 +132,18 @@ public class LireDossier implements Serializable
 						if ( unidirectionnel )
 						{
 							this.ajoutAssociation( lF1, a1.getType(), multipliciteA, multipliciteB);
+
 						}
-						
+
+						Association a = this.lstAssociations.get( this.lstAssociations.size() - 1 );
+
+						if ( ! this.hMAttrAsso.containsKey( a ) )
+						{
+							this.hMAttrAsso.put( a, new ArrayList<>() );
+						}
+
+						this.hMAttrAsso.get( a ).add( lF1.getListeAttributs().get( cpt1 ).getNom() );
+							
 						lF1.getListeAttributs().remove( cpt1 );
 						cpt1--;
 					}

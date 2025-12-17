@@ -4,16 +4,36 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Classe chargée de lire et analyser les relations d'héritage (extends) et
+ * d'implémentation (implements) dans une déclaration de classe Java.
+ */
 public class LireHeritImple implements Serializable
 {
+	// Objet permettant la lecture du fichier source
 	private LireFichier lireFichier;
+
+	// Outil de découpage de ligne (non sérialisé)
 	private transient DecomposerLigne decomposerLigne;
+
+	// Liste temporaire des interfaces implémentées
 	private ArrayList<String> listeImplements;
-	private HashMap<String, ArrayList<String> > mapImplements;
+
+	// Map : NomClasse -> Liste des interfaces implémentées
+	private HashMap<String, ArrayList<String>> mapImplements;
+
+	// Map : NomClasse -> Classe mère (extends)
 	private HashMap<String, String> mapExtends;
+
+	// Tableau de mots issu du découpage d'une ligne
 	private String[] mot;
 
-
+	/**
+	 * Constructeur
+	 * 
+	 * @param lireFichier
+	 *            objet permettant l'accès au fichier analysé
+	 */
 	public LireHeritImple(LireFichier lireFichier)
 	{
 		this.lireFichier = lireFichier;
@@ -23,56 +43,106 @@ public class LireHeritImple implements Serializable
 		this.listeImplements = new ArrayList<>();
 	}
 
-	public void lireHeritImple(String ligne)
+	/**
+	 * Analyse une ligne découpée en mots afin de détecter : - le nom de la
+	 * classe - la classe héritée (extends) - les interfaces implémentées
+	 * (implements)
+	 *
+	 * @param mots
+	 *            tableau de mots issus d'une ligne de code Java
+	 */
+	public void lireHeritImple(String[] mots)
 	{
-		String[] mots = this.decomposerLigne.decomposerLigne(ligne);
+		String nomClasse = "";
 
-
-		String nomClasse = mots[2];
-		String motCle = mots[4];
-
-		if (mots[3].equals("implements"))
+		// Recherche de l'index du mot "class"
+		int indexClass = -1;
+		for (int i = 0; i < mots.length; i++)
 		{
-			int index = 0;
-			for (String stringMot : mots)
+			if (mots[i].equals("class"))
 			{
-				index++;
-				if (this.lireFichier.nomEstDansRepertoire(stringMot) || index > 4)
-				{
-					this.listeImplements.add(stringMot);
-				}
+				indexClass = i;
+				break;
 			}
-			this.mapImplements.put(nomClasse, this.listeImplements);
 		}
 
-		if (mots.length > 6 && mots[5].equals("implements"))
-		{
-			int index = 0;
-			for (String stringMot : mots)
-			{
-				index++;
-				if (this.lireFichier.nomEstDansRepertoire(stringMot) || index > 6)
-				{
-					this.listeImplements.add(stringMot);
-				}
-			}
-			this.mapImplements.put(nomClasse, this.listeImplements);
+		// Si "class" n'existe pas ou qu'il n'y a pas de nom après, on arrête
+		if (indexClass == -1 || indexClass + 1 >= mots.length)
+			return;
 
+		// Le nom de la classe est le mot juste après "class"
+		nomClasse = mots[indexClass + 1];
+
+		// Recherche du mot "extends"
+		int indexExtends = -1;
+		for (int i = indexClass + 2; i < mots.length; i++)
+		{
+			if (mots[i].equals("extends"))
+			{
+				indexExtends = i;
+				break;
+			}
 		}
 
-		if (mots[3].equals("extends"))
+		// Recherche du mot "implements"
+		int indexImplements = -1;
+		for (int i = indexClass + 2; i < mots.length; i++)
 		{
-			//System.out.println(this.lireFichier.getNomClasse());
-			this.mapExtends.put(nomClasse, motCle);
+			if (mots[i].equals("implements"))
+			{
+				indexImplements = i;
+				break;
+			}
+		}
+
+		// ----- Gestion de l'héritage (extends) -----
+		if (indexExtends != -1)
+		{
+			// La fin du extends est soit "implements", soit la fin de la ligne
+			int endExtends = (indexImplements != -1) ? indexImplements : mots.length;
+
+			// Vérifie qu'il existe bien une classe après "extends"
+			if (indexExtends + 1 < endExtends)
+			{
+				String superClass = mots[indexExtends + 1];
+				this.mapExtends.put(nomClasse, superClass);
+			}
+		}
+
+		// ----- Gestion des interfaces (implements) -----
+		if (indexImplements != -1)
+		{
+			ArrayList<String> lstInteface = new ArrayList<>();
+
+			// Parcourt les mots après "implements"
+			for (int i = indexImplements + 1; i < mots.length; i++)
+			{
+				String mot = mots[i];
+
+				// Ignore les virgules et les mots vides
+				if (!mot.equals(",") && !mot.isEmpty())
+				{
+					lstInteface.add(mot);
+				}
+			}
+
+			// Association de la classe avec ses interfaces
+			this.mapImplements.put(nomClasse, lstInteface);
 		}
 	}
 
-	public HashMap<String, ArrayList<String> > getMapImplements()
+	/**
+	 * @return la map des interfaces implémentées par chaque classe
+	 */
+	public HashMap<String, ArrayList<String>> getMapImplements()
 	{
 		return this.mapImplements;
 	}
 
-	public HashMap<String, String> getMapExtends() //heritage
+	/**
+	 * @return la map des relations d'héritage (classe -> classe mère)
+	 */
+	public HashMap<String, String> getMapExtends()
 	{
 		return this.mapExtends;
 	}

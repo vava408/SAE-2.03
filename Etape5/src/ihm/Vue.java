@@ -236,7 +236,7 @@ public class Vue
 
 		if ( a.isFinal() ) sFinal = " {gelé}";
 
-		sRet += String.format( "%s%-35s: %s%s\n", sVisibilite, a.getNom(), a.getType(), sFinal );
+		sRet += sVisibilite + String.format( "%-25s", a.getNom() ) + " : " + String.format( "%-15s", a.getType() ) + sFinal;
 
 		return sRet;
 	}
@@ -284,7 +284,7 @@ public class Vue
 
 		if ( m.getRetour() != null && ! m.getRetour().equals("void") )
 		{
-			sRet += String.format("%-37s: %s\n", sSignature, m.getRetour());
+			sRet += String.format("%-40s", sSignature ) + " : " + String.format( "%-15s", m.getRetour() );
 		}
 		else
 		{

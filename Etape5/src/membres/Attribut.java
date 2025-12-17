@@ -11,9 +11,11 @@ public class Attribut implements Serializable
 	private String  visibilite;
 	private boolean estStatic;
 	private boolean estFinal;
+	private boolean estAddOnly;
 
 	// constructeur
-	public Attribut(int attributId, String nom, String type, String visibilite, boolean estStatic, boolean estFinal) 
+	public Attribut(int attributId, String nom, String type, String visibilite, boolean estStatic, boolean estFinal,
+			boolean isAddOnly)
 	{
 
 		this.attributId = attributId;
@@ -22,6 +24,7 @@ public class Attribut implements Serializable
 		this.visibilite = visibilite;
 		this.estStatic  = estStatic;
 		this.estFinal   = estFinal;
+		this.estAddOnly = isAddOnly;
 	}
 
 	// retourne l'identifiant de l'attribut
@@ -41,6 +44,9 @@ public class Attribut implements Serializable
 
 	// retourne true si l'attribut est final
 	public boolean isFinal()      { return estFinal  ; }
+
+	//retourbe true si l attibut est addOnly
+	public boolean isAddOnly()    { return this.estAddOnly ; }
 
 	// affichage textuel de l'attribut
 	public String toString() 

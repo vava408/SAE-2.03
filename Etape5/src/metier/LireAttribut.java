@@ -29,12 +29,13 @@ public class LireAttribut implements Serializable
 	//lit un attribut à partir des mots (lignes) passés en paramètre
 	public void lireAttribut(String[] mots) 
 	{
-
+		String[] collectionsAddOnly = { "arraylist<", "list<", "set<", "hashset<", "linkedlist<", "treeset<" };
 		String visibilite = "default";
 		String type = "";
 		String nom = "";
 		boolean isStatic = false;
 		boolean isFinal = false;
+		boolean isAddOnly = false;
 
 		//Retrait du ;
 		for ( int cpt = 0; cpt < mots.length; cpt++ )
@@ -84,8 +85,19 @@ public class LireAttribut implements Serializable
 			return;
 		}
 
+		// Vérifier si c'est une collection add-only
+		String t = type.trim().toLowerCase();
+		for (String coll : collectionsAddOnly)
+		{
+			if (t.contains(coll))
+			{
+				isAddOnly = true;
+				break; 
+			}
+		}
+
 		// 3. Créer l'objet attribut
-		Attribut a = new Attribut(compteurId++, nom, type, visibilite, isStatic, isFinal);
+		Attribut a = new Attribut(compteurId++, nom, type, visibilite, isStatic, isFinal, isAddOnly);
 
 		// 4. Ajouter à la liste
 		this.listeAttributs.add(a);

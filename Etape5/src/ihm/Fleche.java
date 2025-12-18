@@ -75,8 +75,8 @@ public class Fleche extends JPanel
 
 		// multiplicités légèrement plus proches de la flèche
 		
-		dessinerTexte(g2, multipliciteA, p1, p2, 10, -20);
-		dessinerTexte(g2, multipliciteB, p2, p1, 10, -20);
+		dessinerTexte(g2, multipliciteA, p1, p2, 15, -10);
+		dessinerTexte(g2, multipliciteB, p2, p1, 15, -10);
 
 		// Rôles
 		dessinerRolesAssociation(g2, p1, p2);
@@ -228,12 +228,12 @@ public class Fleche extends JPanel
 		Bloc b = panelPrincipal.getBloc(nomClasseB);
 
 		// rôle côté A
-		dessinerTexte(g2, roleA, p1, p2, -20, 20); 
+		dessinerTexte(g2, roleA, p1, p2, 15, 10);
 
 		// rôle côté B seulement si bidirectionnelle
 		if (!asso.estUnidirectionnelle())
 		{
-			dessinerTexte(g2, roleB, p2, p1, -20, 20);
+			dessinerTexte(g2, roleB, p2, p1, 15, 10);
 		}
 	}
 
@@ -243,32 +243,85 @@ public class Fleche extends JPanel
 	}
 
 	// Méthode générale pour dessiner un texte (rôle ou multiplicité)
-	private void dessinerTexte(Graphics2D g2, String texte, Point blocPoint, Point autrePoint, int distance, int decalagePerp) {
-    if (texte == null || texte.isEmpty()) return;
+	private void dessinerTexte(
+			Graphics2D g2,
+			String texte,
+			Point blocPoint,
+			Point autrePoint,
+			int distance,
+			int decalagePerp)
+	{
+		if (texte == null || texte.isEmpty()) return;
 
-    // vecteur flèche
-    double dx = autrePoint.x - blocPoint.x;
-    double dy = autrePoint.y - blocPoint.y;
-    double longueur = Math.sqrt(dx*dx + dy*dy);
-    if (longueur == 0) return;
+		double dx = autrePoint.x - blocPoint.x;
+		double dy = autrePoint.y - blocPoint.y;
+		double longueur = Math.sqrt(dx * dx + dy * dy);
+		if (longueur == 0) return;
 
-    // vecteur normalisé perpendiculaire
-    double nx = -dy / longueur;
-    double ny =  dx / longueur;
+		// vecteur direction flèche
+		double ux = dx / longueur;
+		double uy = dy / longueur;
 
-    // augmenter le décalage si flèche presque verticale
-    if (Math.abs(dx) < Math.abs(dy)) {
-        decalagePerp *= 2; // ou 1.5 selon besoin
-    }
+		int signeDistance = 1;
 
-    // décaler légèrement le long de la flèche et perpendiculairement
-    int x = (int)(blocPoint.x + dx * 0.1 + nx * decalagePerp);
-    int y = (int)(blocPoint.y + dy * 0.1 + ny * decalagePerp);
+		// retrouver le bloc correspondant à blocPoint
+		Bloc bloc = panelPrincipal.getBloc(nomClasseA);
+		if (!isOnBloc(bloc, blocPoint)) {
+			bloc = panelPrincipal.getBloc(nomClasseB);
+		}
 
-    g2.drawString(texte, x, y);
-}
+		int bx = bloc.getX();
+		int by = bloc.getY();
+		int bw = bloc.getWidth();
+		int bh = bloc.getHeight();
+
+		// si le vecteur pointe vers l'intérieur du bloc → inverser
+		if ((blocPoint.x == bx        && ux > 0) ||   // gauche
+			(blocPoint.x == bx + bw   && ux < 0) ||   // droite
+			(blocPoint.y == by        && uy > 0) ||   // haut
+			(blocPoint.y == by + bh   && uy < 0))     // bas
+		{
+			signeDistance = -1;
+		}
+
+		// 🔥 bonus côté gauche
+		int bonus = 0;
+		if (blocPoint.x == bx) {
+			bonus = 30;
+		}
+
+		// Déterminer le décalage supplémentaire pour ne pas chevaucher la flèche
+		int decalageTexte = decalagePerp;
+
+		if (Math.abs(dx) > Math.abs(dy)) {
+			// Flèche horizontale → texte au-dessus/dessous
+			if (decalagePerp < 0) decalageTexte -= 10;  // côté "A"
+			if (decalagePerp > 0) decalageTexte += 10;  // côté "B"
+
+			int x = (int) (blocPoint.x + ux * (distance + bonus) * signeDistance);
+			int y = (int) (blocPoint.y + uy * (distance + bonus) * signeDistance + decalageTexte);
+
+			g2.drawString(texte, x, y);
+		} else {
+			// Flèche verticale → texte à gauche/droite
+			if (decalagePerp < 0) decalageTexte -= 25;  // décale encore plus côté gauche
+			if (decalagePerp > 0) decalageTexte += 0;   // côté droit inchangé
+
+			int x = (int) (blocPoint.x + ux * (distance + bonus) * signeDistance + decalageTexte);
+			int y = (int) (blocPoint.y + uy * (distance + bonus) * signeDistance);
+
+			g2.drawString(texte, x, y);
+		}
+	}
 
 
 
+
+
+
+	private boolean isOnBloc(Bloc b, Point p) {
+		return p.x >= b.getX() && p.x <= b.getX() + b.getWidth()
+			&& p.y >= b.getY() && p.y <= b.getY() + b.getHeight();
+	}
 
 }

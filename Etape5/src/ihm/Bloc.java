@@ -31,13 +31,14 @@ public class Bloc extends JPanel
 		this.estClique = false;
 
         this.panelPrincipal = panelPrincipal;
-        this.setBackground ( new Color ( 250, 250, 250 ) );
-
+		
 		this.nomClasse = nomClasse;
-
+		
 		this.largeurMax = 0;
 		this.hauteurMax = 0;
-
+		
+        this.setBackground ( new Color ( 250, 250, 250 ) );
+		
         GereSouris gs = new GereSouris ( );
         this.addMouseListener ( gs );
         this.addMouseMotionListener ( gs );
@@ -241,20 +242,23 @@ public class Bloc extends JPanel
 
 		if(this.estClique)
 		{
-			for ( Methode m : this.panelPrincipal.getListeMethodes( this ) )
+			if ( this.panelPrincipal.getListeMethodes( this ) != null )
 			{
-				String affichage = this.panelPrincipal.afficherMethode( m, true );
-
-				g2.drawString( affichage, margeHorizontale / 2, yTexte );
-
-				if ( m.isStatic() )
+				for ( Methode m : this.panelPrincipal.getListeMethodes( this ) )
 				{
-					int largeurTexte = g2.getFontMetrics().stringWidth( affichage );
-
-					g2.drawLine( margeHorizontale / 2, yTexte + 1, margeHorizontale / 2 + largeurTexte, yTexte + 1 );
+					String affichage = this.panelPrincipal.afficherMethode( m, true );
+	
+					g2.drawString( affichage, margeHorizontale / 2, yTexte );
+	
+					if ( m.isStatic() )
+					{
+						int largeurTexte = g2.getFontMetrics().stringWidth( affichage );
+	
+						g2.drawLine( margeHorizontale / 2, yTexte + 1, margeHorizontale / 2 + largeurTexte, yTexte + 1 );
+					}
+	
+					yTexte += hauteurLigneMethode;
 				}
-
-				yTexte += hauteurLigneMethode;
 			}
 		}
 		else

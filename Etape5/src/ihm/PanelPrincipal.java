@@ -163,7 +163,7 @@ public class PanelPrincipal extends JLayeredPane
 
 	public boolean nomEstDansRepertoire( Bloc b )
 	{
-		return this.frameUML.nomEstDansRepertoire( this.hMBlocs.get ( b ) );
+		return this.frameUML.nomEstDansRepertoire( this.hMBlocs.get( b ) );
 	}
 	
 	public void instancierPanel() 

@@ -97,15 +97,12 @@ public class Fleche extends JPanel
 		g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING,
 							 RenderingHints.VALUE_ANTIALIAS_ON );
 
-		// Style par défaut de la flèche
 		g2.setStroke( new BasicStroke( 2 ) );
 		g2.setColor ( Color.BLACK );
 
-		// Récupération des blocs reliés
 		Bloc blocA = this.panelPrincipal.getBloc( this.nomClasseA );
 		Bloc blocB = this.panelPrincipal.getBloc( this.nomClasseB );
 
-		// Sécurité : si un bloc n'existe pas, on ne dessine rien
 		if ( blocA == null || blocB == null ) { return; }
 
 		// Points d'ancrage des deux blocs
@@ -135,11 +132,9 @@ public class Fleche extends JPanel
 		// Dessin de la ligne et des éventuelles pointes
 		this.dessinerLigneAvecPointes( g2, p1, p2, blocA, blocB );
 
-		// Affichage des multiplicités légèrement plus proches de la flèche
 		this.dessinerTexte( g2, this.multipliciteA, p1, p2, 15, -10 );
 		this.dessinerTexte( g2, this.multipliciteB, p2, p1, 15, -10 );
 
-		// Affichage des rôles de l'association
 		this.dessinerRolesAssociation( g2, p1, p2 );
 	}
 
@@ -180,7 +175,7 @@ public class Fleche extends JPanel
 	 */
 	private void dessinerLigneAvecPointes( Graphics2D g2, Point p1, Point p2, Bloc a , Bloc b )
 	{
-		// Dessin de la ligne principale
+
 		this.dessinerLigne( g2, p1.x, p1.y, p2.x, p2.y, a, b );
 
 		// Cas héritage ou implémentation (pas une association)
@@ -241,13 +236,12 @@ public class Fleche extends JPanel
 					float[] dash = { 8f, 8f };
 
 					g2.setStroke( new BasicStroke(
-						2,
-						BasicStroke.CAP_BUTT,
-						BasicStroke.JOIN_MITER,
-						10.0f,
-						dash,
-						0.0f
-					));
+													2                     ,
+													BasicStroke.CAP_BUTT  ,
+													BasicStroke.JOIN_MITER,
+													10.0f                 ,
+													dash                  ,
+													0.0f                ));
 				}
 			}
 		}
@@ -359,16 +353,16 @@ public class Fleche extends JPanel
 			roleB = roles.get(1);
 		}
 
-		Bloc a = panelPrincipal.getBloc(nomClasseA);
-		Bloc b = panelPrincipal.getBloc(nomClasseB);
+		Bloc a = panelPrincipal.getBloc( nomClasseA );
+		Bloc b = panelPrincipal.getBloc( nomClasseB );
 
 		// rôle côté A
-		dessinerTexte(g2, roleA, p1, p2, 15, 10);
+		dessinerTexte( g2, roleA, p1, p2, 15, 10 );
 
 		// rôle côté B seulement si bidirectionnelle
-		if (!asso.estUnidirectionnelle())
+		if ( ! asso.estUnidirectionnelle( ) )
 		{
-			dessinerTexte(g2, roleB, p2, p1, 15, 10);
+			dessinerTexte( g2, roleB, p2, p1, 15, 10 );
 		}
 	}
 

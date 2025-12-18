@@ -25,7 +25,7 @@ public class CreeData
 			for (LireFichier lf : dossier.getListeFichiers())
 			{
 				writer.write(lf.getMotCle() + " ");
-				writer.write(lf.getNomClasse());
+				writer.write(lf.getNomClasse() + " " + lf.getPosX() + " " + lf.getPosY());
 				writer.newLine();
 
 				writer.newLine();
@@ -42,6 +42,8 @@ public class CreeData
 					writer.newLine();
 				}
 				writer.newLine();
+
+				writer.write("=== \n");
 			}
 
 

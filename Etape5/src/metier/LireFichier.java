@@ -3,7 +3,6 @@ package src.metier;
 import java.io.FileInputStream;
 import java.io.Serializable;
 import java.util.*;
-
 import src.membres.Attribut;
 import src.membres.Methode;
 

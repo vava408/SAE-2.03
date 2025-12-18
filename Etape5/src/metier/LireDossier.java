@@ -85,6 +85,7 @@ public class LireDossier implements Serializable
 		{
 			if ( classe == lF ) { classe.setPosition(x, y); }
 		}
+		
 	}
 	
 	private void creerAssociation()

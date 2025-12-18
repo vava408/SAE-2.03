@@ -97,7 +97,7 @@ public class PanelPrincipal extends JLayeredPane
 		return this.hMBlocs.get(b).caulculLargeurMax(); 
 	}
 
-	public HashMap<Association, ArrayList<String>> getListeAttributsAssociations()
+	public HashMap<Association, ArrayList<String>> gethMAttributsAssociations()
 	{
 		return this.frameUML.gethMAttributsAssociations();
 	}

@@ -1,7 +1,9 @@
 package src.ihm;
 
 import java.awt.*;
+import java.util.ArrayList;
 import javax.swing.JPanel;
+import src.membres.Association;
 
 public class Fleche extends JPanel 
 {
@@ -71,9 +73,13 @@ public class Fleche extends JPanel
 		// Dessiner la pointe
 		dessinerLigneAvecPointes( g2, p1, p2, a, b );
 
-		// Dessiner les multiplicités
-		dessinerMultiplicite( g2, multipliciteA, p1, a );
-		dessinerMultiplicite( g2, multipliciteB, p2, b );
+		// multiplicités légèrement plus proches de la flèche
+		
+		dessinerTexte(g2, multipliciteA, p1, p2, 10, -20);
+		dessinerTexte(g2, multipliciteB, p2, p1, 10, -20);
+
+		// Rôles
+		dessinerRolesAssociation(g2, p1, p2);
 	}
 
 	private Point[] getAnchors(Bloc b) 
@@ -87,42 +93,6 @@ public class Fleche extends JPanel
 			new Point(x, y + h / 2),         // gauche
 			new Point(x + w, y + h / 2)      // droite
 		};
-	}
-
-	private void dessinerMultiplicite( Graphics2D g2, String texte, Point p, Bloc b )
-	{
-		if ( texte == null || texte.isEmpty() ) { return; }
-
-		int d = 10;
-		int x = p.x;
-		int y = p.y;
-
-		// Haut
-		if ( p.y == b.getY() )
-		{
-			x += d;
-			y -= d;
-		}
-		// Bas
-		else if ( p.y == b.getY() + b.getHeight() )
-		{
-			x += d;
-			y += d + 10;
-		}
-		// Gauche
-		else if ( p.x == b.getX() )
-		{
-			x -= d + 20;
-			y -= d;
-		}
-		// Droite
-		else if ( p.x == b.getX() + b.getWidth() )
-		{
-			x += d;
-			y -= d;
-		}
-
-		g2.drawString( texte, x, y );
 	}
 
 	private void dessinerLigneAvecPointes( Graphics2D g2, Point p1, Point p2, Bloc a, Bloc b )
@@ -161,12 +131,7 @@ public class Fleche extends JPanel
 				dessinerPointe( g2, p2, p1 ); // flèche vers A
 			}
 		} 
-		else
-		{
-			// Bidirectionnelle : flèches aux deux extrémités
-			dessinerPointe( g2, p1, p2 );
-			dessinerPointe( g2, p2, p1 );
-		}
+
 	}
 
 	private void dessinerLigne( Graphics2D g2, int p1X, int p1Y, int p2X, int p2Y, Bloc a, Bloc b ) 
@@ -242,5 +207,68 @@ public class Fleche extends JPanel
 		g2.setColor(Color.BLACK);
 		g2.drawPolygon(triangle);
 	}
+
+	private void dessinerRolesAssociation(Graphics2D g2, Point p1, Point p2)
+	{
+		Association asso = panelPrincipal.getAssociation(this);
+		if (asso == null) return;
+
+		ArrayList<String> roles = getRoles(asso);
+		if (roles == null || roles.isEmpty()) return;
+
+		String roleA = roles.get(0);
+		String roleB = roleA;
+
+		if (roles.size() > 1)
+		{
+			roleB = roles.get(1);
+		}
+
+		Bloc a = panelPrincipal.getBloc(nomClasseA);
+		Bloc b = panelPrincipal.getBloc(nomClasseB);
+
+		// rôle côté A
+		dessinerTexte(g2, roleA, p1, p2, -20, 20); 
+
+		// rôle côté B seulement si bidirectionnelle
+		if (!asso.estUnidirectionnelle())
+		{
+			dessinerTexte(g2, roleB, p2, p1, -20, 20);
+		}
+	}
+
+	public ArrayList<String> getRoles(Association a)
+	{
+		return this.panelPrincipal.gethMAttributsAssociations().get( a );
+	}
+
+	// Méthode générale pour dessiner un texte (rôle ou multiplicité)
+	private void dessinerTexte(Graphics2D g2, String texte, Point blocPoint, Point autrePoint, int distance, int decalagePerp) {
+    if (texte == null || texte.isEmpty()) return;
+
+    // vecteur flèche
+    double dx = autrePoint.x - blocPoint.x;
+    double dy = autrePoint.y - blocPoint.y;
+    double longueur = Math.sqrt(dx*dx + dy*dy);
+    if (longueur == 0) return;
+
+    // vecteur normalisé perpendiculaire
+    double nx = -dy / longueur;
+    double ny =  dx / longueur;
+
+    // augmenter le décalage si flèche presque verticale
+    if (Math.abs(dx) < Math.abs(dy)) {
+        decalagePerp *= 2; // ou 1.5 selon besoin
+    }
+
+    // décaler légèrement le long de la flèche et perpendiculairement
+    int x = (int)(blocPoint.x + dx * 0.1 + nx * decalagePerp);
+    int y = (int)(blocPoint.y + dy * 0.1 + ny * decalagePerp);
+
+    g2.drawString(texte, x, y);
 }
 
+
+
+
+}

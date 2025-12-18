@@ -20,7 +20,6 @@ public class FrameUML extends JFrame
 
 	private Menu              menuBar;
 	private PanelPrincipal    panelPrincipal;
-	private PanelListeFichier panelListeFichier;
 
 	private JScrollPane       scrollPanelPrincipal;
 
@@ -35,7 +34,6 @@ public class FrameUML extends JFrame
 
 		this.menuBar           = new Menu             ( this );
 		this.panelPrincipal    = new PanelPrincipal   ( this );
-		this.panelListeFichier = new PanelListeFichier( this );
 
 		// --- ScrollPane ---
 		this.scrollPanelPrincipal = new JScrollPane( this.panelPrincipal );
@@ -48,7 +46,6 @@ public class FrameUML extends JFrame
 
 		this.add( this.menuBar              , BorderLayout.NORTH  );
 		this.add( this.scrollPanelPrincipal , BorderLayout.CENTER );
-		this.add( this.panelListeFichier    , BorderLayout.EAST   );
 
 		/*-------------------------------*/
 		/* Finalisation                  */
@@ -89,7 +86,6 @@ public class FrameUML extends JFrame
 		this.ctrl.lireDossier( chemin );
 
 		this.panelPrincipal   .instancierPanel();
-		this.panelListeFichier.instancierPanel();
 	}
 
 	private void afficherChoixOuverture()
@@ -180,7 +176,6 @@ public class FrameUML extends JFrame
 	public void maj()
 	{
 		this.panelPrincipal   .repaint();
-		this.panelListeFichier.maj();
 	}
 
 	public void sauvegarder()
@@ -196,7 +191,6 @@ public class FrameUML extends JFrame
 			{
 				result = "Chargement terminé.";
 				this.panelPrincipal.instancierPanel();
-				this.panelListeFichier.instancierPanel();
 			}
 			else
 			{

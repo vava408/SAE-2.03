@@ -15,7 +15,6 @@ src/metier/Sauvegarder.java
 
 src/ihm/FrameUML.java
 src/ihm/Menu.java
-src/ihm/PanelListeFichier.java
 src/ihm/PanelPrincipal.java
 src/ihm/Vue.java
 src/ihm/Fleche.java

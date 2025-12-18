@@ -165,7 +165,7 @@ public class Bloc extends JPanel
 		/*on dessine les attributs*/
 		/*------------------------*/
 
-		g2.setFont( new Font( "Arial", Font.PLAIN, 11 ) );
+		g2.setFont( new Font( "Monospaced", Font.PLAIN, 11 ) );
 
 		yTexte = yCourant + hauteurLigneAttribut;
 

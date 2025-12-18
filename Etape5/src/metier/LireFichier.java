@@ -173,6 +173,10 @@ public class LireFichier implements Serializable
 			}
 
 			sc.close();
+
+			// Post-traitement : vérifier les getters pour chaque attribut
+			// Cette étape se fait après que toutes les méthodes aient été lues
+			this.lireAttribut.verifierGetters( this.lireMethode.getListeMethodes());
 		}
 		catch (Exception e){ e.printStackTrace(); }
 	}

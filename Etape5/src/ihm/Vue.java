@@ -234,8 +234,9 @@ public class Vue
 			sVisibilite = "# ";
 		}
 
-		if ( a.isFinal() ) sFinal = " {gelé}";
-		if ( a.isAddOnly() ) sFinal = " {addOnly}";
+		if ( a.isFinal() ) sFinal += " {gelé}";
+		if ( a.isAddOnly() ) sFinal += " {addOnly} ";
+		if ( a.isRequete() ) sFinal += " {requete} ";
 		
 		sRet += sVisibilite + String.format( "%-15s", a.getNom() ) + " : " + String.format( "%-5s", a.getType() ) + sFinal;
 

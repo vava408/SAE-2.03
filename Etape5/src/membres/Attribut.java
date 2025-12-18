@@ -12,10 +12,11 @@ public class Attribut implements Serializable
 	private boolean estStatic;
 	private boolean estFinal;
 	private boolean estAddOnly;
+	private boolean estRequete;
 
 	// constructeur
 	public Attribut(int attributId, String nom, String type, String visibilite, boolean estStatic, boolean estFinal,
-			boolean isAddOnly)
+			boolean isAddOnly, boolean isRequete)
 	{
 
 		this.attributId = attributId;
@@ -25,6 +26,7 @@ public class Attribut implements Serializable
 		this.estStatic  = estStatic;
 		this.estFinal   = estFinal;
 		this.estAddOnly = isAddOnly;
+		this.estRequete = isRequete;
 	}
 
 	// retourne l'identifiant de l'attribut
@@ -47,6 +49,12 @@ public class Attribut implements Serializable
 
 	//retourbe true si l attibut est addOnly
 	public boolean isAddOnly()    { return this.estAddOnly ; }
+
+	//retourne true si l'attribut est requête
+	public boolean isRequete()    { return this.estRequete  ; }
+
+	//modifie le statut de requête de l'attribut
+	public void setRequete(boolean isRequete) { this.estRequete = isRequete; }
 
 	// affichage textuel de l'attribut
 	public String toString() 

@@ -95,6 +95,11 @@ public class Controleur
         this.charger.charger(this, path);
     }
 
+    public boolean nomEstDansRepertoire( String nomClasse )
+    {
+        return this.lireDossier.nomEstDansRepertoire( nomClasse );
+    }
+
 	public void setLireDossier(LireDossier dossier)
 	{
 		this.lireDossier = dossier;

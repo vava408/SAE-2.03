@@ -167,6 +167,11 @@ public class FrameUML extends JFrame
 		return this.ctrl.afficherMethode( m, complet );
 	}
 
+	public boolean nomEstDansRepertoire( String nomClasse )
+	{
+		return this.ctrl.nomEstDansRepertoire( nomClasse );
+	}
+
 	public void exportToImage( String path )
 	{
 		this.panelPrincipal.exportToImage( path );

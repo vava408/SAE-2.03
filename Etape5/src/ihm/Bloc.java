@@ -18,29 +18,60 @@ public class Bloc extends JPanel
 {
 	private PanelPrincipal panelPrincipal;
 
+	private String         nomClasse;
+
+	private int            largeurMax;
+	private int            hauteurMax;
+
 	//booleen pour savoir si on clique sur le bloc
 	private boolean estClique;
 
-    public Bloc ( PanelPrincipal panelPrincipal )
+    public Bloc ( PanelPrincipal panelPrincipal, String nomClasse )
     {
 		this.estClique = false;
 
         this.panelPrincipal = panelPrincipal;
         this.setBackground ( new Color ( 250, 250, 250 ) );
 
+		this.nomClasse = nomClasse;
+
+		this.largeurMax = 0;
+		this.hauteurMax = 0;
+
         GereSouris gs = new GereSouris ( );
         this.addMouseListener ( gs );
         this.addMouseMotionListener ( gs );
     }
 
+	public String getName()
+	{
+		return this.nomClasse;
+	}
+
     public void maj()
 	{
 		//on récupère la hauteur et la largeur des blocs
-		int largeurMax    = this.panelPrincipal.getLargeurMax(this);
-		int hauteurTotale = this.panelPrincipal.getTaille    (this, false);
+		if ( this.panelPrincipal.nomEstDansRepertoire( this ) )
+		{
+			this.largeurMax    = this.panelPrincipal.getLargeurMax(this);
+			
+			if ( this.estClique )
+			{
+				this.hauteurMax = this.panelPrincipal.getTaille( this , true );
+			}
+			else
+			{
+				this.hauteurMax = this.panelPrincipal.getTaille( this , false );
+			}
+		}
+		else
+		{
+			this.largeurMax    = 10 * this.nomClasse.length();
+			this.hauteurMax = 100;
+		}
 
 		// Appliquer taille
-		this.setSize( largeurMax, hauteurTotale );
+		this.setSize( this.largeurMax, this.hauteurMax );
 		this.setPreferredSize( getSize() );
 		this.repaint();
 	}
@@ -52,18 +83,13 @@ public class Bloc extends JPanel
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHint(java.awt.RenderingHints.KEY_ANTIALIASING, java.awt.RenderingHints.VALUE_ANTIALIAS_ON);
 
-		int largeur  = getWidth();
 		int yCourant = 0;
 
 		int margeHorizontale       = 15;
 		int margeVerticalNom       = 40;
 		int margeVerticalAttributs = 20;
-		int margeVerticalMethodes  = 20;
 		int hauteurLigneAttribut   = 18;
 		int hauteurLigneMethode    = 18;
-
-		int hauteurTotale;
-
 
 		/*---------------------------------------------*/
 		/*on calcul la taille des différents composants*/
@@ -71,24 +97,29 @@ public class Bloc extends JPanel
 
 		int hauteurNom       = margeVerticalNom;
 
-		int hauteurAttributs = this.panelPrincipal.getListeAttributs( this ).size() *
-		                       hauteurLigneAttribut + margeVerticalAttributs;
+		int hauteurAttributs = margeVerticalAttributs;
 
-
-		//change la taille du bloc en fonction de si on veut afficher toutes les informations
-		if( this.estClique )
+		if ( this.panelPrincipal.getListeAttributs( this ) != null )
 		{
-			hauteurTotale = this.panelPrincipal.getTaille( this, true );
+			hauteurAttributs += this.panelPrincipal.getListeAttributs( this ).size() * hauteurLigneAttribut;
 		}
 		else
 		{
-			hauteurTotale = this.panelPrincipal.getTaille( this, false );
+			hauteurAttributs += 0 * hauteurLigneAttribut;
 		}
 
 		// Contour global
-		g2.setColor ( Color.BLACK );
+		if ( this.panelPrincipal.nomEstDansRepertoire( this ) )
+		{
+			g2.setColor ( Color.BLACK );
+		}
+		else
+		{
+			g2.setColor( Color.GRAY );
+		}
+
 		g2.setStroke( new BasicStroke( 1.0f ) );
-		g2.drawRect  ( 0, 0, largeur - 1, hauteurTotale - 1 );
+		g2.drawRect  ( 0, 0, this.largeurMax - 1, this.hauteurMax - 1 );
 
 		// Nom de la classe
 		g2.setFont( new Font( "Arial", Font.BOLD, 12 ) );
@@ -100,22 +131,33 @@ public class Bloc extends JPanel
 		/*on dessine les noms des classes*/
 		/*-------------------------------*/
 
-		if ( ! this.panelPrincipal.getMotCle( this ).equals( "class" ) )
+		String stereoType = "";
+		int xStereotype;
+		if ( this.panelPrincipal.getMotCle( this ) == null )
 		{
-			String stereotype = "<< " + this.panelPrincipal.getMotCle( this ) + " >>";
-			int xStereotype   = (largeur - fm.stringWidth(stereotype)) / 2;
-			g2.drawString(stereotype, xStereotype, yTexte);
+			stereoType = "<< interface >>";
+			xStereotype   = ( this.largeurMax - fm.stringWidth(stereoType)) / 2;
+			g2.drawString(stereoType, xStereotype, yTexte);
 			yTexte += 18;
 		}
+		else
+		{
+			if ( ! this.panelPrincipal.getMotCle( this ).equals( "class" ) )
+			{
+				stereoType = "<< " + this.panelPrincipal.getMotCle( this ) + " >>";
+				xStereotype   = ( this.largeurMax - fm.stringWidth(stereoType)) / 2;
+				g2.drawString(stereoType, xStereotype, yTexte);
+				yTexte += 18;
+			}
+		}
 
-		String nomClasse   = this.panelPrincipal.getNomClasse( this );
-		int    xNomClasse  = ( largeur - fm.stringWidth( nomClasse ) ) / 2;
-		g2.drawString( nomClasse, xNomClasse, yTexte );
+		int    xNomClasse  = ( this.largeurMax - fm.stringWidth( this.nomClasse ) ) / 2;
+		g2.drawString( this.nomClasse, xNomClasse, yTexte );
 
 
 		// Ligne séparatrice nom classe/attributs
 		yCourant = hauteurNom;
-		g2.drawLine(0, yCourant, largeur, yCourant);
+		g2.drawLine(0, yCourant, this.largeurMax, yCourant);
 
 
 		/*------------------------*/
@@ -127,61 +169,68 @@ public class Bloc extends JPanel
 		yTexte = yCourant + hauteurLigneAttribut;
 
 		//on parcours tous les attributs si on veux l'affichage complet
-		if(this.estClique)
+		if( this.estClique )
 		{
-			for ( Attribut a : this.panelPrincipal.getListeAttributs( this ) )
+			if ( this.panelPrincipal.getListeAttributs( this ) != null )
 			{
-				String affichage = this.panelPrincipal.afficherAttribut( a );
-
-				g2.drawString( this.panelPrincipal.afficherAttribut( a ), margeHorizontale / 2, yTexte);
-
-				if ( a.isStatic() )
+				for ( Attribut a : this.panelPrincipal.getListeAttributs( this ) )
 				{
-					int largeurTexte = g2.getFontMetrics().stringWidth( affichage );
-
-					g2.drawLine( margeHorizontale / 2, yTexte + 1, margeHorizontale / 2 + largeurTexte, yTexte + 1 );
+					String affichage = this.panelPrincipal.afficherAttribut( a );
+	
+					g2.drawString( this.panelPrincipal.afficherAttribut( a ), margeHorizontale / 2, yTexte);
+	
+					if ( a.isStatic() )
+					{
+						int largeurTexte = g2.getFontMetrics().stringWidth( affichage );
+	
+						g2.drawLine( margeHorizontale / 2, yTexte + 1, margeHorizontale / 2 + largeurTexte, yTexte + 1 );
+					}
+	
+					yTexte += hauteurLigneAttribut;
 				}
-
-				yTexte += hauteurLigneAttribut;
-			}
+			}  
 		}
 		else
 		{
 			int cpt = 0;
 
-			//utilise un compteur pour parcourir les trois premiers attributs
-			for ( Attribut a : this.panelPrincipal.getListeAttributs( this ) )
+			if ( this.panelPrincipal.getListeAttributs( this ) != null )
 			{
-				if(cpt > 2)
-					break;
-
-				cpt++;
-
-				String affichage = this.panelPrincipal.afficherAttribut( a );
-
-				g2.drawString( affichage, margeHorizontale / 2, yTexte);
-
-				if ( a.isStatic() )
+				//utilise un compteur pour parcourir les trois premiers attributs
+				for ( Attribut a : this.panelPrincipal.getListeAttributs( this ) )
 				{
-					int largeurTexte = g2.getFontMetrics().stringWidth( affichage );
-
-					g2.drawLine( margeHorizontale / 2, yTexte + 1, margeHorizontale / 2 + largeurTexte, yTexte + 1 );
+					if(cpt > 2)
+						break;
+	
+					cpt++;
+	
+					String affichage = this.panelPrincipal.afficherAttribut( a );
+	
+					g2.drawString( affichage, margeHorizontale / 2, yTexte);
+	
+					if ( a.isStatic() )
+					{
+						int largeurTexte = g2.getFontMetrics().stringWidth( affichage );
+	
+						g2.drawLine( margeHorizontale / 2, yTexte + 1, margeHorizontale / 2 + largeurTexte, yTexte + 1 );
+					}
+	
+					yTexte += hauteurLigneAttribut;
 				}
 
-				yTexte += hauteurLigneAttribut;
+				//rajout des points de suspension s'il y a plus de trois attributs à cacher
+				if(cpt > 2)
+				{
+					g2.drawString( "...", margeHorizontale / 2, yTexte);
+					yTexte += hauteurLigneAttribut;
+				}
 			}
 
-			//rajout des points de suspension s'il y a plus de trois attributs à cacher
-			if(cpt > 2)
-			{
-				g2.drawString( "...", margeHorizontale / 2, yTexte);
-				yTexte += hauteurLigneAttribut;
-			}
 		}
 
 		// Ligne séparatrice attributs/méthodes
 		yCourant += hauteurAttributs;
-		g2.drawLine(0, yCourant, largeur, yCourant);
+		g2.drawLine(0, yCourant, this.largeurMax, yCourant);
 
 
 		/*-----------------------*/
@@ -189,7 +238,6 @@ public class Bloc extends JPanel
 		/*-----------------------*/
 
 		yTexte = yCourant + 16;
-		int yBasMethodes = yTexte;
 
 		if(this.estClique)
 		{
@@ -213,49 +261,38 @@ public class Bloc extends JPanel
 		{
 			int cpt = 0;
 
-			//utilise un compteur pour parcourir seulement les trois premières méthodes
-			for ( Methode m : this.panelPrincipal.getListeMethodes( this ) )
+			if ( this.panelPrincipal.getListeMethodes( this ) != null )
 			{
-				if(cpt > 2)
-					break;
-
-				cpt++;
-
-				String affichage = this.panelPrincipal.afficherMethode( m, false );
-
-				g2.drawString( affichage, margeHorizontale / 2, yTexte );
-
-				if ( m.isStatic() )
+				//utilise un compteur pour parcourir seulement les trois premières méthodes
+				for ( Methode m : this.panelPrincipal.getListeMethodes( this ) )
 				{
-					int largeurTexte = g2.getFontMetrics().stringWidth( affichage );
-
-					g2.drawLine( margeHorizontale / 2, yTexte + 1, margeHorizontale / 2 + largeurTexte, yTexte + 1 );
+					if(cpt > 2)
+						break;
+	
+					cpt++;
+	
+					String affichage = this.panelPrincipal.afficherMethode( m, false );
+	
+					g2.drawString( affichage, margeHorizontale / 2, yTexte );
+	
+					if ( m.isStatic() )
+					{
+						int largeurTexte = g2.getFontMetrics().stringWidth( affichage );
+	
+						g2.drawLine( margeHorizontale / 2, yTexte + 1, margeHorizontale / 2 + largeurTexte, yTexte + 1 );
+					}
+	
+					yTexte += hauteurLigneMethode;
 				}
-
-				yTexte += hauteurLigneMethode;
+	
+				//rajout de points de suspension s'il y a plus de trois méthodes à cacher
+				if(cpt > 2)
+				{
+					g2.drawString( "...", margeHorizontale / 2, yTexte);
+					yTexte += hauteurLigneAttribut;
+				}
 			}
-
-			//rajout de points de suspension s'il y a plus de trois méthodes à cacher
-			if(cpt > 2)
-			{
-				g2.drawString( "...", margeHorizontale / 2, yTexte);
-				yTexte += hauteurLigneAttribut;
-			}
-
 		}
-
-
-		//augmentattion de la taille du bloc pour contenir l'entièreté des composants
-		int largeurMax    = this.panelPrincipal.getLargeurMax(this);
-		hauteurTotale = this.panelPrincipal.getTaille    (this, false);
-
-		if(this.estClique)
-			hauteurTotale = this.panelPrincipal.getTaille    (this, true);
-
-		// Appliquer taille
-		this.setSize( largeurMax, hauteurTotale );
-		this.setPreferredSize( getSize() );
-
 	}
 
     // --- Classe interne privée pour drag ---

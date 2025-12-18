@@ -16,7 +16,7 @@ public class PanelPrincipal extends JLayeredPane
 	private static final int MARGE_HAUT   = 100;
 
 	private FrameUML frameUML;
-	private HashMap<Bloc, LireFichier> hMBlocs;
+	private HashMap<Bloc, String> hMBlocs;
 	private HashMap<Fleche, Association> hMFleches;
 	private CreerImage creerImage;
 
@@ -32,19 +32,70 @@ public class PanelPrincipal extends JLayeredPane
 	}
 	
 	
-	// --- Méthodes pour accéder aux informations des blocs ---
-	public ArrayList<Attribut> getListeAttributs(Bloc b) { return hMBlocs.get(b).getListeAttributs();}
-	public ArrayList<Methode>  getListeMethodes (Bloc b) { return hMBlocs.get(b).getListeMethodes ();}
-	
-	public String getMotCle   (Bloc b) { return hMBlocs.get(b).getMotCle   ();}
-	public String getNomClasse(Bloc b) { return hMBlocs.get(b).getNomClasse();}
-	
-	public Bloc getBloc(String nomClasse)
+	public LireFichier getLireFichier( Bloc b )
 	{
-		for (Bloc b : hMBlocs.keySet())
+		for ( LireFichier lF : this.frameUML.getListeFichiers() )
 		{
-			if (hMBlocs.get(b).getNomClasse().equals(nomClasse))
-				{
+			if ( lF.getNomClasse().equals( this.hMBlocs.get( b ) ) )
+			{
+				return lF;
+			}
+		}
+
+		return null;
+	}
+
+	// --- Méthodes pour accéder aux informations des blocs ---
+	public ArrayList<Attribut> getListeAttributs(Bloc b) 
+	{
+		for ( LireFichier lF : this.frameUML.getListeFichiers() )
+		{
+			if ( lF.getNomClasse().equals( b.getName() ) )
+			{
+				return lF.getListeAttributs();
+			}
+		}
+
+		return null;
+	}
+
+	public ArrayList<Methode>  getListeMethodes (Bloc b) 
+	{ 
+		for ( LireFichier lF : this.frameUML.getListeFichiers() )
+		{
+			if ( lF.getNomClasse().equals( b.getName() ) )
+			{
+				return lF.getListeMethodes();
+			}
+		}
+
+		return null;
+	}
+
+	public String getMotCle   (Bloc b) 
+	{
+		for ( LireFichier lF : this.frameUML.getListeFichiers() )
+		{
+			if ( lF.getNomClasse().equals( b.getName() ) )
+			{
+				return lF.getMotCle();
+			}
+		}
+
+		return null;
+	}
+
+	public String getNomClasse(Bloc b) 
+	{ 
+		return this.hMBlocs.get( b );
+	}
+	
+	public Bloc getBloc( String nomClasse )
+	{
+		for ( Bloc b : hMBlocs.keySet() )
+		{
+			if ( hMBlocs.get( b ).equals( nomClasse ) )
+			{
 				return b;
 			}
 		}
@@ -82,19 +133,21 @@ public class PanelPrincipal extends JLayeredPane
 
 	public int getTaille(Bloc b, boolean complet)
 	{
+		if ( this.getLireFichier( b ) == null ) { return 0; }
+
 		if ( complet )
 		{
-			return this.hMBlocs.get(b).calculTailleComplet();
+			return this.getLireFichier( b ).calculTailleComplet();
 		}
 		else
-			{
-			return this.hMBlocs.get(b).calculTaille();
+		{
+			return this.getLireFichier( b ).calculTaille();
 		}
 	}
 
 	public int getLargeurMax(Bloc b)
 	{
-		return this.hMBlocs.get(b).caulculLargeurMax(); 
+		return this.getLireFichier( b ).calculLargeurMax(); 
 	}
 
 	public HashMap<Association, ArrayList<String>> gethMAttributsAssociations()
@@ -104,11 +157,15 @@ public class PanelPrincipal extends JLayeredPane
 	
 	public void setPosition(Bloc b, int x, int y)
 	{
-		this.frameUML.setPosition( hMBlocs.get( b ), x - PanelPrincipal.MARGE_GAUCHE, y - PanelPrincipal.MARGE_HAUT);
+		this.frameUML.setPosition( this.getLireFichier( b ), x - PanelPrincipal.MARGE_GAUCHE, y - PanelPrincipal.MARGE_HAUT);
 		maj(); // mettre à jour les flèches
 	}
-	
 
+	public boolean nomEstDansRepertoire( Bloc b )
+	{
+		return this.frameUML.nomEstDansRepertoire( this.hMBlocs.get ( b ) );
+	}
+	
 	public void instancierPanel() 
 	{
 		this.removeAll();
@@ -118,9 +175,9 @@ public class PanelPrincipal extends JLayeredPane
 		// --- Ajouter les blocs ---
 		for (LireFichier lF : this.frameUML.getListeFichiers()) 
 		{
-			Bloc bloc = new Bloc(this);
+			Bloc bloc = new Bloc( this, lF.getNomClasse() );
 
-			hMBlocs.put(bloc, lF);
+			hMBlocs.put( bloc, lF.getNomClasse() );
 
 			bloc.setBounds( lF.getPosX() + PanelPrincipal.MARGE_GAUCHE, lF.getPosY() + PanelPrincipal.MARGE_HAUT, 
 							lF.getLargeur(), lF.getHauteur()); // taille provisoire
@@ -142,6 +199,38 @@ public class PanelPrincipal extends JLayeredPane
 			this.add(fleche, JLayeredPane.PALETTE_LAYER); // toujours au-dessus
 			fleche.maj();
 		}
+
+		for ( LireFichier lF : this.frameUML.getListeFichiers() )
+		{
+			for ( String s : lF.getMapHerit().keySet() )
+			{
+				if ( ! this.frameUML.nomEstDansRepertoire( s ) )
+				{
+					Bloc b = new Bloc ( this, s );
+
+					this.hMBlocs.put( b, s );
+
+					this.add ( b, JLayeredPane.DEFAULT_LAYER );
+				}
+			}
+
+			for ( String s1 : lF.getMapImple().keySet() )
+			{
+				for ( String s2 : lF.getMapImple().get( s1 ) )
+				{
+					if ( ! this.frameUML.nomEstDansRepertoire( s2 ) )
+					{
+						Bloc b = new Bloc ( this, s2 );
+	
+						this.hMBlocs.put( b, s2 );
+	
+						this.add ( b, JLayeredPane.DEFAULT_LAYER );
+						b.maj();
+					}
+				}
+			}
+		}
+
 		// --- Ajouter les flèches implements et héritage ---
 		for ( Bloc b : hMBlocs.keySet() )
 		{
@@ -209,7 +298,7 @@ public class PanelPrincipal extends JLayeredPane
 				x = margeHorizontale;
 				y += 300; // hauteur approximative d'un bloc + marge verticale
 			}
-			System.out.println("Placement du bloc " + hMBlocs.get(b).getNomClasse() + " en (" + b.getX() + ", " + b.getY() + ")");
+			System.out.println("Placement du bloc " + hMBlocs.get( b ) + " en (" + b.getX() + ", " + b.getY() + ")");
 		}
 	}
 	

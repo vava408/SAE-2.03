@@ -297,7 +297,7 @@ public class LireFichier implements Serializable
 	}
 
 	//méthode pour calculer la largeur maximale afin d'adapter la taille des blocs
-	public int caulculLargeurMax()
+	public int calculLargeurMax()
 	{
 		this.largeurMax = 100;
 

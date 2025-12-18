@@ -1,16 +1,29 @@
 /*------------------------------------------------------------------------*/
-/*- Classe Figure : Classe abstraite représentant une figure géométrique. */
-/*- Etape 4                                                               */
+/*- Interface IForme : définit le comportement d'une forme géométrique  */
 /*- Groupe 6                                                              */
-/*- Date de création : 12/12/2025 08:30                                   */
+/*- Date de création : 17/12/2025                                         */
 /*------------------------------------------------------------------------*/
 
-/*--------------------------------------------------------------------*/
-/*- Interface Forme : définit le comportement d'une forme géométrique */
-/*--------------------------------------------------------------------*/
-
+/**
+ * Interface définissant le comportement commun à toutes les formes
+ * géométriques.
+ *
+ * Toute classe implémentant cette interface doit fournir des méthodes
+ * pour calculer l'aire et le périmètre de la forme.
+ */
 public interface IForme
 {
-	public double aire();
-	public double perimetre();
+    /**
+     * Calcule l'aire de la forme.
+     *
+     * @return aire de la forme
+     */
+    public double aire();
+
+    /**
+     * Calcule le périmètre de la forme.
+     *
+     * @return périmètre de la forme
+     */
+    public double perimetre();
 }

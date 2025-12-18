@@ -2,62 +2,134 @@ package src.membres;
 
 import java.io.Serializable;
 
+/*--------------------------------------------------------*/
+/* Parametre.java                                         */
+/* Représentation d'un paramètre de méthode avec son nom, */
+/* son type et son identifiant                            */
+/* Projet : Générateur de diagrammes UML                  */
+/* Groupe : [Numéro du groupe]                            */
+/* Auteurs : [Noms des auteurs]                           */
+/* Date de création : 18/12/2025 15:15                    */
+/*--------------------------------------------------------*/
+
+/**
+ * Classe représentant un paramètre d'une méthode UML.
+ * Un paramètre possède un identifiant, un nom et un type.
+ * Permet de représenter les arguments d'une méthode dans le diagramme UML.
+ * 
+ * @author [Noms des auteurs]
+ * @version 1.0
+ * @since 18/12/2025
+ */
 public class Parametre implements Serializable
 {
-	private int        id;
-	private String     nom;
-	private String     type;
+	private int    id;
+	private String nom;
+	private String type;
 
-	//constructeur
-	public Parametre(int numParametre, String nom, String type) 
+	/*--------------------------------------------------------*/
+	/*                     CONSTRUCTEUR                        */
+	/*--------------------------------------------------------*/
+
+	/**
+	 * Constructeur d'un paramètre de méthode.
+	 * 
+	 * @param numParametre Identifiant du paramètre
+	 * @param nom Nom du paramètre
+	 * @param type Type du paramètre
+	 */
+	public Parametre( int numParametre, String nom, String type ) 
 	{
 		this.id   = numParametre;
 		this.nom  = nom;
 		this.type = type;
 	}
 
-	//retourne le nom
+	/*--------------------------------------------------------*/
+	/*                    MODIFICATEURS                        */
+	/*--------------------------------------------------------*/
+
+	/**
+	 * Modifie le nom du paramètre.
+	 * 
+	 * @param nom Le nouveau nom
+	 */
+	public void setNom( String nom ) 
+	{
+		this.nom = nom;
+	}
+
+	/**
+	 * Modifie le type du paramètre.
+	 * 
+	 * @param type Le nouveau type
+	 */
+	public void setType( String type ) 
+	{
+		this.type = type;
+	}
+
+	/**
+	 * Modifie l'identifiant du paramètre.
+	 * 
+	 * @param id Le nouvel identifiant
+	 */
+	public void setId( int id ) 
+	{
+		this.id = id;
+	}
+
+	/*--------------------------------------------------------*/
+	/*                      ACCESSEURS                         */
+	/*--------------------------------------------------------*/
+
+	/**
+	 * Retourne le nom du paramètre.
+	 * 
+	 * @return Le nom du paramètre
+	 */
 	public String getNom() 
 	{
 		return this.nom;
 	}
 
-	//retourne le type
+	/**
+	 * Retourne le type du paramètre.
+	 * 
+	 * @return Le type du paramètre
+	 */
 	public String getType() 
 	{
 		return this.type;
 	}
 
-	//retourne l'id
+	/**
+	 * Retourne l'identifiant du paramètre.
+	 * 
+	 * @return L'identifiant du paramètre
+	 */
 	public int getId() 
 	{
 		return this.id;
 	}
 
-	//modifie le nom
-	public void setNom(String nom) 
-	{
-		this.nom = nom;
-	}
+	/*--------------------------------------------------------*/
+	/*                  AUTRES MÉTHODES                        */
+	/*--------------------------------------------------------*/
 
-	//modifie le type
-	public void setType(String type) 
-	{
-		this.type = type;
-	}
-
-	//modifie l'id
-	public int setId() 
-	{
-		return this.id;
-	}
-
-	//affichage textuel du paramètre
+	/**
+	 * Retourne une représentation textuelle du paramètre.
+	 * Format : type nom
+	 * 
+	 * @return La chaîne représentant le paramètre
+	 */
 	public String toString() 
-    {
-        String sb = "";
-        sb += getType() + " " + getNom();
-        return sb;
-    }
+	{
+		String sb;
 
+		sb = "";
+		sb += this.getType() + " " + this.getNom();
+
+		return sb;
+	}
 }

@@ -1,52 +1,40 @@
-/**------------------------------------------------------------------------
-*- Classe Sauvegarde                                                     
-*- Rôle : Creer une sauvegarde en .ser qui est d binaire puis creer un data si on veux lire la sauvegarde
-*- Date de création : 17/12/2025
- * 
- * @author Groupe6
- * @version Étape finale
- * ------------------------------------------------------------------------ */
-
-/**
- * La classe {@code Sauvegarde} fournit une fonctionnalité utilitaire
- * permettant d'exporter une image de type {@link java.awt.image.BufferedImage}
- * vers un fichier image au format PNG.
- * <p>
- * Elle se charge :
- * <ul>
- *   <li>de vérifier l'extension du fichier</li>
- *   <li>d'écrire l'image sur le disque</li>
- *   <li>d'informer l'utilisateur du succès ou de l'échec via une boîte de dialogue</li>
- * </ul>
- */
-
 package src.metier;
 
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 
-
+/**
+ * Classe Sauvegarder Rôle : Créer une sauvegarde sérialisée (.ser) d'un dossier
+ * et générer un fichier .data associé si nécessaire. Exercice : Gestion des
+ * sauvegardes 
+ * @author : Groupe 6 
+ * Date de création : 17/12/2025 14:20
+ */
 public class Sauvegarder
 {
+	/**
+	 * Sauvegarde un dossier dans un fichier sérialisé.
+	 *
+	 * @param dossier
+	 *            dossier à sauvegarder
+	 */
 	public void sauvegarder(LireDossier dossier)
 	{
 		try
 		{
-			ObjectOutputStream out =
-				new ObjectOutputStream(
-					new FileOutputStream("src/sauvegarde/save.ser"));
+			// Création du flux de sortie pour la sérialisation
+			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("src/sauvegarde/save.ser"));
 
+			// Écriture de l'objet dossier dans le fichier
 			out.writeObject(dossier);
 			out.close();
 
-			//  Création du .data
+			// Création du fichier .data associé
 			CreeData data = new CreeData();
 			data.creerData(dossier);
-
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
-			e.printStackTrace();
+			System.out.println("Erreur lors de la création de la sauvegarde.");
 		}
 	}
 }

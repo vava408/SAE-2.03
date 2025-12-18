@@ -1,13 +1,3 @@
-/** ------------------------------------------------------------------------
- * Classe CreerImage
- * Rôle : Gestion de l'export d'une image BufferedImage vers un fichier PNG
- *        sur le disque.
- * Date de création : 17/12/2025
- * 
- * @author Groupe6
- * @version Étape finale
- * ------------------------------------------------------------------------ */
-
 package src.ihm;
 
 import java.awt.image.BufferedImage;
@@ -17,32 +7,25 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
 /**
- * La classe {@code CreerImage} fournit une fonctionnalité utilitaire permettant
- * d'exporter une image de type {@link java.awt.image.BufferedImage} vers un
- * fichier image au format PNG.
- * 
- * Elle se charge notamment :
- * 
- * de vérifier la présence de l'extension .png
- * d'écrire l'image sur le disque
- * d'informer l'utilisateur du succès ou de l'échec de l'opération
- * 
+ * Classe CreerImage Rôle : Gestion de l'export d'une image
+ * {@link BufferedImage} vers un fichier PNG. 
+ *  @author : Groupe 6 
+ * Date de création : 17/12/2025 15:10
  */
 public class CreerImage
 {
-
 	/**
 	 * Exporte une image {@link BufferedImage} vers un fichier PNG.
-	 * 
-	 * Si le chemin fourni ne se termine pas par l'extension .png,
-	 * celle-ci est automatiquement ajoutée.
+	 *
+	 * Si le chemin fourni ne se termine pas par l'extension .png, celle-ci est
+	 * automatiquement ajoutée.
 	 *
 	 * @param img
 	 *            l'image à exporter (ne doit pas être {@code null})
 	 * @param path
 	 *            le chemin du fichier de destination (avec ou sans extension)
 	 * @return {@code true} si l'export s'est déroulé avec succès, {@code false}
-	 *         en cas d'erreur
+	 *         si l image n est pas creer 
 	 */
 	public boolean exportToImage(BufferedImage img, String path)
 	{
@@ -72,11 +55,11 @@ public class CreerImage
 			return true;
 		} catch (Exception e)
 		{
-			// Affichage de la trace de l'erreur pour le débogage
-			e.printStackTrace();
-
 			// Message d'erreur affiché à l'utilisateur
 			JOptionPane.showMessageDialog(null, "Erreur lors de l'export : " + e.getMessage());
+
+			// Affichage de la trace de l'erreur pour le débogage
+			e.printStackTrace();
 
 			return false;
 		}

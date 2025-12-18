@@ -287,7 +287,7 @@ public class Fleche extends JPanel
 		// 🔥 bonus côté gauche
 		int bonus = 0;
 		if (blocPoint.x == bx) {
-			bonus = 30;
+			bonus = 25;
 		}
 
 		// Déterminer le décalage supplémentaire pour ne pas chevaucher la flèche

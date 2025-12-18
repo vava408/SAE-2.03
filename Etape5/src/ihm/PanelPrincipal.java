@@ -1,37 +1,77 @@
 package src.ihm;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
-import javax.swing.*;
+import javax.swing.JLayeredPane;
 import src.membres.Association;
 import src.membres.Attribut;
 import src.membres.Methode;
 import src.metier.LireFichier;
 
+/*--------------------------------------------------------*/
+/* PanelPrincipal.java                                    */
+/* Panneau principal pour l'affichage des diagrammes UML  */
+/* Projet : Générateur de diagrammes UML                  */
+/* Groupe : 6                                             */
+/* Auteurs : Groupe 6                                     */
+/* Date de création : 18/12/2025 14:30                    */
+/*--------------------------------------------------------*/
+
+/**
+ * Panneau principal gérant l'affichage des diagrammes UML.
+ * Gère l'affichage des blocs représentant les classes et des flèches
+ * représentant les associations, héritages et implémentations.
+ * Permet le positionnement, la mise à jour et l'export des diagrammes.
+ * 
+ * @author Groupe 6
+ * @version 1.0
+ * @since 18/12/2025
+ */
 public class PanelPrincipal extends JLayeredPane 
 {
 	private static final int MARGE_GAUCHE = 100;
 	private static final int MARGE_HAUT   = 100;
 
-	private FrameUML frameUML;
-	private HashMap<Bloc, String> hMBlocs;
-	private HashMap<Fleche, Association> hMFleches;
-	private CreerImage creerImage;
+	private FrameUML                      frameUML;
+	private HashMap<Bloc, String>         hMBlocs;
+	private HashMap<Fleche, Association>  hMFleches;
+	private CreerImage                    creerImage;
 
-	public PanelPrincipal(FrameUML frameUML) 
+	/*--------------------------------------------------------*/
+	/*                     CONSTRUCTEUR                        */
+	/*--------------------------------------------------------*/
+
+	/**
+	 * Constructeur du panneau principal.
+	 * Initialise le panneau avec la frame UML parent et configure l'apparence.
+	 * 
+	 * @param frameUML La frame principale contenant les données UML
+	 */
+	public PanelPrincipal( FrameUML frameUML ) 
 	{
 		this.frameUML   = frameUML;
 		this.creerImage = new CreerImage();
 		this.hMBlocs    = new HashMap<>();
 		this.hMFleches  = new HashMap<>();
 
-		this.setBackground(new Color(245, 245, 245));
-		this.setOpaque(true);
+		this.setBackground( new Color( 245, 245, 245 ) );
+		this.setOpaque( true );
 	}
 	
-	
+	/*--------------------------------------------------------*/
+	/*                      ACCESSEURS                         */
+	/*--------------------------------------------------------*/
+
+	/**
+	 * Retourne le fichier correspondant au bloc.
+	 * 
+	 * @param b Le bloc dont on cherche le fichier
+	 * @return Le LireFichier correspondant ou null si non trouvé
+	 */
 	public LireFichier getLireFichier( Bloc b )
 	{
 		for ( LireFichier lF : this.frameUML.getListeFichiers() )
@@ -45,8 +85,13 @@ public class PanelPrincipal extends JLayeredPane
 		return null;
 	}
 
-	// --- Méthodes pour accéder aux informations des blocs ---
-	public ArrayList<Attribut> getListeAttributs(Bloc b) 
+	/**
+	 * Retourne la liste des attributs d'un bloc.
+	 * 
+	 * @param b Le bloc dont on veut les attributs
+	 * @return La liste des attributs ou null si non trouvé
+	 */
+	public ArrayList<Attribut> getListeAttributs( Bloc b ) 
 	{
 		for ( LireFichier lF : this.frameUML.getListeFichiers() )
 		{
@@ -59,7 +104,13 @@ public class PanelPrincipal extends JLayeredPane
 		return null;
 	}
 
-	public ArrayList<Methode>  getListeMethodes (Bloc b) 
+	/**
+	 * Retourne la liste des méthodes d'un bloc.
+	 * 
+	 * @param b Le bloc dont on veut les méthodes
+	 * @return La liste des méthodes ou null si non trouvé
+	 */
+	public ArrayList<Methode> getListeMethodes( Bloc b ) 
 	{ 
 		for ( LireFichier lF : this.frameUML.getListeFichiers() )
 		{
@@ -72,7 +123,13 @@ public class PanelPrincipal extends JLayeredPane
 		return null;
 	}
 
-	public String getMotCle   (Bloc b) 
+	/**
+	 * Retourne le mot-clé du bloc (class, interface, abstract).
+	 * 
+	 * @param b Le bloc dont on veut le mot-clé
+	 * @return Le mot-clé ou null si non trouvé
+	 */
+	public String getMotCle( Bloc b ) 
 	{
 		for ( LireFichier lF : this.frameUML.getListeFichiers() )
 		{
@@ -85,53 +142,93 @@ public class PanelPrincipal extends JLayeredPane
 		return null;
 	}
 
-	public String getNomClasse(Bloc b) 
+	/**
+	 * Retourne le nom de la classe associée au bloc.
+	 * 
+	 * @param b Le bloc dont on veut le nom
+	 * @return Le nom de la classe
+	 */
+	public String getNomClasse( Bloc b ) 
 	{ 
 		return this.hMBlocs.get( b );
 	}
 	
+	/**
+	 * Retourne le bloc correspondant au nom de classe donné.
+	 * 
+	 * @param nomClasse Le nom de la classe recherchée
+	 * @return Le bloc correspondant ou null si non trouvé
+	 */
 	public Bloc getBloc( String nomClasse )
 	{
-		for ( Bloc b : hMBlocs.keySet() )
+		for ( Bloc b : this.hMBlocs.keySet() )
 		{
-			if ( hMBlocs.get( b ).equals( nomClasse ) )
+			if ( this.hMBlocs.get( b ).equals( nomClasse ) )
 			{
 				return b;
 			}
 		}
+		
 		return null;
 	}
 
-	public Association getAssociation(Fleche f)
+	/**
+	 * Retourne l'association liée à une flèche.
+	 * 
+	 * @param f La flèche dont on veut l'association
+	 * @return L'association correspondante
+	 */
+	public Association getAssociation( Fleche f )
 	{
-		return this.hMFleches.get(f);
+		return this.hMFleches.get( f );
 	}
 
-	public String getHerit(Bloc b)
+	/**
+	 * Retourne le nom de la classe parente (héritage).
+	 * 
+	 * @param b Le bloc dont on cherche le parent
+	 * @return Le nom de la classe parente ou null si pas d'héritage
+	 */
+	public String getHerit( Bloc b )
 	{
-		for (LireFichier lF : this.frameUML.getListeFichiers()) 
+		for ( LireFichier lF : this.frameUML.getListeFichiers() ) 
 		{
-			if (lF.getMapHerit().containsKey(this.getNomClasse(b)))
+			if ( lF.getMapHerit().containsKey( this.getNomClasse( b ) ) )
 			{
-				return lF.getMapHerit().get(this.getNomClasse(b));
+				return lF.getMapHerit().get( this.getNomClasse( b ) );
 			}
 		}
-		return null; // pas d'héritage
+		
+		return null; /* Pas d'héritage */
 	}
 
-	public ArrayList<String> getImple(Bloc b)
+	/**
+	 * Retourne la liste des interfaces implémentées par le bloc.
+	 * 
+	 * @param b Le bloc dont on veut les interfaces
+	 * @return La liste des noms d'interfaces ou null si aucune
+	 */
+	public ArrayList<String> getImple( Bloc b )
 	{
-		for (LireFichier lF : this.frameUML.getListeFichiers()) 
+		for ( LireFichier lF : this.frameUML.getListeFichiers() ) 
 		{
-			if (lF.getMapImple().containsKey(this.getNomClasse(b)))
+			if ( lF.getMapImple().containsKey( this.getNomClasse( b ) ) )
 			{
-				return lF.getMapImple().get(this.getNomClasse(b));
+				return lF.getMapImple().get( this.getNomClasse( b ) );
 			}
 		}
-		return null; // pas d'implementaion
+		
+		return null; /* Pas d'implémentation */
 	}
 
-	public int getTaille(Bloc b, boolean complet)
+	/**
+	 * Retourne la taille (hauteur) d'un bloc.
+	 * 
+	 * @param b Le bloc dont on veut la taille
+	 * @param complet true pour taille complète, false pour taille réduite
+	 * @return La hauteur du bloc en pixels
+	 */
+	public int getTaille( Bloc b, boolean complet )
 	{
 		if ( this.getLireFichier( b ) == null ) { return 0; }
 
@@ -145,109 +242,161 @@ public class PanelPrincipal extends JLayeredPane
 		}
 	}
 
-	public int getLargeurMax(Bloc b)
+	/**
+	 * Retourne la largeur maximale d'un bloc.
+	 * 
+	 * @param b Le bloc dont on veut la largeur
+	 * @return La largeur maximale en pixels
+	 */
+	public int getLargeurMax( Bloc b )
 	{
 		return this.getLireFichier( b ).calculLargeurMax(); 
 	}
 
+	/**
+	 * Retourne la map des attributs d'associations.
+	 * 
+	 * @return HashMap associant les associations à leurs attributs
+	 */
 	public HashMap<Association, ArrayList<String>> gethMAttributsAssociations()
 	{
 		return this.frameUML.gethMAttributsAssociations();
 	}
 	
-	public void setPosition(Bloc b, int x, int y)
+	/*--------------------------------------------------------*/
+	/*                    MODIFICATEURS                        */
+	/*--------------------------------------------------------*/
+
+	/**
+	 * Modifie la position d'un bloc dans le diagramme.
+	 * 
+	 * @param b Le bloc à déplacer
+	 * @param x Coordonnée X de la nouvelle position
+	 * @param y Coordonnée Y de la nouvelle position
+	 */
+	public void setPosition( Bloc b, int x, int y )
 	{
-		this.frameUML.setPosition( this.getLireFichier( b ), x - PanelPrincipal.MARGE_GAUCHE, y - PanelPrincipal.MARGE_HAUT);
-		maj(); // mettre à jour les flèches
+		/* Ajuster selon les marges */
+		this.frameUML.setPosition( this.getLireFichier( b ), 
+		                           x - PanelPrincipal.MARGE_GAUCHE, 
+		                           y - PanelPrincipal.MARGE_HAUT );
+		
+		this.maj(); /* Mettre à jour les flèches */
 	}
 
+	/*--------------------------------------------------------*/
+	/*                  AUTRES MÉTHODES                        */
+	/*--------------------------------------------------------*/
+
+	/**
+	 * Vérifie si le nom du bloc existe dans le répertoire.
+	 * 
+	 * @param b Le bloc à vérifier
+	 * @return true si le nom existe, false sinon
+	 */
 	public boolean nomEstDansRepertoire( Bloc b )
 	{
 		return this.frameUML.nomEstDansRepertoire( this.hMBlocs.get( b ) );
 	}
 	
+	/**
+	 * Instancie tous les éléments du panneau.
+	 * Crée les blocs, les flèches d'association, d'héritage et d'implémentation.
+	 */
 	public void instancierPanel() 
 	{
+		Bloc                bloc;
+		Fleche              fleche;
+		String              nomClasse;
+		String              heritage;
+		ArrayList<String>   implement;
+
 		this.removeAll();
-		this.hMBlocs   .clear();
-		this.hMFleches .clear();
+		this.hMBlocs.clear();
+		this.hMFleches.clear();
 
-		// --- Ajouter les blocs ---
-		for (LireFichier lF : this.frameUML.getListeFichiers()) 
+		/*----- Ajouter les blocs -----*/
+		for ( LireFichier lF : this.frameUML.getListeFichiers() ) 
 		{
-			Bloc bloc = new Bloc( this, lF.getNomClasse() );
+			bloc = new Bloc( this, lF.getNomClasse() );
 
-			hMBlocs.put( bloc, lF.getNomClasse() );
+			this.hMBlocs.put( bloc, lF.getNomClasse() );
 
-			bloc.setBounds( lF.getPosX() + PanelPrincipal.MARGE_GAUCHE, lF.getPosY() + PanelPrincipal.MARGE_HAUT, 
-							lF.getLargeur(), lF.getHauteur()); // taille provisoire
+			/* Positionner le bloc avec les marges */
+			bloc.setBounds( lF.getPosX() + PanelPrincipal.MARGE_GAUCHE, 
+			                lF.getPosY() + PanelPrincipal.MARGE_HAUT, 
+			                lF.getLargeur(), 
+			                lF.getHauteur() );
 
-			this.add(bloc, JLayeredPane.DEFAULT_LAYER);
+			this.add( bloc, JLayeredPane.DEFAULT_LAYER );
 			bloc.maj();
 		}
 
-		// --- Ajouter les flèches ---
-		for ( Association a : this.frameUML.getListeAssociation() )
+		/*----- Ajouter les flèches d'association -----*/
+		for ( Association assoc : this.frameUML.getListeAssociation() )
 		{
-			Fleche fleche = new Fleche( this, a.getNomClasseA(), a.getNomClasseB(),
-										a.getMultiplicityA(), a.getMultiplicityB() );
+			fleche = new Fleche( this, 
+			                     assoc.getNomClasseA(), 
+			                     assoc.getNomClasseB(),
+			                     assoc.getMultiplicityA(), 
+			                     assoc.getMultiplicityB() );
 
-			hMFleches.put( fleche, a );	
+			this.hMFleches.put( fleche, assoc );
 
-			fleche.setBounds(0, 0, getWidth(), getHeight());
+			fleche.setBounds( 0, 0, this.getWidth(), this.getHeight() );
 
-			this.add(fleche, JLayeredPane.PALETTE_LAYER); // toujours au-dessus
+			this.add( fleche, JLayeredPane.PALETTE_LAYER ); /* Toujours au-dessus */
 			fleche.maj();
 		}
 
+		/*----- Ajouter les blocs d'héritage non présents -----*/
 		for ( LireFichier lF : this.frameUML.getListeFichiers() )
 		{
-			for ( String s : lF.getMapHerit().keySet() )
+			for ( String nomHerit : lF.getMapHerit().keySet() )
 			{
-				if ( ! this.frameUML.nomEstDansRepertoire( s ) )
+				if ( !this.frameUML.nomEstDansRepertoire( nomHerit ) )
 				{
-					Bloc b = new Bloc ( this, s );
-
-					this.hMBlocs.put( b, s );
-
-					this.add ( b, JLayeredPane.DEFAULT_LAYER );
+					bloc = new Bloc( this, nomHerit );
+					this.hMBlocs.put( bloc, nomHerit );
+					this.add( bloc, JLayeredPane.DEFAULT_LAYER );
 				}
 			}
 
-			for ( String s1 : lF.getMapImple().keySet() )
+			/*----- Ajouter les blocs d'implémentation non présents -----*/
+			for ( String nomImpl1 : lF.getMapImple().keySet() )
 			{
-				for ( String s2 : lF.getMapImple().get( s1 ) )
+				for ( String nomImpl2 : lF.getMapImple().get( nomImpl1 ) )
 				{
-					if ( ! this.frameUML.nomEstDansRepertoire( s2 ) )
+					if ( !this.frameUML.nomEstDansRepertoire( nomImpl2 ) )
 					{
-						Bloc b = new Bloc ( this, s2 );
-	
-						this.hMBlocs.put( b, s2 );
-	
-						this.add ( b, JLayeredPane.DEFAULT_LAYER );
-						b.maj();
+						bloc = new Bloc( this, nomImpl2 );
+						this.hMBlocs.put( bloc, nomImpl2 );
+						this.add( bloc, JLayeredPane.DEFAULT_LAYER );
+						bloc.maj();
 					}
 				}
 			}
 		}
 
-		// --- Ajouter les flèches implements et héritage ---
-		for ( Bloc b : hMBlocs.keySet() )
+		/*----- Ajouter les flèches d'héritage et d'implémentation -----*/
+		for ( Bloc b : this.hMBlocs.keySet() )
 		{
-			String nomClasse = this.getNomClasse( b );
-			String heritage = this.getHerit( b );
-			ArrayList<String> implement = this.getImple( b );
+			nomClasse = this.getNomClasse( b );
+			heritage  = this.getHerit( b );
+			implement = this.getImple( b );
 
+			/* Flèche d'héritage */
 			if ( heritage != null )
 			{
-				ajouterFleche( nomClasse, heritage );
+				this.ajouterFleche( nomClasse, heritage );
 			}
 			
+			/* Flèches d'implémentation */
 			if ( implement != null )
 			{
 				for ( String nomImplement : implement )
 				{
-					ajouterFleche( nomClasse, nomImplement );
+					this.ajouterFleche( nomClasse, nomImplement );
 				}
 			}
 		}
@@ -257,100 +406,148 @@ public class PanelPrincipal extends JLayeredPane
 		this.repaint();
 	}
 
-
-	private void ajouterFleche(String source, String cible)
+	/**
+	 * Exporte le diagramme en image.
+	 * 
+	 * @param path Chemin de destination du fichier image
+	 */
+	public void exportToImage( String path )
 	{
-		Fleche fleche = new Fleche(
-			this,
-			source,
-			cible,
-			"", "" // pas de multiplicités
-		);
+		BufferedImage img;
+		Graphics2D    g2d;
 
-		hMFleches.put(fleche, null);
-		this.add(fleche, JLayeredPane.PALETTE_LAYER);
-		fleche.maj();
+		img = new BufferedImage( this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB );
+		g2d = img.createGraphics();
+		
+		this.paint( g2d );
+		g2d.dispose();
+
+		System.out.println( "Export de l'image vers : " + path );
+		System.out.println( this.creerImage.exportToImage( img, path ) );
 	}
 
-
-	
-	public void placerBlocs() 
+	/**
+	 * Affiche un attribut au format UML.
+	 * 
+	 * @param a L'attribut à afficher
+	 * @return La chaîne formatée de l'attribut
+	 */
+	public String afficherAttribut( Attribut a ) 
 	{
-		int margeHorizontale = 50;
-		int margeVerticale   = 50;
+		return this.frameUML.afficherAttribut( a );
+	}
+	
+	/**
+	 * Affiche une méthode au format UML.
+	 * 
+	 * @param m La méthode à afficher
+	 * @param complet true pour affichage complet, false pour affichage simple
+	 * @return La chaîne formatée de la méthode
+	 */
+	public String afficherMethode( Methode m, boolean complet )
+	{
+		return this.frameUML.afficherMethode( m, complet );
+	}
 
-		int x = margeHorizontale;
-		int y = margeVerticale;
-		int ligneMax = 3; // nombre de blocs par ligne avant de passer à la ligne suivante
-		int compteur = 0;
+	/**
+	 * Met à jour tous les éléments du panneau.
+	 * Recalcule les tailles et repositionne les éléments.
+	 */
+	public void maj() 
+	{
+		/* Mettre à jour les blocs et les flèches */
+		for ( Bloc   b : this.hMBlocs.keySet()   ) { b.maj(); }
+		for ( Fleche f : this.hMFleches.keySet() ) { f.maj(); }
 
+		this.recalculerTaille();
+		this.revalidate();
+		this.repaint();
+	}
 
-		for (Bloc b : hMBlocs.keySet()) 
+	/*--------------------------------------------------------*/
+	/*                   MÉTHODES PRIVÉES                      */
+	/*--------------------------------------------------------*/
+
+	/**
+	 * Ajoute une flèche entre deux blocs (héritage ou implémentation).
+	 * 
+	 * @param source Nom de la classe source
+	 * @param cible Nom de la classe cible
+	 */
+	private void ajouterFleche( String source, String cible )
+	{
+		Fleche fleche;
+
+		fleche = new Fleche( this, source, cible, "", "" ); /* Pas de multiplicités */
+
+		this.hMFleches.put( fleche, null );
+		this.add( fleche, JLayeredPane.PALETTE_LAYER );
+		fleche.maj();
+	}
+	
+	/**
+	 * Place les blocs en grille sur le panneau.
+	 * Dispose les blocs en lignes avec des marges entre eux.
+	 */
+	private void placerBlocs() 
+	{
+		int margeHorizontale;
+		int margeVerticale;
+		int x;
+		int y;
+		int ligneMax;
+		int compteur;
+
+		margeHorizontale = 50;
+		margeVerticale   = 50;
+		x                = margeHorizontale;
+		y                = margeVerticale;
+		ligneMax         = 3; /* Nombre de blocs par ligne */
+		compteur         = 0;
+
+		for ( Bloc b : this.hMBlocs.keySet() ) 
 		{
-			b.setBounds(x, y, b.getWidth(), b.getHeight());
+			b.setBounds( x, y, b.getWidth(), b.getHeight() );
 
 			x += b.getWidth() + margeHorizontale;
 			compteur++;
 
-			if (compteur >= ligneMax)
+			/* Passer à la ligne suivante */
+			if ( compteur >= ligneMax )
 			{
 				compteur = 0;
-				x = margeHorizontale;
-				y += 300; // hauteur approximative d'un bloc + marge verticale
+				x        = margeHorizontale;
+				y       += 300; /* Hauteur approximative + marge */
 			}
-			System.out.println("Placement du bloc " + hMBlocs.get( b ) + " en (" + b.getX() + ", " + b.getY() + ")");
+			
+			System.out.println( "Placement du bloc " + this.hMBlocs.get( b ) + 
+			                    " en (" + b.getX() + ", " + b.getY() + ")" );
 		}
 	}
 	
+	/**
+	 * Recalcule la taille du panneau selon les positions des blocs.
+	 * Ajuste les dimensions pour contenir tous les éléments.
+	 */
 	private void recalculerTaille()
 	{
-		int maxX = 0;
-		int maxY = 0;
+		int maxX;
+		int maxY;
 
-		for ( Bloc b : hMBlocs.keySet() )
+		maxX = 0;
+		maxY = 0;
+
+		/* Trouver les dimensions maximales */
+		for ( Bloc b : this.hMBlocs.keySet() )
 		{
 			maxX = Math.max( maxX, b.getX() + b.getWidth()  );
 			maxY = Math.max( maxY, b.getY() + b.getHeight() );
 		}
 
-		// marge de confort
+		/* Ajouter une marge de confort */
 		maxX += 100;
 		maxY += 100;
 
 		this.setPreferredSize( new Dimension( maxX, maxY ) );
 	}
-
-	public void maj() 
-	{
-		// Mettre à jour les blocs et les flèches
-		for ( Bloc   b : hMBlocs  .keySet() ) { b.maj() ;}
-		for ( Fleche f : hMFleches.keySet() ) { f.maj() ;}
-
-		this.recalculerTaille();
-		this.revalidate      ();
-		this.repaint         ();
-	}
-
-	public void exportToImage(String path)
-	{
-		BufferedImage img = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
-		Graphics2D    g2d = img.createGraphics();
-		
-		this.paint(g2d);
-		g2d.dispose();
-
-		System.out.println("Export de l'image vers : " + path);
-		System.out.println(creerImage.exportToImage(img, path));
-	}
-
-	public String afficherAttribut(Attribut a) 
-	{
-		return this.frameUML.afficherAttribut(a);
-	}
-	
-	public String afficherMethode(Methode m, boolean complet )
-	{
-		return this.frameUML.afficherMethode(m, complet);
-	}
-
 }

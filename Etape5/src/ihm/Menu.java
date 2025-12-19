@@ -13,11 +13,12 @@ public class Menu extends JMenuBar implements ActionListener
     private JMenu     menuFichier;
     private JMenuItem itemSauvegarde;
     private JMenuItem itemOuvrirDossier;
+    private JMenuItem itemOuvrirSauvegarde;
     private JMenuItem itemQuitter;
     private JMenuItem itemExporter;
     private JMenuItem itemRefresh;
 	private JMenuItem itemOuvrirData;
-    
+
     private Runnable onSauvegarder;
     private Consumer<String> onExporter;
     private Runnable onActualiser;
@@ -32,39 +33,43 @@ public class Menu extends JMenuBar implements ActionListener
         this.menuFichier       = new JMenu    ("Menu"          );
 
         // Items du menu
-        this.itemSauvegarde    = new JMenuItem("Sauvegarder"   );
-        this.itemOuvrirDossier = new JMenuItem("Ouvrir dossier");
-  		this.itemOuvrirData    = new JMenuItem("Ouvrir data");
-        this.itemExporter      = new JMenuItem("Exporter"      );
-        this.itemRefresh       = new JMenuItem("Rafraîchir"    );
-        this.itemQuitter       = new JMenuItem("Quitter"       );
+        this.itemSauvegarde       = new JMenuItem("Sauvegarder"   );
+        this.itemOuvrirDossier    = new JMenuItem("Ouvrir dossier");
+  		this.itemOuvrirData       = new JMenuItem("Ouvrir data");
+        this.itemOuvrirSauvegarde = new JMenuItem("ouvrir la sauvegarde");
+        this.itemExporter         = new JMenuItem("Exporter"      );
+        this.itemRefresh          = new JMenuItem("Rafraîchir"    );
+        this.itemQuitter          = new JMenuItem("Quitter"       );
 
         // Ajout des items dans le menu
-        menuFichier.add         (itemSauvegarde   );
-        menuFichier.add         (itemOuvrirDossier);
-		menuFichier.add         (itemOuvrirData   );
-        menuFichier.add         (itemExporter     );
-        menuFichier.add         (itemRefresh      );
-        menuFichier.addSeparator(                 );
-        menuFichier.add         (itemQuitter      );
+        menuFichier.add         (itemSauvegarde      );
+        menuFichier.add         (itemOuvrirDossier   );
+		menuFichier.add         (itemOuvrirData      );
+        menuFichier.add         (itemOuvrirSauvegarde);
+        menuFichier.add         (itemExporter        );
+        menuFichier.add         (itemRefresh         );
+        menuFichier.addSeparator(                    );
+        menuFichier.add         (itemQuitter         );
 
         // Ajout du menu à la barre
         add(menuFichier);
 
         // Définir des action commands et enregistrer ce menu comme listener
-        itemOuvrirDossier.setActionCommand("ouvrirDossier");
-        itemSauvegarde   .setActionCommand("sauvegarder");
-		itemOuvrirData   .setActionCommand("ouvrirData");
-        itemExporter     .setActionCommand("exporter");
-        itemRefresh      .setActionCommand("refresh");
-        itemQuitter      .setActionCommand("quitter");
+        itemOuvrirDossier      .setActionCommand("ouvrirDossier"   );
+        itemSauvegarde         .setActionCommand("sauvegarder"     );
+		itemOuvrirData         .setActionCommand("ouvrirData"      );
+        itemOuvrirSauvegarde   .setActionCommand("ouvrirSauvegarde");
+        itemExporter           .setActionCommand("exporter"        );
+        itemRefresh            .setActionCommand("refresh"         );
+        itemQuitter            .setActionCommand("quitter"         );
 
-        itemOuvrirDossier.addActionListener(this);
-        itemSauvegarde   .addActionListener(this);
-		itemOuvrirData   .addActionListener(this);
-        itemExporter     .addActionListener(this);
-        itemRefresh      .addActionListener(this);
-        itemQuitter      .addActionListener(this);
+        itemOuvrirDossier   .addActionListener(this);
+        itemSauvegarde      .addActionListener(this);
+		itemOuvrirData      .addActionListener(this);
+        itemOuvrirSauvegarde.addActionListener(this);
+        itemExporter        .addActionListener(this);
+        itemRefresh         .addActionListener(this);
+        itemQuitter         .addActionListener(this);
     }
 
     public void actionPerformed(ActionEvent e) 
@@ -74,12 +79,13 @@ public class Menu extends JMenuBar implements ActionListener
 
         switch (cmd) 
         {
-            case "ouvrirDossier" -> ouvrirDossier();
-            case "sauvegarder"   -> sauvegarder();
-			case "ouvrirData"    -> ouvrirData();
-            case "exporter"      -> exporter();
-            case "refresh"       -> refresh();
-            case "quitter"       -> System.exit(0);
+            case "ouvrirDossier"    -> ouvrirDossier();
+            case "sauvegarder"      -> sauvegarder();
+			case "ouvrirData"       -> ouvrirData();
+            case "ouvrirSauvegarde" -> ouvrirSauvegarde();
+            case "exporter"         -> exporter();
+            case "refresh"          -> refresh();
+            case "quitter"          -> System.exit(0);
             default -> 
             {
                 // no-op
@@ -102,7 +108,7 @@ public class Menu extends JMenuBar implements ActionListener
     public JMenuItem getItemQuitter()       { return itemQuitter;      }
 
 
-    public void ouvrirDossier() 
+    public void ouvrirDossier()
     {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -113,10 +119,25 @@ public class Menu extends JMenuBar implements ActionListener
 
         int returnValue = fileChooser.showOpenDialog(this);
 
-        if (returnValue == JFileChooser.APPROVE_OPTION) 
+        if (returnValue == JFileChooser.APPROVE_OPTION)
         {
             String chemin = fileChooser.getSelectedFile().getAbsolutePath();
             this.frameUML.lireDossier( chemin );
+        }
+    }
+
+    public void ouvrirSauvegarde()
+    {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory( new File( "./src/sauvegarde" ) );
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+
+        int returnValue = fileChooser.showOpenDialog(this);
+
+        if (returnValue == JFileChooser.APPROVE_OPTION)
+        {
+            String chemin = fileChooser.getSelectedFile().getAbsolutePath();
+            this.frameUML.lireData( chemin );
         }
     }
 
@@ -135,7 +156,7 @@ public class Menu extends JMenuBar implements ActionListener
 		{
 			JFileChooser fileChooser = new JFileChooser();
 			int returnValue = fileChooser.showSaveDialog(null);
-			
+
 			if (returnValue == JFileChooser.APPROVE_OPTION)
 			{
 				String selectedPath = fileChooser.getSelectedFile().getAbsolutePath();
@@ -151,9 +172,9 @@ public class Menu extends JMenuBar implements ActionListener
 		}
 	}
 
-    public void refresh() 
+    public void refresh()
     {
-        try 
+        try
         {
             if (onActualiser != null) 
             {

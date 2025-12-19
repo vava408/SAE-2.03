@@ -43,6 +43,15 @@ public class DecomposerLigne
 		// on retire les virgules
 		ligne = ligne.replace(",", " ");
 
+		// on retire les tirets
+		ligne = ligne.replace("-", " ");
+
+		// on retire les plus
+		ligne = ligne.replace("+", " ");
+
+		// on retire les deux points
+		ligne = ligne.replace(":", " ");
+
 		// on met des espaces autour les égaux
 		ligne = ligne.replace("=", " = ");
 

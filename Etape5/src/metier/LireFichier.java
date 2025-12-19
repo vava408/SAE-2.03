@@ -43,6 +43,16 @@ public class LireFichier implements Serializable
         lireFichier( fileName );
     }
 
+	public LireFichier(String nom, String motCle,LireMethode lstMethode, LireAttribut lstAttribut, int posX, int posY)
+	{
+		this.nomClasse      = nom;
+		this.motCle         = motCle;
+		this.lireMethode    = lstMethode;
+		this.lireAttribut   = lstAttribut;
+		this.posX           = posX;
+		this.posY           = posY;
+	}
+
 	//retourne le nom de la classe lue
 	public String getNomClasse()
 	{
@@ -108,10 +118,25 @@ public class LireFichier implements Serializable
 		return this.posY;
 	}
 
+	public LireHeritImple getLireHeritImplement()
+	{
+		return this.lireHeritImplements;
+	}
+
 	public void setTaille ( int h, int l )
 	{
 		this.hauteurMax = h;
 		this.largeurMax = l;
+	}
+
+	public void setLireDossier(LireDossier lireDossier)
+	{
+		this.lectureDossier = lireDossier;
+	}
+
+	public void setLireHeritImplement(LireHeritImple lireheritImplement)
+	{
+		this.lireHeritImplements = lireheritImplement;
 	}
 
 	//lit le fichier passé en paramètre 

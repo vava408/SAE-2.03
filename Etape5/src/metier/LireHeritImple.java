@@ -43,6 +43,16 @@ public class LireHeritImple implements Serializable
 		this.listeImplements = new ArrayList<>();
 	}
 
+	public void setHerit(String classeFille, String classeMere)
+	{
+		mapExtends.put(classeFille, classeMere);
+	}
+
+	public void setImplement(String classeFille, ArrayList<String> classeMere)
+	{
+		mapImplements.put(classeFille, classeMere);
+	}
+
 	/**
 	 * Analyse une ligne découpée en mots afin de détecter : - le nom de la
 	 * classe - la classe héritée (extends) - les interfaces implémentées

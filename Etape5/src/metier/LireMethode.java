@@ -16,6 +16,11 @@ public class LireMethode implements Serializable
 		this.lireFichier = lireFichier;
 	}
 
+	public LireMethode( ArrayList<Methode> lstMethode )
+	{
+		this.listeMethodes = lstMethode;
+	}
+
 	public ArrayList<Methode> getListeMethodes() 
 	{
 		return this.listeMethodes;

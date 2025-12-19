@@ -22,6 +22,11 @@ public class LireAttribut implements Serializable
 		this.listeAttributs = new ArrayList<>();
 	}
 
+	public LireAttribut( ArrayList<Attribut> lstAttribut )
+	{
+		this.listeAttributs = lstAttribut;
+	}
+
 	//retourne la liste des attributs lus
 	public ArrayList<Attribut> getListeAttributs() 
 	{

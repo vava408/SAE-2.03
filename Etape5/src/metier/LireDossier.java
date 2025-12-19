@@ -24,10 +24,17 @@ public class LireDossier implements Serializable
 		this.lstAssociations = new ArrayList<Association>();
 		this.lstLireFichiers = new ArrayList<LireFichier>();
 		this.hMAttrAsso      = new HashMap<>();
-		
+
 		this.lireDossier( cheminDossier );
-		
+
 		this.creerAssociation();
+	}
+
+	public LireDossier(ArrayList<LireFichier> lstFichier, ArrayList<Association> lstAssociation, Controleur ctrl)
+	{
+		this.lstLireFichiers = lstFichier;
+		this.lstAssociations = lstAssociation;
+		this.ctrl            = ctrl;
 	}
 
 	private void lireDossier( String cheminDossier )

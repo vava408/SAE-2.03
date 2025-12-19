@@ -11,6 +11,7 @@ import src.metier.LireDossier;
 import src.metier.LireFichier;
 import src.metier.LireSauvegarde;
 import src.metier.Sauvegarder;
+import src.metier.LireData;
 
 public class Controleur
 {
@@ -33,6 +34,11 @@ public class Controleur
     public void lireDossier( String chemin )
     {
         this.lireDossier = new LireDossier( this, chemin );
+    }
+
+    public void lireData(String chemin)
+    {
+        LireData data = new LireData(chemin, this);
     }
 
     public LireDossier getLireDossier()

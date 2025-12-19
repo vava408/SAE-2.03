@@ -88,6 +88,14 @@ public class FrameUML extends JFrame
 		this.panelPrincipal   .instancierPanel();
 	}
 
+	public void lireData(String chemin)
+	{
+		this.ctrl.lireData(chemin);
+
+		this.panelPrincipal   .instancierPanel();
+		this.panelListeFichier.instancierPanel();
+	}
+
 	private void afficherChoixOuverture()
 	{
 		String[] options = { "Ouvrir un fichier .data", "Ouvrir un dossier", "Annuler" };
@@ -137,19 +145,17 @@ public class FrameUML extends JFrame
 	
 	private void ouvrirFichierData()
 	{
-		JFileChooser chooser = new JFileChooser();
-		chooser.setCurrentDirectory( new File( "./src/sauvegarde" ) );
-		chooser.setFileFilter( new javax.swing.filechooser.FileNameExtensionFilter( "Fichier .data", "data" ) );
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setCurrentDirectory( new File( "./src/sauvegarde" ) );
+		fileChooser.setFileFilter( new javax.swing.filechooser.FileNameExtensionFilter( "Fichier .data", "data" ) );
 
-		int retour = chooser.showOpenDialog( this );
+		int retour = fileChooser.showOpenDialog( this );
 
 		if ( retour == JFileChooser.APPROVE_OPTION )
 		{
-			File fichier = chooser.getSelectedFile();
+			String fichier = fileChooser.getSelectedFile().getAbsolutePath();
 
-			this.ctrl.charger( fichier.getAbsolutePath() );
-
-			this.maj();
+			lireData(fichier);
 		}
 	}
 

@@ -267,11 +267,6 @@ public class LireData implements Serializable
 							nomMethode = tabMots[1];
 							typeRetour = null;
 
-							for ( String s : tabMots )
-								System.out.print( s );
-
-							System.out.println();
-
 							/* Récupération des paramètres du constructeur */
 							if ( tabMots.length > 2 )
 								for ( int i = 2; i < tabMots.length; i += 2 )

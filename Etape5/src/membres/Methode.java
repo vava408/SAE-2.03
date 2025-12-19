@@ -202,7 +202,7 @@ public class Methode implements Serializable
 		{
 			for ( Parametre p : this.tabParametre )
 			{
-				sRet += String.format( "%14s", p.toString() );
+				sRet += String.format( "%14s", p.toString() ) + " ";
 			}
 		}
 

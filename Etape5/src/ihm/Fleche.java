@@ -20,11 +20,11 @@ public class Fleche extends JPanel
 
 	private PanelPrincipal panelPrincipal;
 
-	private String         nomClasseA;
-	private String         nomClasseB;
+	private String         nomClasseA    ;
+	private String         nomClasseB    ;
 
-	private String         multipliciteA;
-	private String         multipliciteB;
+	private String         multipliciteA ;
+	private String         multipliciteB ;
 
 	/*------------------------- Méthodes publiques ------------------------*/
 
@@ -62,7 +62,7 @@ public class Fleche extends JPanel
 		// La flèche occupe toute la surface du panel principal
 		this.setBounds( 0,
 						0,
-						this.panelPrincipal.getWidth(),
+						this.panelPrincipal.getWidth () ,
 						this.panelPrincipal.getHeight() );
 
 		// Forcer le redessin
@@ -89,9 +89,16 @@ public class Fleche extends JPanel
 	 */
 	protected void paintComponent( Graphics g )
 	{
+		Graphics2D g2              ;
+		Bloc       blocA, blocB    ;
+		Point[]    pointsA, pointsB;
+		Point      p1, p2          ;
+		double     minDist         ;
+		double     dist            ;
+
 		super.paintComponent( g );
 
-		Graphics2D g2 = ( Graphics2D ) g;
+		g2 = ( Graphics2D ) g;
 
 		// Améliore la qualité graphique (bords lissés)
 		g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING,
@@ -100,25 +107,25 @@ public class Fleche extends JPanel
 		g2.setStroke( new BasicStroke( 2 ) );
 		g2.setColor ( Color.BLACK );
 
-		Bloc blocA = this.panelPrincipal.getBloc( this.nomClasseA );
-		Bloc blocB = this.panelPrincipal.getBloc( this.nomClasseB );
+		blocA = this.panelPrincipal.getBloc( this.nomClasseA );
+		blocB = this.panelPrincipal.getBloc( this.nomClasseB );
 
 		if ( blocA == null || blocB == null ) { return; }
 
 		// Points d'ancrage des deux blocs
-		Point[] pointsA = this.getPointsAncrage( blocA );
-		Point[] pointsB = this.getPointsAncrage( blocB );
+		pointsA = this.getPointsAncrage( blocA );
+		pointsB = this.getPointsAncrage( blocB );
 
 		// Recherche des deux points les plus proches
-		Point  p1      = pointsA[0];
-		Point  p2      = pointsB[0];
-		double minDist = p1.distance( p2 );
+		p1      = pointsA[0];
+		p2      = pointsB[0];
+		minDist = p1.distance( p2 );
 
 		for ( Point pa : pointsA )
 		{
 			for ( Point pb : pointsB )
 			{
-				double dist = pa.distance( pb );
+				dist = pa.distance( pb );
 
 				if ( dist < minDist )
 				{
@@ -148,11 +155,13 @@ public class Fleche extends JPanel
 	 */
 	private Point[] getPointsAncrage( Bloc bloc )
 	{
+		int x, y, w, h;
+
 		// Coordonnées et dimensions du bloc
-		int x = bloc.getX();
-		int y = bloc.getY();
-		int w = bloc.getWidth();
-		int h = bloc.getHeight();
+		x = bloc.getX();
+		y = bloc.getY();
+		w = bloc.getWidth();
+		h = bloc.getHeight();
 
 		// Centres des quatre côtés du bloc
 		return new Point[]
@@ -226,6 +235,8 @@ public class Fleche extends JPanel
 	 */
 	private void dessinerLigne( Graphics2D g2, int x1, int y1, int x2, int y2, Bloc a , Bloc b )
 	{
+		float[] dash;
+
 		// Cas d'une implémentation : ligne en pointillés
 		if ( this.panelPrincipal.getImple( a ) != null )
 		{
@@ -233,7 +244,7 @@ public class Fleche extends JPanel
 			{
 				if ( this.panelPrincipal.getNomClasse( b ).equals( nomInterface ) )
 				{
-					float[] dash = { 8f, 8f };
+					dash = new float[]{ 8f, 8f };
 
 					g2.setStroke( new BasicStroke(
 													2                     ,
@@ -266,14 +277,17 @@ public class Fleche extends JPanel
 	 */
 	private int[] calculerPointsForme( Point start, Point end, int longueur, double angle )
 	{
+		double angleDirection;
+		int    x1, y1, x2, y2;
+
 		// Calcul de l'orientation de la forme
-		double angleDirection = Math.atan2( end.y - start.y, end.x - start.x );
+		angleDirection = Math.atan2( end.y - start.y, end.x - start.x );
 
 		// Calcul des deux points de la forme
-		int x1 = ( int ) ( end.x - longueur * Math.cos( angleDirection - angle ) );
-		int y1 = ( int ) ( end.y - longueur * Math.sin( angleDirection - angle ) );
-		int x2 = ( int ) ( end.x - longueur * Math.cos( angleDirection + angle ) );
-		int y2 = ( int ) ( end.y - longueur * Math.sin( angleDirection + angle ) );
+		x1 = ( int ) ( end.x - longueur * Math.cos( angleDirection - angle ) );
+		y1 = ( int ) ( end.y - longueur * Math.sin( angleDirection - angle ) );
+		x2 = ( int ) ( end.x - longueur * Math.cos( angleDirection + angle ) );
+		y2 = ( int ) ( end.y - longueur * Math.sin( angleDirection + angle ) );
 
 		return new int[] { x1, y1, x2, y2 };
 	}
@@ -287,11 +301,15 @@ public class Fleche extends JPanel
 	 */
 	private void dessinerPointe( Graphics2D g2, Point start, Point end )
 	{
-		int    longueur    = 12;
-		double anglePointe = Math.PI / 6;
+		int    longueur   ;
+		double anglePointe;
+		int[]  points     ;
+
+		longueur    = 12;
+		anglePointe = Math.PI / 6;
 
 		// Calcul des points de la pointe
-		int[] points = this.calculerPointsForme( start, end, longueur, anglePointe );
+		points = this.calculerPointsForme( start, end, longueur, anglePointe );
 
 		// Dessin de la pointe
 		g2.drawLine( end.x, end.y, points[0], points[1] );
@@ -307,16 +325,21 @@ public class Fleche extends JPanel
 	 */
 	private void dessinerTriangleBlanc( Graphics2D g2, Point start, Point end )
 	{
+		int     longueur     ;
+		double  angleTriangle;
+		int[]   points       ;
+		Polygon triangle     ;
+
 		// Réinitialisation du trait (évite les pointillés)
 		g2.setStroke( new BasicStroke( 2 ) );
 
-		int    longueur      = 16;
-		double angleTriangle = Math.PI / 6;
+		longueur      = 16;
+		angleTriangle = Math.PI / 6;
 
 		// Calcul des sommets du triangle
-		int[] points = this.calculerPointsForme( start, end, longueur, angleTriangle );
+		points = this.calculerPointsForme( start, end, longueur, angleTriangle );
 
-		Polygon triangle = new Polygon();
+		triangle = new Polygon();
 		triangle.addPoint( end.x, end.y );
 		triangle.addPoint( points[0], points[1] );
 		triangle.addPoint( points[2], points[3] );
@@ -339,22 +362,23 @@ public class Fleche extends JPanel
 	 */
 	private void dessinerRolesAssociation( Graphics2D g2, Point p1, Point p2 )
 	{
-		Association asso = panelPrincipal.getAssociation(this);
+		Association       asso ;
+		ArrayList<String> roles;
+		String            roleA, roleB;
+
+		asso = panelPrincipal.getAssociation(this);
 		if (asso == null) return;
 
-		ArrayList<String> roles = getRoles(asso);
+		roles = getRoles(asso);
 		if (roles == null || roles.isEmpty()) return;
 
-		String roleA = roles.get(0);
-		String roleB = roleA;
+		roleA = roles.get(0);
+		roleB = roleA;
 
 		if (roles.size() > 1)
 		{
 			roleB = roles.get(1);
 		}
-
-		Bloc a = panelPrincipal.getBloc( nomClasseA );
-		Bloc b = panelPrincipal.getBloc( nomClasseB );
 
 		// rôle côté A
 		dessinerTexte( g2, roleA, p1, p2, 15, 10 );
@@ -379,34 +403,44 @@ public class Fleche extends JPanel
 	private void dessinerTexte( Graphics2D g2, String texte, Point blocPoint, Point autrePoint,
 								int distance, int decalagePerp )
 	{
+		Bloc   bloc          ;
+		double dx, dy, ux, uy;
+		double longueur      ;
+		int    signeDistance ;
+		int    bx, by, bw, bh;
+		int    bonus         ;
+		int    decalageTexte ;
+		int    x, y          ;
+
 		// Rien à dessiner si le texte est vide
 		if ( texte == null || texte.isEmpty() ) { return; }
 			
 		// Vecteur directeur de la flèche
-		double dx = autrePoint.x - blocPoint.x;
-		double dy = autrePoint.y - blocPoint.y;
-		double longueur = Math.sqrt( dx * dx + dy * dy );
+		dx = autrePoint.x - blocPoint.x;
+		dy = autrePoint.y - blocPoint.y;
+		
+		longueur = Math.sqrt( dx * dx + dy * dy );
 
 		if ( longueur == 0 ) { return; }
 
 		// Vecteur unitaire
-		double ux = dx / longueur;
-		double uy = dy / longueur;
+		ux = dx / longueur;
+		uy = dy / longueur;
 
-		int signeDistance = 1;
+		signeDistance = 1;
 
 		// Détermination du bloc concerné
-		Bloc bloc = this.panelPrincipal.getBloc( this.nomClasseA );
+		bloc = this.panelPrincipal.getBloc( this.nomClasseA );
 
 		if ( !this.estSurBloc( bloc, blocPoint ) )
 		{
 			bloc = this.panelPrincipal.getBloc( this.nomClasseB );
 		}
 
-		int bx = bloc.getX();
-		int by = bloc.getY();
-		int bw = bloc.getWidth();
-		int bh = bloc.getHeight();
+		bx = bloc.getX()     ;
+		by = bloc.getY()     ;
+		bw = bloc.getWidth() ;
+		bh = bloc.getHeight();
 
 		// Ajustement du sens du texte selon le côté du bloc
 		if ( ( blocPoint.x == bx && ux > 0 )
@@ -418,14 +452,14 @@ public class Fleche extends JPanel
 		}
 		
 		// Bonus du côté gauche
-		int bonus = 0;
+		bonus = 0;
 		if ( blocPoint.x == bx )
 		{
 			bonus = 25;
 		}
 
 		// Déterminer le décalage supplémentaire pour ne pas chevaucher la flèche
-		int decalageTexte = decalagePerp;
+		decalageTexte = decalagePerp;
 
 		// Placement du texte selon l'orientation de la flèche
 		if ( Math.abs( dx ) > Math.abs( dy ) )
@@ -434,8 +468,8 @@ public class Fleche extends JPanel
 			if ( decalagePerp < 0 ) decalageTexte -= 10;  // côté "A"
 			if ( decalagePerp > 0 ) decalageTexte += 10;  // côté "B"
 
-			int x = ( int ) ( blocPoint.x + ux * ( distance + bonus ) * signeDistance );
-			int y = ( int ) ( blocPoint.y + uy * ( distance + bonus ) * signeDistance + decalageTexte );
+			x = ( int ) ( blocPoint.x + ux * ( distance + bonus ) * signeDistance );
+			y = ( int ) ( blocPoint.y + uy * ( distance + bonus ) * signeDistance + decalageTexte );
 
 			g2.drawString( texte, x, y );
 		}
@@ -445,8 +479,8 @@ public class Fleche extends JPanel
 			if ( decalagePerp < 0 ) decalageTexte -= 25;  // décale encore plus côté gauche
 			if ( decalagePerp > 0 ) decalageTexte += 0;   // côté droit inchangé
 
-			int x = ( int ) ( blocPoint.x + ux * ( distance + bonus ) * signeDistance + decalageTexte );
-			int y = ( int ) ( blocPoint.y + uy * ( distance + bonus ) * signeDistance );
+			x = ( int ) ( blocPoint.x + ux * ( distance + bonus ) * signeDistance + decalageTexte );
+			y = ( int ) ( blocPoint.y + uy * ( distance + bonus ) * signeDistance );
 
 			g2.drawString( texte, x, y );
 		}

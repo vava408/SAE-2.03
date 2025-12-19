@@ -22,10 +22,10 @@ import src.Controleur;
 
 public class LireData implements Serializable
 {
-	public final String[] TAB_VISIBILITE = { "public", "private", "protected" };
-	public final String[] TAB_MOTCLE     = { "class", "interface", "enum", "record", "abstract" };
-	public final String[] TAB_MODIFIEURS = { "static", "final", "abstract", 
-											"native", "strictfp", "synchronized" };
+	public final String[] TAB_VISIBILITE = { "public", "private"  , "protected" };
+	public final String[] TAB_MOTCLE     = { "class" , "interface", "enum"     , "record", "abstract" };
+	public final String[] TAB_MODIFIEURS = { "static", "final"    , "abstract" ,
+                                             "native", "strictfp" , "synchronized" };
 
 	private transient DecomposerLigne decomposerLigne;
 	private Controleur                ctrl;
@@ -51,22 +51,30 @@ public class LireData implements Serializable
 		Scanner                sc;
 		String                 ligne;
 		String[]               tabMots;
+
+		//variable pour les classes
 		String                 nomClasse;
 		String                 typeClasse;
 		int                    posX;
 		int                    posY;
+
+		//variables pour les attributs
 		int                    nbAttribut;
 		String                 nomAttribut;
 		String                 typeAttribut;
 		String                 visibiliteAttribut;
 		boolean                estStatic;
 		boolean                estFinal;
+
+		//variables pour les méthodes
 		String                 nomMethode;
 		String                 visibiliteMethode;
 		String                 typeRetour;
 		String                 typeParam;
 		String                 nomParam;
 		int                    nbParam;
+
+		//variables pour le traitement des données
 		boolean                estPremiere;
 		ArrayList<Attribut>    lstAttribut;
 		ArrayList<Methode>     lstMethode;
@@ -75,6 +83,8 @@ public class LireData implements Serializable
 		ArrayList<LireFichier> lstLireFichiers;
 		int                    cptTemporaire;
 		boolean                ligneEstTraite;
+
+		//références à d'autres fichiers
 		LireAttribut           lireAttribut;
 		LireMethode            lireMethode;
 		LireFichier            lF;
@@ -111,7 +121,7 @@ public class LireData implements Serializable
 					&& !ligne.contains( "étend" ) && !ligne.contains( "implémente" ) )
 				{
 					tabMots = this.decomposerLigne.decomposerLigne( ligne );
-					
+
 					/* Identification du type de classe */
 					for ( String s : this.TAB_MOTCLE )
 					{
@@ -355,7 +365,7 @@ public class LireData implements Serializable
 						}
 
 						tabMots = this.decomposerLigne.decomposerLigne( ligne );
-						
+
 						/* Identification des classes associées */
 						for ( int cpt = 0; cpt < tabMots.length; cpt++ )
 						{
@@ -377,8 +387,8 @@ public class LireData implements Serializable
 							}
 						}
 
-						lstAssociation.add( new Association( nomClasseA, nomClasseB, 
-															multipliciteA, multipliciteB ) );
+						lstAssociation.add( new Association( nomClasseA   , nomClasseB,
+															 multipliciteA, multipliciteB ) );
 					}
 				}
 
@@ -420,8 +430,8 @@ public class LireData implements Serializable
 								lF2 = lireFichier;
 						}
 
-						lF1.getLireHeritImplement().setHerit( lF1.getNomClasse(), 
-															lF2.getNomClasse() );
+						lF1.getLireHeritImplement().setHerit( lF1.getNomClasse(),
+						                                      lF2.getNomClasse() );
 					}
 				}
 
@@ -467,7 +477,7 @@ public class LireData implements Serializable
 						lstImplement = new ArrayList<String>();
 						lstImplement.add( lF2.getNomClasse() );
 
-						lF1.getLireHeritImplement().setImplement( lF1.getNomClasse(), 
+						lF1.getLireHeritImplement().setImplement( lF1.getNomClasse(),
 																lstImplement );
 					}
 				}

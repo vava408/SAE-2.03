@@ -391,23 +391,23 @@ public class LireFichier implements Serializable
 		if ( !this.motCle.equals( "class" ) )
 		{
 			stereotype = "<< " + this.motCle + " >>";
-			this.largeurMax = Math.max( this.largeurMax, stereotype.length() * 10 + 30 );
+			this.largeurMax = Math.max( this.largeurMax, stereotype.length() * 10 );
 		}
 
-		this.largeurMax = Math.max( this.largeurMax, this.nomClasse.length() * 10 + 30 );
+		this.largeurMax = Math.max( this.largeurMax, this.nomClasse.length() * 10 );
 
 		for ( int i = 0; i < this.getListeAttributs().size(); i++ )
 		{
 			a = this.getListeAttributs().get( i );
 			this.largeurMax = Math.max( this.largeurMax,
-			                            this.lectureDossier.getVueAttributs( a ).length() * 7 + 30 );
+			                            this.lectureDossier.getVueAttributs( a ).length() * 7 - 20 );
 		}
 
 		for ( int i = 0; i < this.getListeMethodes().size(); i++ )
 		{
 			m = this.getListeMethodes().get( i );
 			this.largeurMax = Math.max( this.largeurMax,
-			                            this.lectureDossier.getVueMethode( m ).length() * 7 + 30 );
+			                            this.lectureDossier.getVueMethode( m ).length() * 7 - 20 );
 		}
 
 		return this.largeurMax;

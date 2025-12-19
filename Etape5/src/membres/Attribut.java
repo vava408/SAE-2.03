@@ -2,9 +2,17 @@ package src.membres;
 
 import java.io.Serializable;
 
+/*
+* Classe représentant un attribut d'une classe dans un diagramme UML
+* 
+* Exercice    : Génération de diagrammes UML
+* Groupe      : [Numéro de groupe]
+* Auteurs     : [Noms des auteurs]
+* Date/Heure  : 19/12/2024 14:30
+*/
+
 public class Attribut implements Serializable
 {
-
 	private int     attributId;
 	private String  nom;
 	private String  type;
@@ -14,11 +22,14 @@ public class Attribut implements Serializable
 	private boolean estAddOnly;
 	private boolean estRequete;
 
-	// constructeur
-	public Attribut(int attributId, String nom, String type, String visibilite, boolean estStatic, boolean estFinal,
-			boolean isAddOnly, boolean isRequete)
+	/**
+	 * Constructeur de la classe Attribut
+	 * Initialise tous les attributs de l'objet
+	 */
+	public Attribut( int attributId, String nom, String type, String visibilite, 
+					boolean estStatic, boolean estFinal, boolean isAddOnly, 
+					boolean isRequete )
 	{
-
 		this.attributId = attributId;
 		this.nom        = nom;
 		this.type       = type;
@@ -29,52 +40,79 @@ public class Attribut implements Serializable
 		this.estRequete = isRequete;
 	}
 
-	// retourne l'identifiant de l'attribut
-	public int getAttributId()    { return attributId; }
+	/**
+	 * Retourne l'identifiant unique de l'attribut
+	 */
+	public int getAttributId() { return this.attributId; }
 
-	// retourne le nom de l'attribut
-	public String getNom()        { return nom       ; }
+	/**
+	 * Retourne le nom de l'attribut
+	 */
+	public String getNom() { return this.nom; }
 
-	// retourne le type de l'attribut
-	public String getType()       { return type      ; }
+	/**
+	 * Retourne le type de l'attribut
+	 */
+	public String getType() { return this.type; }
 
-	// retourne la visibilité de l'attribut
-	public String getVisibilite() { return visibilite; }
+	/**
+	 * Retourne la visibilité de l'attribut (public, private, protected)
+	 */
+	public String getVisibilite() { return this.visibilite; }
 
-	// retourne true si l'attribut est static
-	public boolean isStatic()     { return estStatic ; }
+	/**
+	 * Retourne true si l'attribut est statique, false sinon
+	 */
+	public boolean estStatic() { return this.estStatic; }
 
-	// retourne true si l'attribut est final
-	public boolean isFinal()      { return estFinal  ; }
+	/**
+	 * Retourne true si l'attribut est final, false sinon
+	 */
+	public boolean estFinal() { return this.estFinal; }
 
-	//retourbe true si l attibut est addOnly
-	public boolean isAddOnly()    { return this.estAddOnly ; }
+	/**
+	 * Retourne true si l'attribut est en mode addOnly, false sinon
+	 */
+	public boolean estAddOnly() { return this.estAddOnly; }
 
-	//retourne true si l'attribut est requête
-	public boolean isRequete()    { return this.estRequete  ; }
+	/**
+	 * Retourne true si l'attribut est une requête, false sinon
+	 */
+	public boolean estRequete() { return this.estRequete; }
 
-	//modifie le statut de requête de l'attribut
-	public void setRequete(boolean isRequete) { this.estRequete = isRequete; }
+	/**
+	 * Modifie le statut de requête de l'attribut
+	 */
+	public void setRequete( boolean isRequete ) 
+	{ 
+		this.estRequete = isRequete; 
+	}
 
-	// affichage textuel de l'attribut
+	/**
+	 * Retourne une représentation textuelle de l'attribut selon la notation UML
+	 */
 	public String toString() 
-    {
-        String sRet = "";
+	{
+		String sRet = "";
 
+		/* Construction de la chaîne avec visibilité */
 		sRet += this.visibilite + " ";
 
-		if (this.estFinal) 
+		/* Ajout du modificateur final si nécessaire */
+		if ( this.estFinal ) 
 		{
 			sRet += "final ";
 		}
 
-		if (this.estStatic) 
+		/* Ajout du modificateur static si nécessaire */
+		if ( this.estStatic ) 
 		{
 			sRet += "static ";
 		}
 
+		/* Ajout du type et du nom */
 		sRet += this.type + " " + this.nom;
 
-        return sRet;
-    }
+		return sRet;
+	}
 }

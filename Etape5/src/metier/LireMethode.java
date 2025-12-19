@@ -11,7 +11,6 @@ import src.membres.Parametre;
  * et le type de retour de chaque méthode ou constructeur.
  * 
  * Exercice : Générateur de diagrammes UML
- * Groupe : 6
  * Auteurs : Groupe 6
  * Date de création : 10/12/2025 14:45
  */

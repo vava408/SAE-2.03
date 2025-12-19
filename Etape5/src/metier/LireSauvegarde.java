@@ -2,14 +2,12 @@ package src.metier;
 
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
-
 import src.Controleur;
 
 /**
  * Classe permettant de lire une sauvegarde sérialisée depuis un fichier.
  * Exercice : Gestion des sauvegardes 
  * @author : Groupe6
- * @version : Etape finale 
  * Date de création : 18/12/2025 10:30
  */
 public class LireSauvegarde

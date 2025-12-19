@@ -14,8 +14,7 @@ import javax.swing.JMenuItem;
 * Gère les actions du menu fichier (ouvrir, sauvegarder, exporter, etc.)
 * 
 * Exercice    : Génération de diagrammes UML
-* Groupe      : [Numéro de groupe]
-* Auteurs     : [Noms des auteurs]
+* Auteurs     : 6
 * Date/Heure  : 19/12/2024 14:45
 */
 

@@ -8,8 +8,7 @@ import java.util.ArrayList;
 /* Représentation d'une méthode UML avec ses paramètres,  */
 /* sa visibilité et ses modificateurs                     */
 /* Projet : Générateur de diagrammes UML                  */
-/* Groupe : [Numéro du groupe]                            */
-/* Auteurs : [Noms des auteurs]                           */
+/* Auteurs : groupe 6                                     */
 /* Date de création : 18/12/2025 15:10                    */
 /*--------------------------------------------------------*/
 

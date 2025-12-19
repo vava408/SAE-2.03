@@ -19,7 +19,6 @@ import src.metier.Sauvegarder;
  * (lecture de fichiers, sauvegarde, chargement).
  * 
  * Exercice : Générateur de diagrammes UML
- * Groupe : 6
  * Auteurs : Groupe 6
  * Date de création : 10/12/2025 16:00
  */

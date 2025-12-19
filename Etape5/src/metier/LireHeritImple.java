@@ -9,7 +9,6 @@ import java.util.HashMap;
  * d'implémentation (implements) dans une déclaration de classe Java.
  * 
  * Exercice : Générateur de diagrammes UML
- * Groupe : 6
  * Auteurs : Groupe 6
  * Date de création : 10/12/2025 14:30
  */

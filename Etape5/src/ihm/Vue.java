@@ -235,9 +235,9 @@ public class Vue
 	  }
 
 	  /* Ajout des stéréotypes */
-	  if ( a.isFinal()    ) sFinal += " {gelé}";
-	  if ( a.isAddOnly()  ) sFinal += " {addOnly}";
-	  if ( a.isRequete()  ) sFinal += " {requete}";
+	  if ( a.estFinal()    ) sFinal += " {gelé}";
+	  if ( a.estAddOnly()  ) sFinal += " {addOnly}";
+	  if ( a.estRequete()  ) sFinal += " {requete}";
 
 	  sRet += sVisibilite + String.format( "%-15s", a.getNom() ) + " : " + 
 			  String.format( "%-5s", a.getType() ) + sFinal;

@@ -7,8 +7,7 @@ import java.io.Serializable;
 /* Représentation d'un paramètre de méthode avec son nom, */
 /* son type et son identifiant                            */
 /* Projet : Générateur de diagrammes UML                  */
-/* Groupe : [Numéro du groupe]                            */
-/* Auteurs : [Noms des auteurs]                           */
+/* Auteurs : groupe                                       */
 /* Date de création : 18/12/2025 15:15                    */
 /*--------------------------------------------------------*/
 

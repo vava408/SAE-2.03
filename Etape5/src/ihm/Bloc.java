@@ -19,7 +19,6 @@ import src.membres.Methode;
  * et l'affichage complet/réduit selon l'interaction de l'utilisateur.
  * 
  * Exercice : Générateur de diagrammes UML
- * Groupe : 6
  * Auteurs : Groupe 6
  * Date de création : 10/12/2025 15:30
  */
@@ -262,7 +261,7 @@ public class Bloc extends JPanel
 				g2.drawString( affichage, marge / 2, yTexte );
 
 				/* Soulignement pour attributs static */
-				if ( a.isStatic() )
+				if ( a.estStatic() )
 				{
 				largeurTexte = g2.getFontMetrics().stringWidth( affichage );
 				g2.drawLine( marge / 2, yTexte + 1, marge / 2 + largeurTexte, 
@@ -299,7 +298,7 @@ public class Bloc extends JPanel
 				g2.drawString( affichage, marge / 2, yTexte );
 
 				/* Soulignement pour attributs static */
-				if ( a.isStatic() )
+				if ( a.estStatic() )
 				{
 				largeurTexte = g2.getFontMetrics().stringWidth( affichage );
 				g2.drawLine( marge / 2, yTexte + 1, marge / 2 + largeurTexte, 

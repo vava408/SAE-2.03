@@ -4,12 +4,11 @@ import java.io.Serializable;
 
 /*--------------------------------------------------------*/
 /* Association.java                                       */
-/* Représentation d'une association UML entre deux       */
-/* classes avec leurs multiplicités                      */
-/* Projet : Générateur de diagrammes UML                 */
-/* Groupe : [Numéro du groupe]                           */
-/* Auteurs : [Noms des auteurs]                          */
-/* Date de création : 18/12/2025 15:00                   */
+/* Représentation d'une association UML entre deux        */
+/* classes avec leurs multiplicités                       */
+/* Projet : Générateur de diagrammes UML                  */
+/* Auteurs : groupe 6                                     */
+/* Date de création : 18/12/2025 15:00                    */
 /*--------------------------------------------------------*/
 
 /**
@@ -18,7 +17,7 @@ import java.io.Serializable;
  * selon les multiplicités définies entre les classes.
  * Gère les multiplicités et détermine le type d'association.
  * 
- * @author [Noms des auteurs]
+ * @author groupe 6
  * @version 1.0
  * @since 18/12/2025
  */

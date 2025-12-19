@@ -2,111 +2,130 @@ package src.metier;
 
 import java.io.FileInputStream;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 import src.membres.Attribut;
 import src.membres.Methode;
 import src.membres.Parametre;
 import src.membres.Association;
-
 import src.Controleur;
+
+/*
+* Classe permettant de lire et parser un fichier de données UML
+* Reconstruit les classes, attributs, méthodes et associations depuis un fichier texte
+* 
+* Exercice    : Génération de diagrammes UML
+* Auteurs     : Groupe 6
+* Date/Heure  : 19/12/2024 15:00
+*/
 
 public class LireData implements Serializable
 {
-	public final String[]             TAB_VISIBILITE = { "public", "private", "protected"                   };
-	public final String[]             TAB_MOTCLE     = { "class", "interface", "enum", "record", "abstract" };
-	public final String[]             TAB_MODIFIEURS = { "static", "final", "abstract", 
-	                                                     "native", "strictfp", "synchronized" };
+	public final String[] TAB_VISIBILITE = { "public", "private", "protected" };
+	public final String[] TAB_MOTCLE     = { "class", "interface", "enum", "record", "abstract" };
+	public final String[] TAB_MODIFIEURS = { "static", "final", "abstract", 
+											"native", "strictfp", "synchronized" };
 
 	private transient DecomposerLigne decomposerLigne;
+	private Controleur                ctrl;
 
-	private Controleur ctrl;
-
-	public LireData(String chemin, Controleur ctrl)
+	/**
+	 * Constructeur de la classe LireData
+	 * Initialise le décomposeur de lignes et lance la lecture du fichier
+	 */
+	public LireData( String chemin, Controleur ctrl )
 	{
 		this.decomposerLigne = new DecomposerLigne();
-		this.ctrl = ctrl;
+		this.ctrl            = ctrl;
 
-		lireFichierData(chemin);
+		this.lireFichierData( chemin );
 	}
 
-	// constructeur  prend en paramètre la classe LireDossier et le nom du fichier à lire
-	public void lireFichierData(String chemin)
+	/**
+	 * Lit et parse le fichier de données UML
+	 * Extrait les classes, attributs, méthodes, associations et relations d'héritage
+	 */
+	public void lireFichierData( String chemin )
 	{
-		Scanner  sc;
-		String   ligne;
-		String[] tabMots;
+		Scanner                sc;
+		String                 ligne;
+		String[]               tabMots;
+		String                 nomClasse;
+		String                 typeClasse;
+		int                    posX;
+		int                    posY;
+		int                    nbAttribut;
+		String                 nomAttribut;
+		String                 typeAttribut;
+		String                 visibiliteAttribut;
+		boolean                estStatic;
+		boolean                estFinal;
+		String                 nomMethode;
+		String                 visibiliteMethode;
+		String                 typeRetour;
+		String                 typeParam;
+		String                 nomParam;
+		int                    nbParam;
+		boolean                estPremiere;
+		ArrayList<Attribut>    lstAttribut;
+		ArrayList<Methode>     lstMethode;
+		ArrayList<Parametre>   lstParametre;
+		ArrayList<Association> lstAssociation;
+		ArrayList<LireFichier> lstLireFichiers;
+		int                    cptTemporaire;
+		boolean                ligneEstTraite;
+		LireAttribut           lireAttribut;
+		LireMethode            lireMethode;
+		LireFichier            lF;
+		LireDossier            lireDossier;
 
-		String nomClasse  = "";
-		String typeClasse = "";
+		nomClasse      = "";
+		typeClasse     = "";
+		posX           = 0;
+		posY           = 0;
+		estStatic      = false;
+		estFinal       = false;
+		estPremiere    = false;
+		ligneEstTraite = false;
 
-		int posX = 0;
-		int posY = 0;
-
-		int     nbAttribut;
-		String  nomAttribut;
-		String  typeAttribut;
-		String  visibiliteAttribut;
-
-		boolean estStatic = false;
-		boolean estFinal  = false;
-
-
-		String nomMethode;
-		String VisibiliteMethode;
-		String typeRetour;
-
-		String typeParam;
-		String nomParam;
-
-		int nbParam;
-
-
-		boolean estpremiere = false;
-
-
-		ArrayList<Attribut>    lstAttribut    = new ArrayList<Attribut   >();
-		ArrayList<Methode>     lstMethode     = new ArrayList<Methode    >();
-		ArrayList<Parametre>   lstParametre   = new ArrayList<Parametre  >();
-		ArrayList<Association> lstAssociation = new ArrayList<Association>();
-
-		ArrayList<LireFichier> lstLireFichiers = new ArrayList<LireFichier>();
-
-		int     cptTemporaire;
-		boolean ligneEstTraite = false;
+		lstAttribut     = new ArrayList<Attribut>();
+		lstMethode      = new ArrayList<Methode>();
+		lstParametre    = new ArrayList<Parametre>();
+		lstAssociation  = new ArrayList<Association>();
+		lstLireFichiers = new ArrayList<LireFichier>();
 
 		try
 		{
-			sc = new Scanner ( new FileInputStream ( chemin ), "UTF8" );
+			sc = new Scanner( new FileInputStream( chemin ), "UTF8" );
 
-
-			//boucle pour parcourir tout le fichier de sauvegarde
+			/* Parcours de tout le fichier de sauvegarde */
 			while ( sc.hasNextLine() )
 			{
 				ligne = sc.nextLine();
 				ligne = ligne.trim();
 
-				//on récupère les données de la classe
-				if(    !ligne.startsWith("-") && !ligne.startsWith("+") && !ligne.isBlank()
-					&& !ligne.contains("Association") && !ligne.contains("=") && !ligne.contains("étend")
-				    && !ligne.contains("implémente"))
+				/* Récupération des données de la classe principale */
+				if ( !ligne.startsWith( "-" ) && !ligne.startsWith( "+" ) && !ligne.isBlank()
+					&& !ligne.contains( "Association" ) && !ligne.contains( "=" ) 
+					&& !ligne.contains( "étend" ) && !ligne.contains( "implémente" ) )
 				{
 					tabMots = this.decomposerLigne.decomposerLigne( ligne );
-					for(String s : TAB_MOTCLE)
+					
+					/* Identification du type de classe */
+					for ( String s : this.TAB_MOTCLE )
 					{
-						if(s.equals(tabMots[0]))
+						if ( s.equals( tabMots[0] ) )
 							typeClasse = s;
 					}
 
 					nomClasse = tabMots[1];
+					posX      = Integer.parseInt( tabMots[2] );
+					posY      = Integer.parseInt( tabMots[3] );
 
-					posX = Integer.parseInt(tabMots[2]);
-					posY = Integer.parseInt(tabMots[3]);
-
-
-					//on supprime le contenu des listes pour les prochaines classes
-					lstMethode   = new ArrayList<Methode    >();
-					lstAttribut    = new ArrayList<Attribut   >();
+					/* Réinitialisation des listes pour la prochaine classe */
+					lstMethode  = new ArrayList<Methode>();
+					lstAttribut = new ArrayList<Attribut>();
 
 					lstMethode .clear();
 					lstAttribut.clear();
@@ -116,97 +135,97 @@ public class LireData implements Serializable
 					continue;
 				}
 
-
-				//on traite les attributs
-				if(ligne.startsWith("+"))
+				/* Traitement des attributs de la classe */
+				if ( ligne.startsWith( "+" ) )
 				{
-					nbAttribut = 0;
-
+					nbAttribut     = 0;
 					ligneEstTraite = true;
 
-					while(sc.hasNextLine())
+					while ( sc.hasNextLine() )
 					{
 						estStatic = false;
 						estFinal  = false;
 
 						ligne = sc.nextLine();
 
-						if(ligne.isBlank())
+						if ( ligne.isBlank() )
 							continue;
 
-						if(ligne.startsWith("-") || ligne.startsWith("="))
+						/* Fin de la section attributs */
+						if ( ligne.startsWith( "-" ) || ligne.startsWith( "=" ) )
 						{
-							estpremiere = true;
+							estPremiere = true;
 							break;
 						}
 
 						tabMots = this.decomposerLigne.decomposerLigne( ligne );
 
-
-						if(tabMots.length == 1)
+						/* Cas d'un attribut sans type ni visibilité */
+						if ( tabMots.length == 1 )
 						{
-							nomAttribut = tabMots[0];
-							typeAttribut = null;
+							nomAttribut        = tabMots[0];
+							typeAttribut       = null;
 							visibiliteAttribut = "protected";
 
 							continue;
 						}
 
-
 						visibiliteAttribut = tabMots[0];
+						cptTemporaire      = 1;
 
-						cptTemporaire = 1;
-
-						//on regarde si l'attribut est static ou final
-						for(int i = 1; i < tabMots.length; i++)
+						/* Vérification des modificateurs static et final */
+						for ( int i = 1; i < tabMots.length; i++ )
 						{
-							if(tabMots[i].equals("final"))
+							if ( tabMots[i].equals( "final" ) )
 							{
 								estFinal = true;
 								cptTemporaire++;
 							}
 
-							if(tabMots[i].equals("static"))
+							if ( tabMots[i].equals( "static" ) )
 							{
 								estStatic = true;
 								cptTemporaire++;
 							}
 						}
 
-						typeAttribut = tabMots[cptTemporaire  ];
-						nomAttribut  = tabMots[cptTemporaire+1];
+						typeAttribut = tabMots[cptTemporaire];
+						nomAttribut  = tabMots[cptTemporaire + 1];
 
 						nbAttribut++;
 
-						lstAttribut.add(new Attribut(nbAttribut, nomAttribut, typeAttribut, visibiliteAttribut, estStatic, estFinal, false, false));
+						/* Ajout de l'attribut dans la liste */
+						lstAttribut.add( new Attribut( nbAttribut, nomAttribut, typeAttribut, 
+													visibiliteAttribut, estStatic, estFinal, 
+													false, false ) );
 					}
 				}
 
-
-				//on traite les méthodes
-				if(ligne.startsWith("-"))
+				/* Traitement des méthodes de la classe */
+				if ( ligne.startsWith( "-" ) )
 				{
-					if(!ligneEstTraite)
-						estpremiere = true;
+					if ( !ligneEstTraite )
+						estPremiere = true;
 
-					while(sc.hasNextLine())
+					while ( sc.hasNextLine() )
 					{
-						if( !estpremiere )
+						if ( !estPremiere )
 						{
 							ligne = sc.nextLine();
 						}
 						else
 						{
-							estpremiere = false;
+							estPremiere = false;
 						}
 
 						estStatic = false;
 						estFinal  = false;
 
-						if(ligne.isBlank())
+						if ( ligne.isBlank() )
 							continue;
 
-						if(ligne.startsWith("="))
+						/* Fin de la section méthodes */
+						if ( ligne.startsWith( "=" ) )
 							break;
 
 						nbParam       = 0;
@@ -214,51 +233,49 @@ public class LireData implements Serializable
 
 						tabMots = this.decomposerLigne.decomposerLigne( ligne );
 
-						VisibiliteMethode = tabMots[0];
+						visibiliteMethode = tabMots[0];
 
-
-						//on regarde si c'est un final ou static
-						for(int i = 1; i < tabMots.length; i++)
+						/* Vérification des modificateurs static et final */
+						for ( int i = 1; i < tabMots.length; i++ )
 						{
-							if(tabMots[i].equals("final"))
+							if ( tabMots[i].equals( "final" ) )
 							{
 								estFinal = true;
 								cptTemporaire++;
 							}
 
-							if(tabMots[i].equals("static"))
+							if ( tabMots[i].equals( "static" ) )
 							{
 								estStatic = true;
 								cptTemporaire++;
 							}
 						}
 
-
-
-						//on regarde si c'est un constructeur
-						if(tabMots[1].equals(nomClasse))
+						/* Vérification si c'est un constructeur */
+						if ( tabMots[1].equals( nomClasse ) )
 						{
 							nomMethode = tabMots[1];
 							typeRetour = null;
 
-							for(String s : tabMots)
-								System.out.print(s);
+							for ( String s : tabMots )
+								System.out.print( s );
 
 							System.out.println();
 
-							//on récupère d'éventuels paramètres pour le constructeur
-							if(tabMots.length > 2)
-							for(int i = 2; i < tabMots.length; i+=2)
-							{
-								typeParam = tabMots[i  ];
-								nomParam  = tabMots[i+1];
+							/* Récupération des paramètres du constructeur */
+							if ( tabMots.length > 2 )
+								for ( int i = 2; i < tabMots.length; i += 2 )
+								{
+									typeParam = tabMots[i];
+									nomParam  = tabMots[i + 1];
 
-								nbParam++;
+									nbParam++;
 
-								lstParametre.add(new Parametre(nbParam, nomParam, typeParam));
-							}
+									lstParametre.add( new Parametre( nbParam, nomParam, typeParam ) );
+								}
 
-							lstMethode.add(new Methode(nomMethode, VisibiliteMethode, typeRetour, lstParametre, estStatic, estFinal));
+							lstMethode.add( new Methode( nomMethode, visibiliteMethode, typeRetour, 
+														lstParametre, estStatic, estFinal ) );
 
 							lstParametre = new ArrayList<Parametre>();
 							lstParametre.clear();
@@ -271,189 +288,207 @@ public class LireData implements Serializable
 
 						cptTemporaire--;
 
+						/* Création des paramètres de la méthode */
+						if ( tabMots.length > 2 )
+							for ( int i = 1 + cptTemporaire; i < tabMots.length; i += 2 )
+							{
+								typeParam = tabMots[i];
+								nomParam  = tabMots[i + 1];
 
-						//on créé les paramètres de la méthode
-						if(tabMots.length > 2)
-						for(int i = 1 +cptTemporaire; i < tabMots.length; i+=2)
-						{
-							typeParam = tabMots[i  ];
-							nomParam  = tabMots[i+1];
+								nbParam++;
 
-							nbParam++;
+								lstParametre.add( new Parametre( nbParam, nomParam, typeParam ) );
+							}
 
-							lstParametre.add(new Parametre(nbParam, nomParam, typeParam));
-						}
-
-
-						//on rajoute la nouvelle méthode dans la liste de méthode
-						lstMethode.add(new Methode(nomMethode, VisibiliteMethode, typeRetour, lstParametre, estStatic, estFinal));
+						/* Ajout de la nouvelle méthode dans la liste */
+						lstMethode.add( new Methode( nomMethode, visibiliteMethode, typeRetour, 
+													lstParametre, estStatic, estFinal ) );
 
 						lstParametre = new ArrayList<Parametre>();
 						lstParametre.clear();
 					}
-
 				}
 
-
-				//on créé une nouvelle classe à la fin de la lecture de ses attributs
-				if(ligne.startsWith("=") && !ligne.contains("ASSOCIATIONS") && !ligne.contains("extends") && !ligne.contains("implements"))
+				/* Création d'une nouvelle classe avec ses attributs et méthodes */
+				if ( ligne.startsWith( "=" ) && !ligne.contains( "ASSOCIATIONS" ) 
+					&& !ligne.contains( "extends" ) && !ligne.contains( "implements" ) )
 				{
-					//on créé les objets nécessaires pour la création d'une classe
-					LireAttribut lireAttribut = new LireAttribut(lstAttribut);
-					LireMethode  lireMethode  = new LireMethode(lstMethode);
+					lireAttribut = new LireAttribut( lstAttribut );
+					lireMethode  = new LireMethode( lstMethode );
 
-					LireFichier lF = new LireFichier(nomClasse, typeClasse, lireMethode, lireAttribut, posX, posY);
-					lstLireFichiers.add(lF);
+					lF = new LireFichier( nomClasse, typeClasse, lireMethode, lireAttribut, 
+										posX, posY );
+					lstLireFichiers.add( lF );
 
-					lF.setLireHeritImplement(new LireHeritImple(lF));
+					lF.setLireHeritImplement( new LireHeritImple( lF ) );
 				}
 
-
-				//création et traitement des associations
-				if(ligne.contains("Association"))
+				/* Création et traitement des associations entre classes */
+				if ( ligne.contains( "Association" ) )
 				{
-					while(sc.hasNextLine())
+					while ( sc.hasNextLine() )
 					{
-						String nomClasseA    = "";
-						String nomClasseB    = "";
-						String multipliciteA = "";
-						String multipliciteB = "";
+						String nomClasseA;
+						String nomClasseB;
+						String multipliciteA;
+						String multipliciteB;
+						int    emplacementA;
+						int    emplacementB;
 
-						int emplacementA = 0;
-						int emplacementB = 0;
+						nomClasseA    = "";
+						nomClasseB    = "";
+						multipliciteA = "";
+						multipliciteB = "";
+						emplacementA  = 0;
+						emplacementB  = 0;
 
 						ligne = sc.nextLine();
 
-						if(ligne.isBlank())
+						if ( ligne.isBlank() )
 							continue;
 
-						//on passe au prochain traitement si il y a un égal
-						if(ligne.startsWith("="))
+						/* Fin de la section associations */
+						if ( ligne.startsWith( "=" ) )
 						{
-							estpremiere = true;
+							estPremiere = true;
 							break;
 						}
 
-						tabMots = this.decomposerLigne.decomposerLigne(ligne);
-						for(int cpt = 0; cpt < tabMots.length; cpt++)
+						tabMots = this.decomposerLigne.decomposerLigne( ligne );
+						
+						/* Identification des classes associées */
+						for ( int cpt = 0; cpt < tabMots.length; cpt++ )
 						{
-							for(Methode m : lstMethode)
+							for ( Methode m : lstMethode )
 							{
-								if(m.getNom().equals(tabMots[cpt]))
+								if ( m.getNom().equals( tabMots[cpt] ) )
 								{
-									if(nomClasseA.isBlank())
+									if ( nomClasseA.isBlank() )
 									{
 										nomClasseA   = m.getNom();
 										emplacementA = cpt;
 									}
 									else
 									{
-										nomClasseB = m.getNom();
+										nomClasseB   = m.getNom();
 										emplacementB = cpt;
 									}
 								}
 							}
 						}
 
-						lstAssociation.add(new Association(nomClasseA, nomClasseB, multipliciteA, multipliciteB));
+						lstAssociation.add( new Association( nomClasseA, nomClasseB, 
+															multipliciteA, multipliciteB ) );
 					}
 				}
 
-				//création et traitement des extends
-				if(ligne.contains("extends"))
+				/* Création et traitement des relations d'héritage */
+				if ( ligne.contains( "extends" ) )
 				{
-					while(sc.hasNextLine())
+					while ( sc.hasNextLine() )
 					{
-						LireFichier lF1 = null;
-						LireFichier lF2 = null;
+						LireFichier lF1;
+						LireFichier lF2;
 
-						if(!estpremiere)
+						lF1 = null;
+						lF2 = null;
+
+						if ( !estPremiere )
 							ligne = sc.nextLine();
 						else
-							estpremiere = false;
+							estPremiere = false;
 
-						if(ligne.isBlank())
+						if ( ligne.isBlank() )
 							continue;
 
-						//on passe au prochain traitement si il y a un égal
-						if(ligne.startsWith("="))
+						/* Fin de la section extends */
+						if ( ligne.startsWith( "=" ) )
 						{
-							estpremiere = true;
+							estPremiere = true;
 							break;
 						}
 
-						//on décompose la ligne
-						tabMots = this.decomposerLigne.decomposerLigne(ligne);
+						tabMots = this.decomposerLigne.decomposerLigne( ligne );
 
-						for(LireFichier lF : lstLireFichiers)
+						/* Recherche des classes parent et enfant */
+						for ( LireFichier lireFichier : lstLireFichiers )
 						{
-							if(lF.getNomClasse().equals(tabMots[1]))
-								lF1 = lF;
+							if ( lireFichier.getNomClasse().equals( tabMots[1] ) )
+								lF1 = lireFichier;
 
-							if(lF.getNomClasse().equals(tabMots[3]))
-								lF2 = lF;
+							if ( lireFichier.getNomClasse().equals( tabMots[3] ) )
+								lF2 = lireFichier;
 						}
 
-						lF1.getLireHeritImplement().setHerit(lF1.getNomClasse(), lF2.getNomClasse());
+						lF1.getLireHeritImplement().setHerit( lF1.getNomClasse(), 
+															lF2.getNomClasse() );
 					}
 				}
 
-
-				//création et traitement des impelements
-				if(ligne.contains("implements"))
+				/* Création et traitement des implémentations d'interfaces */
+				if ( ligne.contains( "implements" ) )
 				{
-					while(sc.hasNextLine())
+					while ( sc.hasNextLine() )
 					{
-						LireFichier lF1 = null;
-						LireFichier lF2 = null;
+						LireFichier       lF1;
+						LireFichier       lF2;
+						ArrayList<String> lstImplement;
 
-						if(!estpremiere)
+						lF1 = null;
+						lF2 = null;
+
+						if ( !estPremiere )
 							ligne = sc.nextLine();
 						else
-							estpremiere = false;
+							estPremiere = false;
 
-						if(ligne.isBlank())
+						if ( ligne.isBlank() )
 							continue;
 
-						//on passe au prochain traitement si il y a un égal
-						if(ligne.startsWith("="))
+						/* Fin de la section implements */
+						if ( ligne.startsWith( "=" ) )
 						{
-							estpremiere = true;
+							estPremiere = true;
 							break;
 						}
 
-						//on décompose la ligne
-						tabMots = this.decomposerLigne.decomposerLigne(ligne);
+						tabMots = this.decomposerLigne.decomposerLigne( ligne );
 
-						for(LireFichier lF : lstLireFichiers)
+						/* Recherche des classes et interfaces */
+						for ( LireFichier lireFichier : lstLireFichiers )
 						{
-							if(lF.getNomClasse().equals(tabMots[1]))
-								lF1 = lF;
+							if ( lireFichier.getNomClasse().equals( tabMots[1] ) )
+								lF1 = lireFichier;
 
-							if(lF.getNomClasse().equals(tabMots[3]))
-								lF2 = lF;
+							if ( lireFichier.getNomClasse().equals( tabMots[3] ) )
+								lF2 = lireFichier;
 						}
 
-						ArrayList<String> lstImplement = new ArrayList<String>();
-						lstImplement.add(lF2.getNomClasse());
+						lstImplement = new ArrayList<String>();
+						lstImplement.add( lF2.getNomClasse() );
 
-						lF1.getLireHeritImplement().setImplement(lF1.getNomClasse(), lstImplement);
+						lF1.getLireHeritImplement().setImplement( lF1.getNomClasse(), 
+																lstImplement );
 					}
 				}
 			}
 
-			LireDossier lireDossier = new LireDossier(lstLireFichiers, lstAssociation, ctrl);
+			/* Création du dossier global et liaison avec le contrôleur */
+			lireDossier = new LireDossier( lstLireFichiers, lstAssociation, this.ctrl );
 
-			this.ctrl.setLireDossier(lireDossier);
+			this.ctrl.setLireDossier( lireDossier );
 
-			//rajouter une liaison entre le LireDossier et les LireFichiers
-			for(LireFichier lF : lireDossier.getListeFichiers())
+			/* Liaison bidirectionnelle entre LireDossier et LireFichiers */
+			for ( LireFichier lireFichier : lireDossier.getListeFichiers() )
 			{
-				lF.setLireDossier(lireDossier);
+				lireFichier.setLireDossier( lireDossier );
 			}
 
 			sc.close();
 		}
-		catch (Exception e){ e.printStackTrace(); }
-    }
+		catch ( Exception e )
+		{ 
+			e.printStackTrace(); 
+		}
+	}
 }

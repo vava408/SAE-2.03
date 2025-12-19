@@ -6,8 +6,7 @@ import java.io.Serializable;
 * Classe représentant un attribut d'une classe dans un diagramme UML
 * 
 * Exercice    : Génération de diagrammes UML
-* Groupe      : [Numéro de groupe]
-* Auteurs     : [Noms des auteurs]
+* Auteurs     : groupe 6
 * Date/Heure  : 19/12/2024 14:30
 */
 

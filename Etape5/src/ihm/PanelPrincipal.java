@@ -16,7 +16,6 @@ import src.metier.LireFichier;
 /* PanelPrincipal.java                                    */
 /* Panneau principal pour l'affichage des diagrammes UML  */
 /* Projet : Générateur de diagrammes UML                  */
-/* Groupe : 6                                             */
 /* Auteurs : Groupe 6                                     */
 /* Date de création : 18/12/2025 14:30                    */
 /*--------------------------------------------------------*/

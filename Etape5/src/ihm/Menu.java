@@ -37,7 +37,6 @@ public class Menu extends JMenuBar implements ActionListener
 	private JMenuItem        itemOuvrirSauvegarde;
 	private JMenuItem        itemQuitter;
 	private JMenuItem        itemExporter;
-	private JMenuItem        itemRefresh;
 	private JMenuItem        itemOuvrirData;
 	private Runnable         onActualiser;
 
@@ -65,7 +64,6 @@ public class Menu extends JMenuBar implements ActionListener
 		this.itemOuvrirData       = new JMenuItem( "Ouvrir data"          );
 		this.itemOuvrirSauvegarde = new JMenuItem( "Ouvrir la sauvegarde" );
 		this.itemExporter         = new JMenuItem( "Exporter"             );
-		this.itemRefresh          = new JMenuItem( "Rafraîchir"           );
 		this.itemQuitter          = new JMenuItem( "Quitter"              );
 
 		/* Ajout des items dans le menu */
@@ -74,7 +72,6 @@ public class Menu extends JMenuBar implements ActionListener
 		this.menuFichier.add( this.itemOuvrirData       );
 		this.menuFichier.add( this.itemOuvrirSauvegarde );
 		this.menuFichier.add( this.itemExporter         );
-		this.menuFichier.add( this.itemRefresh          );
 		this.menuFichier.addSeparator();
 		this.menuFichier.add( this.itemQuitter          );
 
@@ -87,7 +84,6 @@ public class Menu extends JMenuBar implements ActionListener
 		this.itemOuvrirData      .setActionCommand( "ouvrirData"       );
 		this.itemOuvrirSauvegarde.setActionCommand( "ouvrirSauvegarde" );
 		this.itemExporter        .setActionCommand( "exporter"         );
-		this.itemRefresh         .setActionCommand( "refresh"          );
 		this.itemQuitter         .setActionCommand( "quitter"          );
 
 		/* Enregistrement des listeners */
@@ -96,7 +92,6 @@ public class Menu extends JMenuBar implements ActionListener
 		this.itemOuvrirData      .addActionListener( this );
 		this.itemOuvrirSauvegarde.addActionListener( this );
 		this.itemExporter        .addActionListener( this );
-		this.itemRefresh         .addActionListener( this );
 		this.itemQuitter         .addActionListener( this );
 	}
 
@@ -144,15 +139,6 @@ public class Menu extends JMenuBar implements ActionListener
 		return this.itemExporter; 
 	}
 
-	/**
-	 * Retourne l'item de menu Rafraîchir.
-	 * 
-	 * @return L'item de menu pour rafraîchir
-	 */
-	public JMenuItem getItemRefresh() 
-	{ 
-		return this.itemRefresh; 
-	}
 
 	/**
 	 * Retourne l'item de menu Quitter.
@@ -189,7 +175,6 @@ public class Menu extends JMenuBar implements ActionListener
 			case "ouvrirData"       -> this.ouvrirData();
 			case "ouvrirSauvegarde" -> this.ouvrirSauvegarde();
 			case "exporter"         -> this.exporter();
-			case "refresh"          -> this.refresh();
 			case "quitter"          -> System.exit( 0 );
 			default                 -> { }
 		}
@@ -286,25 +271,6 @@ public class Menu extends JMenuBar implements ActionListener
 			}
 		} 
 		catch ( Exception ex )
-		{
-			/* Gestion silencieuse de l'erreur */
-		}
-	}
-
-	/**
-	 * Rafraîchit l'affichage du diagramme UML.
-	 * Exécute la fonction de rappel onActualiser si elle est définie.
-	 */
-	public void refresh()
-	{
-		try
-		{
-			if ( this.onActualiser != null ) 
-			{
-				this.onActualiser.run();
-			}
-		} 
-		catch ( Exception ex ) 
 		{
 			/* Gestion silencieuse de l'erreur */
 		}

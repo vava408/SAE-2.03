@@ -93,7 +93,6 @@ public class FrameUML extends JFrame
 		this.ctrl.lireData(chemin);
 
 		this.panelPrincipal   .instancierPanel();
-		this.panelListeFichier.instancierPanel();
 	}
 
 	private void afficherChoixOuverture()

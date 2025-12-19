@@ -178,7 +178,7 @@ public class LireData implements Serializable
 
 						nbAttribut++;
 
-						lstAttribut.add(new Attribut(nbAttribut, nomAttribut, typeAttribut, visibiliteAttribut, estStatic, estFinal, false));
+						lstAttribut.add(new Attribut(nbAttribut, nomAttribut, typeAttribut, visibiliteAttribut, estStatic, estFinal, false, false));
 					}
 				}
 

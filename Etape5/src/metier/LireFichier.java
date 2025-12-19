@@ -341,12 +341,12 @@ public class LireFichier implements Serializable
 		for ( Attribut a : getListeAttributs() )
 		{
 			//on rajoute *6 à la fin pour la taille en pixel d'un caractère
-			this.largeurMax = Math.max( this.largeurMax, this.lectureDossier.getVueAttributs(a).length() *6 + 30 );
+			this.largeurMax = Math.max( this.largeurMax, this.lectureDossier.getVueAttributs(a).length() *7 + 30 );
 		}
 
 		for ( Methode m : getListeMethodes() )
 		{
-			this.largeurMax = Math.max( this.largeurMax, this.lectureDossier.getVueMethode(m).length() *6 + 30 );
+			this.largeurMax = Math.max( this.largeurMax, this.lectureDossier.getVueMethode(m).length() *7 + 30 );
 		}
 
 		return largeurMax;

@@ -501,7 +501,7 @@ public class PanelPrincipal extends JLayeredPane
 		margeVerticale   = 50;
 		x                = margeHorizontale;
 		y                = margeVerticale;
-		ligneMax         = 3; /* Nombre de blocs par ligne */
+		ligneMax         = 4; /* Nombre de blocs par ligne */
 		compteur         = 0;
 
 		for ( Bloc b : this.hMBlocs.keySet() ) 

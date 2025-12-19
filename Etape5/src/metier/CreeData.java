@@ -68,14 +68,13 @@ public class CreeData
 	 * @param lf le fichier de la classe
 	 * @throws IOException si une erreur d'entrée/sortie survient
 	 */
-	private void ecrireClasse( BufferedWriter writer, LireFichier lf )
-		throws IOException
+	private void ecrireClasse( BufferedWriter writer, LireFichier lf ) throws IOException
 	{
-		writer.write( lf.getMotCle() + " " );
+		writer.write( lf.getMotCle()    + " "                        );
 		writer.write( lf.getNomClasse() + " " + lf.getPosX() + " " +
-			lf.getPosY() );
-		writer.newLine();
+			                                    lf.getPosY()         );
 
+		writer.newLine();
 		writer.newLine();
 		/* Écrire les attributs de la classe */
 		for ( Attribut a : lf.getListeAttributs() )
@@ -91,6 +90,7 @@ public class CreeData
 			writer.write( "- " + m.toString() );
 			writer.newLine();
 		}
+		
 		writer.newLine();
 
 		writer.write( "=== \n" );
@@ -102,8 +102,7 @@ public class CreeData
 	 * @param dossier le dossier contenant les associations
 	 * @throws IOException si une erreur d'entrée/sortie survient
 	 */
-	private void ecrireAssociations( BufferedWriter writer, LireDossier dossier )
-		throws IOException
+	private void ecrireAssociations( BufferedWriter writer, LireDossier dossier ) throws IOException
 	{
 		writer.write( "===== ASSOCIATIONS =====" );
 		writer.newLine();
@@ -121,8 +120,7 @@ public class CreeData
 	 * @param dossier le dossier contenant les classes
 	 * @throws IOException si une erreur d'entrée/sortie survient
 	 */
-	private void ecrireHeritages( BufferedWriter writer, LireDossier dossier )
-		throws IOException
+	private void ecrireHeritages( BufferedWriter writer, LireDossier dossier ) throws IOException
 	{
 		writer.write( "===== extends =====" );
 		writer.newLine();
@@ -145,8 +143,7 @@ public class CreeData
 	 * @throws IOException si une erreur d'entrée/sortie survient
 	 */
 	private void ecrireImplementations( BufferedWriter writer,
-		LireDossier dossier )
-		throws IOException
+		LireDossier dossier ) throws IOException
 	{
 		writer.write( "===== implements =====" );
 		writer.newLine();

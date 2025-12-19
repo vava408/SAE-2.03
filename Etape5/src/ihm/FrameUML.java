@@ -14,204 +14,315 @@ import src.membres.Attribut;
 import src.membres.Methode;
 import src.metier.LireFichier;
 
+/**
+ * Fenêtre principale de l'application de génération de diagrammes UML.
+ * Gère l'affichage du diagramme, les interactions utilisateur et les
+ * opérations d'ouverture/sauvegarde de fichiers.
+ * 
+ * Exercice : Générateur de diagrammes UML
+ * Groupe : 6
+ * Auteurs : Groupe 6
+ * Date de création : 10/12/2025 15:15
+ */
 public class FrameUML extends JFrame
 {
-	private Controleur        ctrl;
+   /*--------------------------------------------------------------*/
+   /* Déclaration des attributs                                    */
+   /*--------------------------------------------------------------*/
+   
+   private Controleur      ctrl;
+   private Menu            menuBar;
+   private PanelPrincipal  panelPrincipal;
+   private JScrollPane     scrollPanelPrincipal;
 
-	private Menu              menuBar;
-	private PanelPrincipal    panelPrincipal;
+   /*--------------------------------------------------------------*/
+   /* Constructeur                                                 */
+   /*--------------------------------------------------------------*/
+   
+   /**
+	* Construit la fenêtre principale de l'application UML.
+	* @param ctrl le contrôleur de l'application
+	*/
+   public FrameUML( Controleur ctrl )
+   {
+	  this.ctrl = ctrl;
 
-	private JScrollPane       scrollPanelPrincipal;
+	  this.setTitle   ( "Schéma UML"        );
+	  this.setLocation( 50, 25              );
+	  this.setSize    ( 1400, 800           );
+	  this.setLayout  ( new BorderLayout()  );
 
-	public FrameUML( Controleur ctrl )
-	{
-		this.ctrl = ctrl;
+	  this.menuBar        = new Menu           ( this );
+	  this.panelPrincipal = new PanelPrincipal ( this );
 
-		this.setTitle   ( "Schéma UML" );
-		this.setLocation( 50, 25       );
-		this.setSize    ( 1400, 800     );
-		this.setLayout  ( new BorderLayout() );
+	  /* Création du ScrollPane */
+	  this.scrollPanelPrincipal = new JScrollPane( this.panelPrincipal );
+	  this.scrollPanelPrincipal.setHorizontalScrollBarPolicy( JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
+	  this.scrollPanelPrincipal.setVerticalScrollBarPolicy  ( JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED   );
 
-		this.menuBar           = new Menu             ( this );
-		this.panelPrincipal    = new PanelPrincipal   ( this );
+	  /*------------------------------------------*/
+	  /* Positionnement des composants            */
+	  /*------------------------------------------*/
+	  
+	  this.add( this.menuBar              , BorderLayout.NORTH  );
+	  this.add( this.scrollPanelPrincipal , BorderLayout.CENTER );
 
-		// --- ScrollPane ---
-		this.scrollPanelPrincipal = new JScrollPane( this.panelPrincipal );
-		this.scrollPanelPrincipal.setHorizontalScrollBarPolicy( JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
-		this.scrollPanelPrincipal.setVerticalScrollBarPolicy  ( JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED   );
+	  /*------------------------------------------*/
+	  /* Finalisation                             */
+	  /*------------------------------------------*/
+	  
+	  this.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+	  this.setVisible( true );
 
-		/*-------------------------------*/
-		/* positionnement des composants */
-		/*-------------------------------*/
+	  this.afficherChoixOuverture();
+   }
 
-		this.add( this.menuBar              , BorderLayout.NORTH  );
-		this.add( this.scrollPanelPrincipal , BorderLayout.CENTER );
+   /*--------------------------------------------------------------*/
+   /* Accesseurs                                                   */
+   /*--------------------------------------------------------------*/
+   
+   /**
+	* Retourne le nombre de classes chargées.
+	* @return nombre de classes
+	*/
+   public int getNbClasses()
+   {
+	  return this.ctrl.getNbClasses();
+   }
 
-		/*-------------------------------*/
-		/* Finalisation                  */
-		/*-------------------------------*/
-		this.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-		this.setVisible( true );
+   /**
+	* Retourne la liste des fichiers analysés.
+	* @return liste des fichiers
+	*/
+   public ArrayList<LireFichier> getListeFichiers()
+   {
+	  return this.ctrl.getListeFichiers();
+   }
 
-		this.afficherChoixOuverture();
-	}
-	
-	public int getNbClasses()
-	{
-		return this.ctrl.getNbClasses();
-	}
+   /**
+	* Retourne la liste des associations entre classes.
+	* @return liste des associations
+	*/
+   public ArrayList<Association> getListeAssociation()
+   {
+	  return this.ctrl.getListeAssociation();
+   }
 
-	public ArrayList<LireFichier> getListeFichiers()
-	{
-		return this.ctrl.getListeFichiers();
-	}
-	
-	public ArrayList<Association> getListeAssociation()
-	{
-		return this.ctrl.getListeAssociation();
-	}
-	
-	public HashMap<Association, ArrayList<String>> gethMAttributsAssociations()
-	{
-		return this.ctrl.gethMAttributsAssociations();
-	}
-	
-	public void setPosition( LireFichier lF, int x, int y )
-	{
-		this.ctrl.setPosition( lF, x, y );
-	}
+   /**
+	* Retourne la map des attributs d'associations.
+	* @return map associant chaque association à ses attributs
+	*/
+   public HashMap<Association, ArrayList<String>> gethMAttributsAssociations()
+   {
+	  return this.ctrl.gethMAttributsAssociations();
+   }
 
-	public void lireDossier( String chemin )
-	{
-		this.ctrl.lireDossier( chemin );
+   /*--------------------------------------------------------------*/
+   /* Modificateurs                                                */
+   /*--------------------------------------------------------------*/
+   
+   /**
+	* Définit la position d'une classe dans le diagramme.
+	* @param lF le fichier représentant la classe
+	* @param x position horizontale
+	* @param y position verticale
+	*/
+   public void setPosition( LireFichier lF, int x, int y )
+   {
+	  this.ctrl.setPosition( lF, x, y );
+   }
 
-		this.panelPrincipal   .instancierPanel();
-	}
+   /*--------------------------------------------------------------*/
+   /* Autres méthodes                                              */
+   /*--------------------------------------------------------------*/
+   
+   /**
+	* Lit et analyse un dossier contenant des fichiers Java.
+	* @param chemin chemin du dossier à lire
+	*/
+   public void lireDossier( String chemin )
+   {
+	  this.ctrl.lireDossier( chemin );
+	  this.panelPrincipal.instancierPanel();
+   }
 
-	public void lireData(String chemin)
-	{
-		this.ctrl.lireData(chemin);
+   /**
+	* Charge un fichier de sauvegarde .data.
+	* @param chemin chemin du fichier .data à charger
+	*/
+   public void lireData( String chemin )
+   {
+	  this.ctrl.lireData( chemin );
+	  this.panelPrincipal.instancierPanel();
+   }
 
-		this.panelPrincipal   .instancierPanel();
-	}
+   /**
+	* Affiche une boîte de dialogue pour choisir entre fichier .data ou dossier.
+	*/
+   private void afficherChoixOuverture()
+   {
+	  String[] options;
+	  int      choix;
 
-	private void afficherChoixOuverture()
-	{
-		String[] options = { "Ouvrir un fichier .data", "Ouvrir un dossier", "Annuler" };
+	  options = new String[] { "Ouvrir un fichier .data", "Ouvrir un dossier", "Annuler" };
 
-		int choix = JOptionPane.showOptionDialog(
-			this,
-			"Que voulez-vous ouvrir ?",
-			"Ouverture",
-			JOptionPane.DEFAULT_OPTION,
-			JOptionPane.QUESTION_MESSAGE,
-			null,
-			options,
-			options[0]
-		);
+	  choix = JOptionPane.showOptionDialog(
+											this,
+											"Que voulez-vous ouvrir ?",
+											"Ouverture",
+											JOptionPane.DEFAULT_OPTION,
+											JOptionPane.QUESTION_MESSAGE,
+											null,
+											options,
+											options[0]);
 
-		if ( choix == 0 )
-		{
-			ouvrirFichierData();
-		}
-		else if ( choix == 1 )
-		{
-			ouvrirDossier();
-		}
-		else
-		{
-			System.exit(0);
-		}
-	}
+	  if ( choix == 0 )
+	  {
+		 this.ouvrirFichierData();
+	  }
+	  else if ( choix == 1 )
+	  {
+		 this.ouvrirDossier();
+	  }
+	  else
+	  {
+		 System.exit( 0 );
+	  }
+   }
 
-	private void ouvrirDossier()
-	{
-		JFileChooser file = new JFileChooser();
-		file.setCurrentDirectory( new File( "./src/data" ) );
-		file.setFileSelectionMode( JFileChooser.DIRECTORIES_ONLY );
+   /**
+	* Ouvre un sélecteur de dossier et charge les fichiers Java.
+	*/
+   private void ouvrirDossier()
+   {
+	  JFileChooser file;
+	  int          retour;
+	  File         dossier;
 
-		int retour = file.showOpenDialog( this );
+	  file = new JFileChooser();
+	  file.setCurrentDirectory( new File( "./src/data" ) );
+	  file.setFileSelectionMode( JFileChooser.DIRECTORIES_ONLY );
 
-		if ( retour == JFileChooser.APPROVE_OPTION )
-		{
-			File dossier = file.getSelectedFile();
+	  retour = file.showOpenDialog( this );
 
-			lireDossier( dossier.getAbsolutePath() );
+	  if ( retour == JFileChooser.APPROVE_OPTION )
+	  {
+		 dossier = file.getSelectedFile();
+		 this.lireDossier( dossier.getAbsolutePath() );
+		 this.maj();
+	  }
+   }
 
-			this.maj();
-		}
-	}
-	
-	private void ouvrirFichierData()
-	{
-		JFileChooser fileChooser = new JFileChooser();
-		fileChooser.setCurrentDirectory( new File( "./src/sauvegarde" ) );
-		fileChooser.setFileFilter( new javax.swing.filechooser.FileNameExtensionFilter( "Fichier .data", "data" ) );
+   /**
+	* Ouvre un sélecteur de fichier .data et charge la sauvegarde.
+	*/
+   private void ouvrirFichierData()
+   {
+	  JFileChooser fileChooser;
+	  int          retour;
+	  String       fichier;
 
-		int retour = fileChooser.showOpenDialog( this );
+	  fileChooser = new JFileChooser();
+	  fileChooser.setCurrentDirectory( new File( "./src/sauvegarde" ) );
+	  fileChooser.setFileFilter( 
+		 new javax.swing.filechooser.FileNameExtensionFilter( "Fichier .data", "data" ) );
 
-		if ( retour == JFileChooser.APPROVE_OPTION )
-		{
-			String fichier = fileChooser.getSelectedFile().getAbsolutePath();
+	  retour = fileChooser.showOpenDialog( this );
 
-			lireData(fichier);
-		}
-	}
+	  if ( retour == JFileChooser.APPROVE_OPTION )
+	  {
+		 fichier = fileChooser.getSelectedFile().getAbsolutePath();
+		 this.lireData( fichier );
+	  }
+   }
 
-	public String afficherAttribut( Attribut a )
-	{
-		return this.ctrl.afficherAttribut( a );
-	}
-	
-	public String afficherMethode( Methode m, boolean complet )
-	{
-		return this.ctrl.afficherMethode( m, complet );
-	}
+   /**
+	* Formate l'affichage d'un attribut.
+	* @param a l'attribut à afficher
+	* @return chaîne formatée de l'attribut
+	*/
+   public String afficherAttribut( Attribut a )
+   {
+	  return this.ctrl.afficherAttribut( a );
+   }
 
-	public boolean nomEstDansRepertoire( String nomClasse )
-	{
-		return this.ctrl.nomEstDansRepertoire( nomClasse );
-	}
+   /**
+	* Formate l'affichage d'une méthode.
+	* @param m la méthode à afficher
+	* @param complet si true, affiche tous les paramètres
+	* @return chaîne formatée de la méthode
+	*/
+   public String afficherMethode( Methode m, boolean complet )
+   {
+	  return this.ctrl.afficherMethode( m, complet );
+   }
 
-	public void exportToImage( String path )
-	{
-		this.panelPrincipal.exportToImage( path );
-	}
+   /**
+	* Vérifie si un nom de classe existe dans le répertoire chargé.
+	* @param nomClasse nom de la classe à vérifier
+	* @return true si la classe existe, false sinon
+	*/
+   public boolean nomEstDansRepertoire( String nomClasse )
+   {
+	  return this.ctrl.nomEstDansRepertoire( nomClasse );
+   }
 
-	public void maj()
-	{
-		this.panelPrincipal   .repaint();
-	}
+   /**
+	* Exporte le diagramme UML en image.
+	* @param path chemin de sauvegarde de l'image
+	*/
+   public void exportToImage( String path )
+   {
+	  this.panelPrincipal.exportToImage( path );
+   }
 
-	public void sauvegarder()
-	{
-		this.ctrl.sauvegarder();
-	}
+   /**
+	* Met à jour l'affichage du diagramme.
+	*/
+   public void maj()
+   {
+	  this.panelPrincipal.repaint();
+   }
 
-	public void charger(String path)
-	{
-		String result = "";
-			this.ctrl.charger(path);
-			if (this.ctrl.getLireDossier() != null)
-			{
-				result = "Chargement terminé.";
-				this.panelPrincipal.instancierPanel();
-			}
-			else
-			{
-				result = "Erreur lors du chargement.";
-			}
+   /**
+	* Sauvegarde l'état actuel du diagramme.
+	*/
+   public void sauvegarder()
+   {
+	  this.ctrl.sauvegarder();
+   }
 
-		JOptionPane.showOptionDialog(
-			this,
-			result,
-			"Ouverture",
-			JOptionPane.DEFAULT_OPTION,
-			JOptionPane.QUESTION_MESSAGE,
-			null,
-			new String[] { "OK" },
-			"OK"
-		);
+   /**
+	* Charge un fichier de sauvegarde et affiche le résultat.
+	* @param path chemin du fichier à charger
+	*/
+   public void charger( String path )
+   {
+	  String result;
 
-	}
+	  result = "";
+	  
+	  this.ctrl.charger( path );
+	  
+	  if ( this.ctrl.getLireDossier() != null )
+	  {
+		 result = "Chargement terminé.";
+		 this.panelPrincipal.instancierPanel();
+	  }
+	  else
+	  {
+		 result = "Erreur lors du chargement.";
+	  }
+
+	  JOptionPane.showOptionDialog(
+		 this,
+		 result,
+		 "Ouverture",
+		 JOptionPane.DEFAULT_OPTION,
+		 JOptionPane.QUESTION_MESSAGE,
+		 null,
+		 new String[] { "OK" },
+		 "OK"
+	  );
+   }
 }

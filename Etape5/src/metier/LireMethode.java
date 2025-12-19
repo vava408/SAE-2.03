@@ -1,125 +1,173 @@
 package src.metier;
+
 import java.io.Serializable;
 import java.util.ArrayList;
-
 import src.membres.Methode;
 import src.membres.Parametre;
 
+/**
+ * Classe chargée de lire et analyser les méthodes d'une classe Java.
+ * Détecte la visibilité, les modificateurs (static, final), les paramètres
+ * et le type de retour de chaque méthode ou constructeur.
+ * 
+ * Exercice : Générateur de diagrammes UML
+ * Groupe : 6
+ * Auteurs : Groupe 6
+ * Date de création : 10/12/2025 14:45
+ */
 public class LireMethode implements Serializable
 {
-	LireFichier                   lireFichier;
+   /*--------------------------------------------------------------*/
+   /* Déclaration des attributs                                    */
+   /*--------------------------------------------------------------*/
+   
+   private LireFichier           lireFichier;
+   private ArrayList<Methode>    listeMethodes;
 
-	private  ArrayList<Methode>    listeMethodes  = new ArrayList<Methode>();
-	
-	public LireMethode ( LireFichier lireFichier )
-	{
-		this.lireFichier = lireFichier;
-	}
+   /*--------------------------------------------------------------*/
+   /* Constructeurs                                                */
+   /*--------------------------------------------------------------*/
+   
+   /**
+	* Construit un analyseur de méthodes lié à un fichier.
+	* @param lireFichier objet permettant l'accès au fichier analysé
+	*/
+   public LireMethode( LireFichier lireFichier )
+   {
+	  this.lireFichier   = lireFichier;
+	  this.listeMethodes = new ArrayList<Methode>();
+   }
 
-	public LireMethode( ArrayList<Methode> lstMethode )
-	{
-		this.listeMethodes = lstMethode;
-	}
+   /**
+	* Construit un analyseur de méthodes avec une liste existante.
+	* @param lstMethode liste de méthodes à initialiser
+	*/
+   public LireMethode( ArrayList<Methode> lstMethode )
+   {
+	  this.listeMethodes = lstMethode;
+   }
 
-	public ArrayList<Methode> getListeMethodes() 
-	{
-		return this.listeMethodes;
-	}
+   /*--------------------------------------------------------------*/
+   /* Accesseurs                                                   */
+   /*--------------------------------------------------------------*/
+   
+   /**
+	* Retourne la liste des méthodes analysées.
+	* @return liste des méthodes de la classe
+	*/
+   public ArrayList<Methode> getListeMethodes()
+   {
+	  return this.listeMethodes;
+   }
 
-	public void lireMethode( String[] mots) 
-	{
-		int    nbParametre = 0;
-		
-		String visibilite;
-		String nom = "";
-		String typeParametre;
-		String nomParametre;
-		String typeRetour = "";
+   /*--------------------------------------------------------------*/
+   /* Autres méthodes                                              */
+   /*--------------------------------------------------------------*/
+   
+   /**
+	* Analyse une ligne découpée pour extraire signature et paramètres d'une méthode.
+	* @param mots tableau de mots issus d'une ligne de code Java
+	*/
+   public void lireMethode( String[] mots )
+   {
 
-        boolean estStatic = false;
-        boolean estFinal = false;
-		boolean constructeur = false;
+		ArrayList<Parametre>  tabParametre                ;
+		String                visibilite   , nom          ;
+		String                typeParametre, nomParametre ;
+		String                typeRetour                  ;
+		boolean               estStatic    , estFinal     ;
+		boolean               constructeur                ;
+		int                   nbParametre  , cpt          ;
 
-		ArrayList<Parametre> tabParametre = new ArrayList<Parametre>();
+		/* Initialisation des variables */
+		nbParametre  = 0;
+		nom          = "";
+		typeRetour   = "";
+		estStatic    = false;
+		estFinal     = false;
+		constructeur = false;
+		tabParametre = new ArrayList<Parametre>();
+		visibilite   = mots[0];
+		cpt          = 1;
 
-
-		visibilite = mots[0];
-
-		int cpt = 1;	
-
-        for (int i = 0; i < mots.length; i++)
-        {
+		/* Parcours des mots pour détecter modificateurs et nom de méthode */
+		for ( int i = 0; i < mots.length; i++ )
+		{
 			String m = mots[i];
-
-			if(m == null)
+			
+			if ( m == null )
 				break;
 
-            // static ?
-            if (m.equals("static")) 
-            {
-                estStatic = true;
-                continue;
-            }
-
-            // final ?
-            if (m.equals("final")) 
-            {
-                estFinal = true;
-                continue;
-            }
-
-			for( String mod : this.lireFichier.TAB_MODIFIEURS )
+			/* Détection de "static" */
+			if ( m.equals( "static" ) )
 			{
-				if (mod.equals(m))
+				estStatic = true;
+				continue;
+			}
+
+			/* Détection de "final" */
+			if ( m.equals( "final" ) )
+			{
+				estFinal = true;
+				continue;
+			}
+
+			/* Vérification des modificateurs */
+			for ( String mod : this.lireFichier.TAB_MODIFIEURS )
+			{
+				if ( mod.equals( m ) )
 				{
-					cpt++; 
-					continue;
+				cpt++;
+				continue;
 				}
 			}
 
-			if (this.lireFichier.getNomClasse().equals(m)) 
+			/* Détection d'un constructeur */
+			if ( this.lireFichier.getNomClasse().equals( m ) )
 			{
 				constructeur = true;
 			}
 
-			for( String mot : this.lireFichier.TAB_MOTCLE )
+			/* Vérification des mots-clés interdits */
+			for ( String mot : this.lireFichier.TAB_MOTCLE )
 			{
-				if(m.equals(mot))
+				if ( m.equals( mot ) )
 				return;
 			}
-        }
+		}
 
-		if( cpt <= mots.length )
+		/* Extraction du nom et du type de retour */
+		if ( cpt <= mots.length )
 		{
-
-			if (constructeur) 
+			if ( constructeur )
 			{
 				typeRetour = null;
-				nom = mots[cpt];      // nom = Point
-				cpt += 1;             // avancer vers paramètres
-			} 
-			else 
+				nom        = mots[cpt];
+				cpt       += 1;
+			}
+			else
 			{
 				typeRetour = mots[cpt];
-				nom = mots[cpt + 1];
-				cpt += 2;             // avancer vers paramètres
+				nom        = mots[cpt + 1];
+				cpt       += 2;
 			}
-			
-			while ( cpt + 1  < mots.length )
-			{
-				String m = mots[ cpt ];
-			
-				typeParametre = mots[ cpt ];
-				nomParametre  = mots[ cpt + 1 ];
 
+			/* Extraction des paramètres */
+			while ( cpt + 1 < mots.length )
+			{
+				typeParametre = mots[cpt];
+				nomParametre  = mots[cpt + 1];
 				nbParametre++;
-				tabParametre.add(new Parametre( nbParametre, nomParametre, typeParametre));
+
+				tabParametre.add( new Parametre( nbParametre, nomParametre, typeParametre ) );
+				
 				cpt += 2;
 			}
 		}
 
-		Methode methode = new Methode(nom, visibilite, typeRetour, tabParametre, estStatic, estFinal);
-
-		this.listeMethodes.add(methode);
+		/* Création et ajout de la méthode à la liste */
+		Methode methode = new Methode( nom, visibilite, typeRetour, tabParametre, 
+										estStatic, estFinal );
+		this.listeMethodes.add( methode );
 	}
 }

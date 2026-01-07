@@ -53,27 +53,32 @@ Le projet suit une architecture MVC adaptée :
 └──────────┬─────────────────────────────────┬────────────────┘
            │                                 │
            ▼                                 ▼
-    ┌──────────────┐                  ┌──────────────┐
-    │    Métier    │                  │     IHM      │
-    │  (Modèle)    │                  │    (Vue)     │
-    │              │                  │              │
-    │ - LireDossier│                  │ - FrameUML   │
-    │ - LireFichier│                  │ - Menu       │
-    │ - Sauvegarder│                  │ - PanelPrin. │
-    │ - Lire...    │                  │ - Bloc       │
-    └──────────────┘                  │ - Fleche     │
-                                      └──────────────┘
-           ▲
-           │
-    ┌──────────────┐
-    │   Membres    │
-    │   (Entités)  │
-    │              │
-    │ - Attribut   │
-    │ - Methode    │
-    │ - Association│
-    │ - Parametre  │
-    └──────────────┘
+    ┌───────────────────┐              ┌──────────────────┐
+    │       Métier      │              │       IHM        │
+    │      (Modèle)     │              │      (Vue)       │
+    │                   │              │                  │
+    │ - CreeData        │              │ - Bloc           │
+    │ - DecomposerLigne │              │ - CreerImage     │
+    │ - LireAttribut    │              │ - Fleche         │
+    │ - LireData        │              │ - FrameUML       │
+    | - LireDossier     |              │ - Menu           │
+    | - LireFichier     |              | - PanelPrincipal |
+    | - LireHeritImple  |              | - Vue            |
+    | - LireMethode     |              └──────────────────┘
+    | - LireSauvegarde  | 
+    | - Sauvegarder     |
+    └───────────────────┘
+              ▲                          
+              │                                                    
+       ┌──────────────┐
+       │    Membres   │
+       │   (Entités)  │
+       │              │
+       │ - Attribut   │
+       │ - Methode    │
+       │ - Association│
+       │ - Parametre  │
+       └──────────────┘
 ```
 
 ### 2.2 Responsabilités des couches
